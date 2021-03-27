@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">MobileApp</string>
     <string name="action_settings">Settings</string>
+    <string name="olvidaste_tu_contrase_a">¿Olvidaste tu contraseña?</string>
+    <string name="Usuario">Usuario</string>
+    <string name="Contraseña">Contraseña</string>
+    <string name="Login">LOG IN</string>
+    <string name="Registrar">REGISTRARSE</string>
 </resources>
