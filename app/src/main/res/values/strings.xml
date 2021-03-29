@@ -2,8 +2,11 @@
     <string name="app_name">MobileApp</string>
     <string name="action_settings">Settings</string>
     <string name="olvidaste_tu_contrase_a">¿Olvidaste tu contraseña?</string>
+    <string name="si_necesitas">Si necesitas contactar a un psicólogo contáctelo</string>
+    <string name="AQUI">AQUÍ.</string>
     <string name="Usuario">Usuario</string>
     <string name="Contraseña">Contraseña</string>
     <string name="Login">LOG IN</string>
     <string name="Registrar">REGISTRARSE</string>
+    <string name="baseURL">https://app-tp2-api.herokuapp.com/</string>
 </resources>
