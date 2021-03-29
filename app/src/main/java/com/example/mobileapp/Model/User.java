@@ -16,6 +16,9 @@ public class User implements IUser {
         this.password = password;
     }
 
+    public User() {
+
+    }
     @Override
     public String getUser() {
         return user;

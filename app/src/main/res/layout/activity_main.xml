@@ -12,6 +12,7 @@
     <TextView
         android:id="@+id/tvForgotpassword"
         android:layout_width="wrap_content"
+        android:clickable="true"
         android:layout_height="wrap_content"
         android:text="@string/olvidaste_tu_contrase_a"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/AQUI"
+        android:clickable="true"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.918"
@@ -48,7 +50,7 @@
         app:layout_constraintVertical_bias="0.931" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilUsuario"
+        android:id="@+id/tilDNI"
         android:layout_width="350dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,7 +61,7 @@
         app:layout_constraintVertical_bias="0.398">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUsuario"
+            android:id="@+id/etDNI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Usuario" />
@@ -77,7 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilUsuario"
+        app:layout_constraintTop_toBottomOf="@+id/tilDNI"
         app:layout_constraintVertical_bias="0.034" />
 
     <Button

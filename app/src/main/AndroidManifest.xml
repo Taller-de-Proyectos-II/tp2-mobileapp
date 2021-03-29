@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".ContactPsyActivity"></activity>
+        <activity android:name=".ForgotPwActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".MenuActivity" />
         <activity
             android:name=".MainActivity"

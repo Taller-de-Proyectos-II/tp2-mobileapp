@@ -2,36 +2,38 @@ package com.example.mobileapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import com.example.mobileapp.Controller.ILoginController;
+import retrofit2.Retrofit;
+
 import com.example.mobileapp.Model.User;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
+import com.google.gson.Gson;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etUser;
     EditText etPassword;
+    TextView aqui, forgotPassword;
     String user, password;
 
     @Override
@@ -45,7 +47,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buttonRegister = findViewById(R.id.btnRegistrar);
         buttonRegister.setOnClickListener(this);
 
-        etUser = findViewById(R.id.etUsuario);
+        aqui = findViewById(R.id.tvAqui);
+        aqui.setOnClickListener(this);
+
+        forgotPassword = findViewById(R.id.tvForgotpassword);
+        forgotPassword.setOnClickListener(this);
+
+        etUser = findViewById(R.id.etDNI);
         etPassword = findViewById(R.id.etContraseña);
 
         /*btnLogin.setOnClickListener(new View.OnClickListener(){
@@ -63,10 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkLogin() {
 
-        user = etUser.getText().toString().trim();
-        password = etPassword.getText().toString().trim();
+        User user = new User();
+        user.setUser(etUser.getText().toString().trim());
+        user.setPassword(etPassword.getText().toString().trim());
 
-        Call<LoginResponse> call = RetrofitClient.getInstance().getApi().login(user,password);
+
+        Call<LoginResponse> call = RetrofitClient.getApi().login(user);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -78,13 +88,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                 } else{
-                    Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrecto",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Ha ocurrido un error",Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Log.e("TAG",t.toString());
+                Log.e("TAG",t.getMessage());
                 t.printStackTrace();
             }
         });
@@ -99,8 +109,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //Toast.makeText(getApplicationContext(), "Login satisfactorio",Toast.LENGTH_LONG).show();
                 break;
             case R.id.btnRegistrar:
-                Intent fp = new Intent(getApplicationContext(),RegisterActivity.class);
+                Intent ra = new Intent(getApplicationContext(),RegisterActivity.class);
+                startActivity(ra);
+                break;
+            case R.id.tvForgotpassword:
+                Intent fp = new Intent(getApplicationContext(),ForgotPwActivity.class);
                 startActivity(fp);
+                break;
+            case R.id.tvAqui:
+                Intent cp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                startActivity(cp);
                 break;
         }
 
