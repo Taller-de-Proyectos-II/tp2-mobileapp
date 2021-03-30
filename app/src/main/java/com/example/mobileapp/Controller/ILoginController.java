@@ -18,6 +18,9 @@ public interface ILoginController {
     @POST("login/")
     Call<LoginResponse> login(@Body User user);
 
-    @POST("patient/create/")
+    @POST("patient/")
     Call<LoginResponse> register(@Body Patient patient);
+
+    @POST("/login/restorePasswordGuardian/")
+    Call<LoginResponse> sendEmail(@Body String email);
 }

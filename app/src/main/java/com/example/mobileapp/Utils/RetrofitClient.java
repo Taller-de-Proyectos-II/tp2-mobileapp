@@ -34,29 +34,6 @@ public class RetrofitClient {
     }
 
 
-    private RetrofitClient(){
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(
-                        new Interceptor() {
-                            @Override
-                            public Response intercept(Chain chain) throws IOException{
-                                Request original = chain.request();
-
-                                Request.Builder requestBuilder = original.newBuilder()
-                                        .method(original.method(),original.body());
-
-                                Request request = requestBuilder.build();
-                                return chain.proceed(request);
-                            }
-                        }
-                ).build();
-        retrofit = new Retrofit.Builder()
-                .baseUrl(API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
-    }
-
     public static ILoginController getApi() {
         ILoginController loginController = getRetrofit().create(ILoginController.class);
 

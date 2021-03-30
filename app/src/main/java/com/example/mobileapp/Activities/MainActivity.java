@@ -1,19 +1,16 @@
-package com.example.mobileapp;
+package com.example.mobileapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Converter;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import com.example.mobileapp.Model.User;
+import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
-import com.google.gson.Gson;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,10 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -82,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
-                if(response.isSuccessful()){
+                if(response.body().getCodigo() == '1'){
                         Toast.makeText(getApplicationContext(), "Login satisfactorio",Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
