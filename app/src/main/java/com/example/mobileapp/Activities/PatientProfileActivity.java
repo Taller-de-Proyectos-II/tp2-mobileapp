@@ -5,9 +5,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.mobileapp.Model.Patient;
 import com.example.mobileapp.Model.User;
 import com.example.mobileapp.R;
+import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.Responses.UserResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
@@ -25,10 +26,11 @@ import retrofit2.Response;
 
 public class PatientProfileActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener {
 
-    String passedUser;
+    String passedUser, passedPassword;
     EditText etNames, etPhone, etEmail;
     UserResponse fillUser = new UserResponse();
     Patient fillPatient = new Patient();
+    User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +54,19 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
 
+        Button btnGuardian = findViewById(R.id.btnGuardian);
+        btnGuardian.setOnClickListener(this);
+        Button btnUpdatePatient = findViewById(R.id.btnUpdatePatient);
+        btnUpdatePatient.setOnClickListener(this);
+        Button btnRegisterGuardian = findViewById(R.id.btnRegisterGuardian);
+        btnRegisterGuardian.setOnClickListener(this);
+
 
         Intent intent = getIntent();
 
         if(intent.getExtras() != null){
             passedUser = intent.getStringExtra("DNI");
+            passedPassword = intent.getStringExtra("password");
         }
 
         Call<UserResponse> userResponse = RetrofitClient.getApiUser().getUser(passedUser);
@@ -66,11 +76,12 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if(response.body().getStatus() == 1){
                     fillInformation(response.body());
-                    String textNames = fillPatient.getNames() + " " +fillPatient.getLastNames();
+                    String textNames = fillPatient.getNames();
+                    String textLastNames = fillPatient.getLastNames();
+                    String textNamesFull = textNames + " " + textLastNames;
                     String textPhone = fillPatient.getPhone();
                     String textEmail = fillPatient.getEmail();
-                    Toast.makeText(getApplicationContext(), textNames, Toast.LENGTH_LONG).show();
-                    etNames.setText(textNames, TextView.BufferType.EDITABLE);
+                    etNames.setText(textNamesFull, TextView.BufferType.EDITABLE);
                     etPhone.setText(textPhone, TextView.BufferType.EDITABLE);
                     etEmail.setText(textEmail, TextView.BufferType.EDITABLE);
                 }
@@ -104,7 +115,49 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
 
     @Override
     public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.btnGuardian:
+                break;
+            case R.id.btnRegisterGuardian:
+                break;
+            case R.id.btnUpdatePatient:
+                checkUpdate();
+                break;
+        }
+    }
 
+    private void checkUpdate() {
+        user.setDni(passedUser);
+        user.setPassword(passedPassword);
+
+        String fullName = etNames.getText().toString();
+        int idx = fullName.lastIndexOf(' ');
+        if(idx == -1)
+            throw new IllegalArgumentException("Solo hay un nombre: " + fullName);
+        String firstName = fullName.substring(0, idx);
+        String lastName = fullName.substring(idx+1);
+
+        fillPatient.setPhone(etPhone.getText().toString());
+        fillPatient.setNames(firstName);
+        fillPatient.setLastNames(lastName);
+        fillPatient.setEmail(etEmail.getText().toString());
+        fillPatient.setUser(user);
+        Call<LoginResponse> updatePatient = RetrofitClient.getApiUser().updatePatient(fillPatient);
+        updatePatient.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(response.body().getStatus() == 1)
+                {
+                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

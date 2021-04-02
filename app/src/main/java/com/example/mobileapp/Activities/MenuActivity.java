@@ -24,6 +24,7 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     ImageView ivPerfil;
     String passedUser;
+    String passedPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,7 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         if(intent.getExtras() != null){
             passedUser = intent.getStringExtra("DNI");
+            passedPassword = intent.getStringExtra("password");
         }
     }
 
@@ -57,7 +59,7 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent ppa = new Intent(getApplicationContext(),PatientProfileActivity.class).putExtra("DNI", passedUser);
+                        Intent ppa = new Intent(getApplicationContext(),PatientProfileActivity.class).putExtra("DNI", passedUser).putExtra("password", passedPassword);
                         startActivity(ppa);
                     }
                 }, 1000);
