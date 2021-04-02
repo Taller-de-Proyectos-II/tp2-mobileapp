@@ -1,6 +1,7 @@
 package com.example.mobileapp.Utils;
 
 import com.example.mobileapp.Controller.ILoginController;
+import com.example.mobileapp.Controller.IPatientController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -34,9 +35,15 @@ public class RetrofitClient {
     }
 
 
-    public static ILoginController getApi() {
+    public static ILoginController getApiLogin() {
         ILoginController loginController = getRetrofit().create(ILoginController.class);
 
         return loginController;
+    }
+
+    public static IPatientController getApiUser() {
+        IPatientController patientController = getRetrofit().create(IPatientController.class);
+
+        return patientController;
     }
 }

@@ -14,6 +14,7 @@ import com.example.mobileapp.Utils.RetrofitClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,38 +49,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         etUser = findViewById(R.id.etDNI);
         etPassword = findViewById(R.id.etContraseña);
-
-        /*btnLogin.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                if(TextUtils.isEmpty(etUser.getText().toString())||TextUtils.isEmpty(etPassword.getText().toString()))
-                {
-                    Toast.makeText(getApplicationContext(), "Debe ingresar sus credenciales",Toast.LENGTH_LONG);
-                }else {
-                    checkLogin();
-                }
-            }
-        });*/
     }
 
     private void checkLogin() {
 
         User user = new User();
-        user.setUser(etUser.getText().toString().trim());
+        user.setDni(etUser.getText().toString().trim());
         user.setPassword(etPassword.getText().toString().trim());
 
 
-        Call<LoginResponse> call = RetrofitClient.getApi().login(user);
-
+        Call<LoginResponse> call = RetrofitClient.getApiLogin().login(user);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-
-                if(response.body().getCodigo() == '1'){
-                        Toast.makeText(getApplicationContext(), "Login satisfactorio",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+                if(response.isSuccessful()){
+                    String message = response.body().getMessage();
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    if(response.body().getStatus() == 1) {
+                        String dniUser = user.getDNI();
+                        String passwordUser = user.getPassword();
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(MainActivity.this, MenuActivity.class).putExtra("DNI", dniUser).putExtra("password", passwordUser);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        }, 1000);
+                    } else{
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    }
                 } else{
                     Toast.makeText(getApplicationContext(), "Ha ocurrido un error",Toast.LENGTH_LONG).show();
                 }
@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.btnLogin:
                 checkLogin();
-                //Toast.makeText(getApplicationContext(), "Login satisfactorio",Toast.LENGTH_LONG).show();
                 break;
             case R.id.btnRegistrar:
                 Intent ra = new Intent(getApplicationContext(),RegisterActivity.class);

@@ -3,17 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@mipmap/backgroundmin"
     android:layout_height="match_parent"
+    android:background="@mipmap/backgroundmin"
     tools:context=".Activities.MainActivity">
-
 
 
     <TextView
         android:id="@+id/tvForgotpassword"
         android:layout_width="wrap_content"
-        android:clickable="true"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:text="@string/olvidaste_tu_contrase_a"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.544"
@@ -39,8 +38,8 @@
         android:id="@+id/tvAqui"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/AQUI"
         android:clickable="true"
+        android:text="@string/AQUI"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.918"
@@ -51,8 +50,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDNI"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="350dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
@@ -67,20 +67,28 @@
             android:hint="@string/Usuario" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/etContraseña"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilContraseña"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="350dp"
-        android:layout_height="55dp"
-        android:ems="10"
-        android:hint="@string/Contraseña"
-        android:importantForAutofill="no"
+        android:layout_height="60dp"
         android:inputType="textPassword"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="337dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="338dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilDNI"
-        app:layout_constraintVertical_bias="0.034" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etContraseña"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/Contraseña" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnLogin"
@@ -120,7 +128,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@mipmap/psimin" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

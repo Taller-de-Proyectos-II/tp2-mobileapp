@@ -41,13 +41,15 @@ public class ForgotPwActivity extends AppCompatActivity implements View.OnClickL
     private void sendEmail() {
         String email = etEmail.getText().toString().trim();
 
-        Call<LoginResponse> call = RetrofitClient.getApi().sendEmail(email);
+        Call<LoginResponse> call = RetrofitClient.getApiLogin().sendEmail(email);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.body().getCodigo() == '1'){
+
+                if (response.body().getStatus() == 1){
                     Toast.makeText(getApplicationContext(), "Email enviado",Toast.LENGTH_LONG).show();
+
                     Intent intent = new Intent(ForgotPwActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

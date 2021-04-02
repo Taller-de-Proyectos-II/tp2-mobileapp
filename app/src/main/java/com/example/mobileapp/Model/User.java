@@ -1,18 +1,18 @@
 package com.example.mobileapp.Model;
 
 public class User implements IUser {
-    private String user,password;
+    private String dni,password;
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public User(String user, String password) {
-        this.user = user;
+    public User(String dni, String password) {
+        this.dni = dni;
         this.password = password;
     }
 
@@ -20,8 +20,8 @@ public class User implements IUser {
 
     }
     @Override
-    public String getUser() {
-        return user;
+    public String getDNI() {
+        return dni;
     }
 
     @Override

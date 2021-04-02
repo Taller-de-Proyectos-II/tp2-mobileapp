@@ -1,7 +1,9 @@
 package com.example.mobileapp.Model;
 
 public class Patient {
-    private String birthday, description, dni, email, guardianDni, lastNames, names, phone;
+    private String birthday, description, email, lastNames, names, phone;
+    private User userLoginDTO;
+
 
     public String getBirthday() {
         return birthday;
@@ -18,29 +20,12 @@ public class Patient {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getGuardianDni() {
-        return guardianDni;
-    }
-
-    public void setGuardianDni(String guardianDni) {
-        this.guardianDni = guardianDni;
     }
 
     public String getLastNames() {
@@ -65,5 +50,13 @@ public class Patient {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public User getUser() {
+        return userLoginDTO;
+    }
+
+    public void setUser(User userLoginDTO) {
+        this.userLoginDTO = userLoginDTO;
     }
 }

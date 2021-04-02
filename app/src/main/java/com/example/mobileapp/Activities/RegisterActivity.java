@@ -3,7 +3,9 @@ package com.example.mobileapp.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mobileapp.Model.Patient;
+import com.example.mobileapp.Model.User;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
@@ -74,6 +77,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Patient patient = new Patient();
         String birthday, email, lastNames, names, phone, dni, password, password2;
 
+        User userLoginDTO = new User();
+
         birthday = etBirthday.getText().toString().trim();
         email = etEmail.getText().toString().trim();
         lastNames = etLastNames.getText().toString().trim();
@@ -83,24 +88,43 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         password = etPassword.getText().toString().trim();
         password2 = etPassword2.getText().toString().trim();
 
+        userLoginDTO.setDni(dni);
+        userLoginDTO.setPassword(password);
+
+
         patient.setBirthday(birthday);
-        patient.setDescription("Rellena tu descripcion");
-        patient.setDni(dni);
+        patient.setDescription("Descripcion");
         patient.setEmail(email);
-        patient.setGuardianDni("Ingresa el DNI de tu apoderado");
+
         patient.setLastNames(lastNames);
         patient.setNames(names);
-        patient.setPhone(birthday);
+        patient.setPhone(phone);
+
+
+        patient.setUser(userLoginDTO);
 
         if(password.equals(password2)){
-            Call<LoginResponse> call = RetrofitClient.getApi().register(patient);
+            Call<LoginResponse> call = RetrofitClient.getApiLogin().register(patient);
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    if(response.isSuccessful()){
-                        String message = response.message();
+                    if(response.body().getStatus() == 1){
+                            String message = response.body().getMessage();
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        }, 1000);
+                    } else{
+                        String message = response.body().getMessage();
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                     }
+
                 }
 
                 @Override
