@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".Activities.ContactPsyActivity">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPsychologists"
         android:layout_width="333dp"
