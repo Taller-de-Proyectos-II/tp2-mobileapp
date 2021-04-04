@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.PatientProfileActivity">
-
+    tools:context=".Activities.GuardianProfileActivity">
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"></include>
@@ -46,7 +45,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPhone"
+        android:id="@+id/tilGuardianBirthday"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -54,20 +53,24 @@
         android:layout_marginTop="325dp"
         android:layout_marginEnd="31dp"
         android:layout_marginBottom="344dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPhone"
+            android:id="@+id/etGuardianBirthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Número de contacto" />
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true"
+            android:hint="Fecha de nacimiento" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilEmail"
+        android:id="@+id/tilGuardianDNI"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -81,29 +84,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEmail"
+            android:id="@+id/etDNIGuardian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Correo electrónico" />
+            android:hint="DNI" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btnGuardian"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="491dp"
-        android:layout_marginEnd="249dp"
-        android:layout_marginBottom="192dp"
-        android:text="Apoderado"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <Button
-        android:id="@+id/btnUpdatePatient"
+        android:id="@+id/btnAddGuardian"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="162dp"
@@ -116,20 +106,4 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnRegisterGuardian"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="122dp"
-        android:layout_marginTop="623dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="60dp"
-        android:text="Registrar Apoderado"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

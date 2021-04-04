@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.isSuccessful()){
                     String message = response.body().getMessage();
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                     if(response.body().getStatus() == 1) {
                         String dniUser = user.getDNI();
                         String passwordUser = user.getPassword();
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -78,10 +78,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }, 1000);
                     } else{
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                     }
                 } else{
-                    Toast.makeText(getApplicationContext(), "Ha ocurrido un error",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Ha ocurrido un error",Toast.LENGTH_SHORT).show();
                 }
             }
 

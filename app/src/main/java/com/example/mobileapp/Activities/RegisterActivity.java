@@ -110,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if(response.body().getStatus() == 1){
                             String message = response.body().getMessage();
-                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -122,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         }, 1000);
                     } else{
                         String message = response.body().getMessage();
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -130,12 +130,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
                     String message = t.getMessage();
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 }
             });
         } else
         {
-            Toast.makeText(getApplicationContext(),"Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
         }
 
 

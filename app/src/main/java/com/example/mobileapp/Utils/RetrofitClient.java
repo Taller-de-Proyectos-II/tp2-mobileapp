@@ -1,5 +1,6 @@
 package com.example.mobileapp.Utils;
 
+import com.example.mobileapp.Controller.IGuardianController;
 import com.example.mobileapp.Controller.ILoginController;
 import com.example.mobileapp.Controller.IPatientController;
 import com.google.gson.Gson;
@@ -45,5 +46,9 @@ public class RetrofitClient {
         IPatientController patientController = getRetrofit().create(IPatientController.class);
 
         return patientController;
+    }
+    public static IGuardianController getApiGuardian(){
+        IGuardianController guardianController = getRetrofit().create(IGuardianController.class);
+        return guardianController;
     }
 }

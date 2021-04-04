@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.mobileapp.R;
 
-public class ProfilePsyActivity extends AppCompatActivity {
+public class PsyProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

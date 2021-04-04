@@ -48,14 +48,14 @@ public class ForgotPwActivity extends AppCompatActivity implements View.OnClickL
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
                 if (response.body().getStatus() == 1){
-                    Toast.makeText(getApplicationContext(), "Email enviado",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Email enviado",Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(ForgotPwActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 } else {
                     String message = response.body().getMessage();
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,7 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
     UserResponse fillUser = new UserResponse();
     Patient fillPatient = new Patient();
     User user = new User();
+    String key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +48,12 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
             }
         });
         getSupportActionBar().setTitle("Mi Perfil");
+
         fillUser.setMessage("");
         fillUser.setStatus(0);
         fillUser.setPatient(fillPatient);
 
-        etNames = findViewById(R.id.etNames);
+        etNames = findViewById(R.id.etGuardianNames);
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
 
@@ -118,8 +121,27 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         switch (v.getId())
         {
             case R.id.btnGuardian:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent gpa = new Intent(getApplicationContext(), GuardianProfileActivity.class).putExtra("DNI", passedUser).
+                                                                                                        putExtra("email", fillPatient.getEmail()).
+                                                                                                        putExtra("phone", fillPatient.getPhone());
+                        startActivity(gpa);
+                    }
+                }, 1000);
                 break;
             case R.id.btnRegisterGuardian:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent gpa2 = new Intent(getApplicationContext(), GuardianAddActivity.class).putExtra("DNI", passedUser).
+                                                                                                        putExtra("email", fillPatient.getEmail()).
+                                                                                                        putExtra("password", passedPassword).
+                                                                                                        putExtra("phone", fillPatient.getPhone());
+                        startActivity(gpa2);
+                    }
+                }, 1000);
                 break;
             case R.id.btnUpdatePatient:
                 checkUpdate();
@@ -132,7 +154,7 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         user.setPassword(passedPassword);
 
         String fullName = etNames.getText().toString();
-        int idx = fullName.lastIndexOf(' ');
+        int idx = fullName.lastIndexOf(' ') - 1;
         if(idx == -1)
             throw new IllegalArgumentException("Solo hay un nombre: " + fullName);
         String firstName = fullName.substring(0, idx);

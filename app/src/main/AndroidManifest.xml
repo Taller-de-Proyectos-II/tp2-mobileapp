@@ -12,8 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Activities.PatientProfileActivity"></activity>
-        <activity android:name=".Activities.ProfilePsyActivity" />
+        <activity android:name=".Activities.GuardianAddActivity"></activity>
+        <activity android:name=".Activities.GuardianProfileActivity" />
+        <activity android:name=".Activities.PatientProfileActivity" />
+        <activity android:name=".Activities.PsyProfileActivity" />
         <activity android:name=".Activities.ContactPsyActivity" />
         <activity android:name=".Activities.ForgotPwActivity" />
         <activity android:name=".Activities.RegisterActivity" />
