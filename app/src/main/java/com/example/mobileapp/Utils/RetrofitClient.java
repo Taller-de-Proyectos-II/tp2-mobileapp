@@ -2,7 +2,9 @@ package com.example.mobileapp.Utils;
 
 import com.example.mobileapp.Controller.IGuardianController;
 import com.example.mobileapp.Controller.ILoginController;
+import com.example.mobileapp.Controller.IManifestationController;
 import com.example.mobileapp.Controller.IPatientController;
+import com.example.mobileapp.Controller.IPsychologistController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -50,5 +52,15 @@ public class RetrofitClient {
     public static IGuardianController getApiGuardian(){
         IGuardianController guardianController = getRetrofit().create(IGuardianController.class);
         return guardianController;
+    }
+
+    public static IManifestationController getApiManifestation(){
+        IManifestationController manifestationController = getRetrofit().create(IManifestationController.class);
+        return manifestationController;
+    }
+
+    public static IPsychologistController getApiPsychologist(){
+        IPsychologistController psychologistController = getRetrofit().create(IPsychologistController.class);
+        return psychologistController;
     }
 }

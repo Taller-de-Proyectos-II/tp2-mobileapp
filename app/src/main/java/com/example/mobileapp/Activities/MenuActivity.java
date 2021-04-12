@@ -75,6 +75,18 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.itMediciones:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedUser);
+                        startActivity(ma);
+                    }
+                }, 1000);
+                break;
+        }
         return false;
     }
 }

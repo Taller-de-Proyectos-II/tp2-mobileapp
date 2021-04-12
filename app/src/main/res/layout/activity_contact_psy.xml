@@ -1,62 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.ContactPsyActivity">
+    tools:context=".Activities.ContactPsyActivity"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarPsy"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Lista de psicólogos"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+    </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFiltro"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="" />
+        <ImageView
+            android:id="@+id/ivFilter"
+            android:layout_width="60dp"
+            android:layout_height="58dp"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/ic_menu_search" />
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"></include>
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:background="@drawable/recyclerview_bg"
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPsychologists"
-        android:layout_width="297dp"
-        android:layout_height="549dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="42dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.138"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/rvPsy"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilFilter"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="95dp"
-        android:layout_marginBottom="607dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etFilter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="60dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="338dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="601dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@android:drawable/ic_menu_search" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
