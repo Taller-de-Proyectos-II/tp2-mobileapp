@@ -111,7 +111,7 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void filteredList(String filter) {
-        Call<PsychologistResponse> psyList = RetrofitClient.getApiPsychologist().gettFilteredPsychologists(" ", " ");
+        Call<PsychologistResponse> psyList = RetrofitClient.getApiPsychologist().gettFilteredPsychologists(" ", etFilter.getText().toString());
 
         psyList.enqueue(new Callback<PsychologistResponse>() {
             @Override
@@ -121,8 +121,6 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
                     psychologistsAdapter.setData(psychologists);
 
                     rvList.setAdapter(psychologistsAdapter);
-
-                    Log.e("HERE", psychologists.get(0).getNames());
 
                 }
 
