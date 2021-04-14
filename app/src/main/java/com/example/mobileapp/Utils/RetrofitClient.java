@@ -5,6 +5,7 @@ import com.example.mobileapp.Controller.ILoginController;
 import com.example.mobileapp.Controller.IManifestationController;
 import com.example.mobileapp.Controller.IPatientController;
 import com.example.mobileapp.Controller.IPsychologistController;
+import com.example.mobileapp.Controller.ISymptomController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -37,6 +38,17 @@ public class RetrofitClient {
         return retrofit;
     }
 
+    private static Retrofit getRetrofitJSON(){
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API_BASE_URL)
+                .client(okHttpClient)
+                .build();
+        return retrofit;
+    }
 
     public static ILoginController getApiLogin() {
         ILoginController loginController = getRetrofit().create(ILoginController.class);
@@ -62,5 +74,10 @@ public class RetrofitClient {
     public static IPsychologistController getApiPsychologist(){
         IPsychologistController psychologistController = getRetrofit().create(IPsychologistController.class);
         return psychologistController;
+    }
+
+    public static ISymptomController getApiSymptom(){
+        ISymptomController symptomController = getRetrofit().create(ISymptomController.class);
+        return symptomController;
     }
 }

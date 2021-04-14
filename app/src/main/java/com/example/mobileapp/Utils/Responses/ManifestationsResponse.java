@@ -12,12 +12,30 @@ public class ManifestationsResponse {
 
     private int status;
     private String message;
-    HashMap<String, Manifestation> manifestationsDTO = new HashMap<>();
+    ArrayList<Manifestation> manifestationsDTO;
+    Manifestation physical, cognitive, conductual, emotional;
 
-    public ManifestationsResponse(int status, String message, HashMap<String, Manifestation> manifestationsDTO) {
+
+
+    public Manifestation getPhysical() {
+        return physical;
+    }
+
+    public void setPhysical(Manifestation physical) {
+        this.physical = physical;
+    }
+
+
+    //HashMap<String, Manifestation> manifestationsDTO = new HashMap<>();
+
+    public ManifestationsResponse(int status, String message, ArrayList<Manifestation> manifestationsDTO, Manifestation physical,Manifestation cognitive,Manifestation conductual,Manifestation emotional) {
         this.status = status;
         this.message = message;
         this.manifestationsDTO = manifestationsDTO;
+        this.physical = physical;
+        this.emotional = emotional;
+        this.cognitive = cognitive;
+        this.conductual = conductual;
     }
 
     public ManifestationsResponse(){
@@ -39,11 +57,35 @@ public class ManifestationsResponse {
         this.message = message;
     }
 
-    public HashMap<String, Manifestation>  getManifestationsDTO() {
+    public ArrayList<Manifestation>  getManifestationsDTO() {
         return manifestationsDTO;
     }
 
-    public void setManifestationsDTO(HashMap<String, Manifestation> manifestationsDTO) {
+    public void setManifestationsDTO(ArrayList<Manifestation> manifestationsDTO) {
         this.manifestationsDTO = manifestationsDTO;
+    }
+
+    public Manifestation getCognitive() {
+        return cognitive;
+    }
+
+    public void setCognitive(Manifestation cognitive) {
+        this.cognitive = cognitive;
+    }
+
+    public Manifestation getConductual() {
+        return conductual;
+    }
+
+    public void setConductual(Manifestation conductual) {
+        this.conductual = conductual;
+    }
+
+    public Manifestation getEmotional() {
+        return emotional;
+    }
+
+    public void setEmotional(Manifestation emotional) {
+        this.emotional = emotional;
     }
 }

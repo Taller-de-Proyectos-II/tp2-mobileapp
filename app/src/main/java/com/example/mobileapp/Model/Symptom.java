@@ -5,6 +5,17 @@ public class Symptom {
     String name, description;
     int idManifestation;
 
+    public Symptom(int id, String name, String description, int idManifestation) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.idManifestation = idManifestation;
+    }
+
+    public Symptom(){
+
+    }
+
     public int getId() {
         return id;
     }

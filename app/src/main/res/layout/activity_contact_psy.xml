@@ -6,25 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".Activities.ContactPsyActivity"
     android:orientation="vertical">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarPsy"
-        android:background="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="Lista de psicólogos"
-            android:textColor="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></TextView>
-    </androidx.appcompat.widget.Toolbar>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilFiltro"
+            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etFiltro"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="" />
+        </com.google.android.material.textfield.TextInputLayout>
         <ImageView
             android:id="@+id/ivFilter"
             android:layout_width="60dp"

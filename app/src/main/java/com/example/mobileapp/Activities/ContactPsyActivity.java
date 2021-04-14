@@ -40,7 +40,7 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_contact_psy);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        /*setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener(){
             @Override
@@ -52,7 +52,7 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
 
         ivToolbar = findViewById(R.id.ivPerfil);
         ivToolbar.setVisibility(View.INVISIBLE);
-*/
+
         rvList = findViewById(R.id.rvPsy);
 
         ivSearch = findViewById(R.id.ivFilter);
@@ -61,6 +61,7 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
         etFilter =findViewById(R.id.etFiltro);
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
+
         rvList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         psychologistsAdapter = new PsychologistsAdapter(this::ClickedPsy);

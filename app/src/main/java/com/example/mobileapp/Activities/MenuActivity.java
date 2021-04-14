@@ -86,6 +86,25 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     }
                 }, 1000);
                 break;
+            case R.id.itMenuPrincipal:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+            case R.id.itRegistros:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+
         }
         return false;
     }

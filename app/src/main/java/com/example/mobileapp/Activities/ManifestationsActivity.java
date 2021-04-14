@@ -2,8 +2,11 @@ package com.example.mobileapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -11,34 +14,30 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
-import com.example.mobileapp.Model.Manifestation;
 import com.example.mobileapp.Model.Symptom;
 import com.example.mobileapp.R;
-import com.example.mobileapp.Utils.Responses.ManifestationsResponse;
+import com.example.mobileapp.Utils.Adapters.SymptomsAdapter;
+import com.example.mobileapp.Utils.Responses.SymptomsResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ManifestationsActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+public class ManifestationsActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, SymptomsAdapter.ClickedItem {
 
     ImageView ivPerfil;
     RecyclerView recyclerView;
-    ManifestationsResponse manifestationsResponse2 = new ManifestationsResponse();
-    List<Symptom> listPhysicalSymptoms;
-    ArrayList<Symptom> physicalSymptoms = new ArrayList<>();
-    ArrayList<Symptom> cognitiveSymptoms = new ArrayList<>();
-    ArrayList<Symptom> emotionalSymptoms = new ArrayList<>();
-    ArrayList<Symptom> conductualSymptoms = new ArrayList<>();
-    Symptom[] arrSymptoms = new Symptom[10];
-    Manifestation mockManifestation = new Manifestation();
+    SymptomsResponse appResponse = new SymptomsResponse();
+
+    ArrayList<Symptom> appSymptoms = new ArrayList<>();
+
+    RecyclerView rvSymptomList;
+
+    SymptomsAdapter symptomsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +45,9 @@ public class ManifestationsActivity extends AppCompatActivity implements View.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 showPopup(v);
             }
         });
@@ -58,78 +57,49 @@ public class ManifestationsActivity extends AppCompatActivity implements View.On
 
         recyclerView = findViewById(R.id.rvManifestationsList);
 
-        Call<ManifestationsResponse> manifestationsList = RetrofitClient.getApiManifestation().getManifestations();
+        appResponse.setMessage("");
+        appResponse.setStatus(0);
+        appResponse.setSypmtoms(appSymptoms);
 
-        manifestationsList.enqueue(new Callback<ManifestationsResponse>() {
+        rvSymptomList = findViewById(R.id.rvManifestationsList);
+
+        rvSymptomList.setLayoutManager(new LinearLayoutManager(this));
+        rvSymptomList.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+
+        symptomsAdapter = new SymptomsAdapter(this::ClickedSymptom);
+
+        fullList();
+
+
+    }
+
+    private void fullList() {
+        Call<SymptomsResponse> getSymptoms = RetrofitClient.getApiSymptom().getAll();
+
+        getSymptoms.enqueue(new Callback<SymptomsResponse>() {
             @Override
-            public void onResponse(Call<ManifestationsResponse> call, Response<ManifestationsResponse> response) {
+            public void onResponse(Call<SymptomsResponse> call, Response<SymptomsResponse> response) {
                 if(response.body().getStatus() == 1){
-                    //fillInformation(response.body());
-                    Log.e("PASÓ", response.body().toString());
-                    HashMap<String, Manifestation> map = response.body().getManifestationsDTO();
-
-                    for(Map.Entry<String, Manifestation> entry : map.entrySet()){
-
-                        String key = entry.getKey();
-                        mockManifestation = entry.getValue();
-                        String ultimo = String.valueOf(response.body().getManifestationsDTO().get(key).getSymptoms());
-                        String ultimoDesc = String.valueOf(response.body().getManifestationsDTO().get(key).getDescription());
-                        //Log.e("HEREEEEE", manifestationsResponse2.getManifestationsDTO().get(key).getDescription());
-                        /*for(Symptom symptom : entry.getValue().getSymptoms())
-                        {
-                            listPhysicalSymptoms.add(symptom);
-                        }
-                        */
-                        //String test = String.valueOf(entry.getValue().getSymptoms().get(1).getDescription());
-                        mockManifestation.setSymptoms(entry.getValue().getSymptoms());
-                        //String desc = mockManifestation.getSymptoms().get(0).getDescription();
-                        ManifestationsResponse mockResponse = new ManifestationsResponse(response.body().getStatus(), response.body().getMessage(), response.body().getManifestationsDTO());
-                        mockResponse.getManifestationsDTO().get(key).setSymptoms(response.body().getManifestationsDTO().get(key).getSymptoms());
-
-                        //String desc = sintoma.getDescription();;
-                        if(key.matches("physical")) {
-                            //physicalSymptoms.addAll(value.getSymptoms());
-                        }
-                        Log.e("HERE", ultimo);
-                        Log.e("HERE", ultimoDesc);
-                        //String desc2 = value.getSymptoms().get(0).getDescription();
-                        //String desc = physicalSymptoms.get(0).getDescription();
-
-                        /*map.get(key).setSymptoms(physicalSymptoms);
-                        int size = value.getSymptoms().size();
-                        for(int i = 0; i < size;i++){
-                            if(key.matches("phyisical")){
-                                physicalSymptoms.add(value.getSymptoms().get(i));
-                            }
-                        }*/
-                    }
-
+                    fillInformation(response.body());
+                    String desc = appSymptoms.get(3).getDescription();
+                    Log.e("Here", desc);
+                    symptomsAdapter.setData(appSymptoms);
+                    rvSymptomList.setAdapter(symptomsAdapter);
                 }
             }
 
             @Override
-            public void onFailure(Call<ManifestationsResponse> call, Throwable t) {
-                Log.e("NO PASÓ", t.getLocalizedMessage());
+            public void onFailure(Call<SymptomsResponse> call, Throwable t) {
+
             }
         });
     }
 
-    public void fillInformation(ManifestationsResponse manifestationsResponse)
+    public void fillInformation(SymptomsResponse symptomsResponse)
     {
-        manifestationsResponse2.setStatus(manifestationsResponse.getStatus());
-        manifestationsResponse2.setMessage(manifestationsResponse.getMessage());
-        manifestationsResponse2.setManifestationsDTO(manifestationsResponse.getManifestationsDTO());
-        Manifestation manifestationPhysical = new Manifestation();
-        manifestationPhysical.setDescription(manifestationsResponse.getManifestationsDTO().get(1).getDescription());
-        manifestationPhysical.setId(manifestationsResponse.getManifestationsDTO().get(1).getId());
-        manifestationPhysical.setName(manifestationsResponse.getManifestationsDTO().get(1).getName());
-        ArrayList<Symptom> physSymptoms = new ArrayList<>();
-        physSymptoms.add(manifestationsResponse.getManifestationsDTO().get(1).getSymptoms().get(0));
-        manifestationPhysical.setSymptoms(physSymptoms);
-        HashMap<String, Manifestation> mockHash = new HashMap<String, Manifestation>(){{
-            put("physical", manifestationPhysical);
-        }};
-        manifestationsResponse2.setManifestationsDTO(mockHash);
+        appResponse.setStatus(symptomsResponse.getStatus());
+        appResponse.setMessage(symptomsResponse.getMessage());
+        appSymptoms.addAll(symptomsResponse.getSypmtoms());
     }
 
     public void showPopup(View v){
@@ -147,5 +117,10 @@ public class ManifestationsActivity extends AppCompatActivity implements View.On
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
+    }
+
+    @Override
+    public void ClickedSymptom(Symptom symptom) {
+        //startActivity(new Intent(this, PsyProfileActivity.class).putExtra("data2", symptom));
     }
 }
