@@ -9,10 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 
 import com.example.mobileapp.Model.Psychologist;
 import com.example.mobileapp.R;
@@ -26,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ContactPsyActivity extends AppCompatActivity implements View.OnClickListener, PsychologistsAdapter.ClickedItem{
+public class ContactPsyActivity extends AppCompatActivity implements View.OnClickListener, PsychologistsAdapter.ClickedItem, PopupMenu.OnMenuItemClickListener {
 
     ImageView ivToolbar;
     ImageView ivSearch;
@@ -70,7 +73,11 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    private void showPopup(View v) {
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.menu_main);
+        popup.show();
     }
 
     @Override
@@ -137,5 +144,24 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void ClickedPsy(Psychologist psychologist) {
         startActivity(new Intent(this, PsyProfileActivity.class).putExtra("data", psychologist));
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId())
+        {
+
+            case R.id.itContacto:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+
+        }
+        return false;
     }
 }

@@ -95,11 +95,11 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     }
                 }, 1000);
                 break;
-            case R.id.itRegistros:
+            case R.id.itContacto:
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class).putExtra("DNI", passedUser);
                         startActivity(mp);
                     }
                 }, 1000);

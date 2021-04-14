@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobileapp.Model.Symptom;
@@ -50,6 +51,12 @@ public class SymptomsAdapter extends RecyclerView.Adapter<SymptomsAdapter.Sympto
         holder.symptomName.setText(nombre);
         holder.symptomDesc.setText(desc);
 
+        holder.ivSymptom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickedItem.ClickedSymptom(symptom);
+            }
+        });
 
 
     }
@@ -67,12 +74,13 @@ public class SymptomsAdapter extends RecyclerView.Adapter<SymptomsAdapter.Sympto
 
         TextView symptomName;
         TextView symptomDesc;
-        ImageView imageMore;
+        ImageView ivSymptom;
+
         public SymptomsAdapterVH(@NonNull View itemView) {
             super(itemView);
             symptomDesc = itemView.findViewById(R.id.tvSymptomDescription);
             symptomName = itemView.findViewById(R.id.tvSymptomName);
-            imageMore = itemView.findViewById(R.id.ivMore);
+            ivSymptom = itemView.findViewById(R.id.ivSymptom);
         }
     }
 }

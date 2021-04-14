@@ -1,6 +1,8 @@
 package com.example.mobileapp.Model;
 
-public class Symptom {
+import java.io.Serializable;
+
+public class Symptom implements Serializable {
     int id;
     String name, description;
     int idManifestation;

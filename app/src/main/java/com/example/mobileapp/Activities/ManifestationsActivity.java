@@ -121,6 +121,6 @@ public class ManifestationsActivity extends AppCompatActivity implements View.On
 
     @Override
     public void ClickedSymptom(Symptom symptom) {
-        //startActivity(new Intent(this, PsyProfileActivity.class).putExtra("data2", symptom));
+        startActivity(new Intent(this, SymptomDetails.class).putExtra("data", symptom));
     }
 }

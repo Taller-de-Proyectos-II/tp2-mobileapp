@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -183,6 +184,21 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId())
+        {
+
+            case R.id.itContacto:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+
+        }
+
         return false;
     }
 }
