@@ -5,6 +5,16 @@ import java.io.Serializable;
 public class Psychologist implements Serializable {
     String names, lastNames, phone, email, description, birthday, cpsp;
 
+    private User userLoginDTO;
+
+    public User getUserLoginDTO() {
+        return userLoginDTO;
+    }
+
+    public void setUserLoginDTO(User userLoginDTO) {
+        this.userLoginDTO = userLoginDTO;
+    }
+
     public Psychologist(String names, String lastNames, String phone, String email, String description, String birthday, String cpsp) {
         this.names = names;
         this.lastNames = lastNames;

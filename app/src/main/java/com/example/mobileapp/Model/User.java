@@ -1,6 +1,8 @@
 package com.example.mobileapp.Model;
 
-public class User implements IUser {
+import java.io.Serializable;
+
+public class User implements IUser, Serializable {
     private String dni,password;
 
     public void setDni(String dni) {

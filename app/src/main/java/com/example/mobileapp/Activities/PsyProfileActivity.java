@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
     Psychologist psychologist;
     Button btnContact;
     AlertDialog alert1;
+    String passedUser, psyDNI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,8 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
             psychologist = (Psychologist) intent.getSerializableExtra("data");
             String name = psychologist.getNames() + " " + psychologist.getLastNames();
             nombre.setText(name);
+            psyDNI = psychologist.getUserLoginDTO().getDNI();
+            passedUser = intent.getStringExtra("USER");
         }
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -42,7 +46,7 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(
-                "Ok",
+                "CONFIRMAR",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -51,8 +55,9 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
                 }
         );
 
+
         builder1.setNegativeButton(
-                "No",
+                "CANCELAR",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -67,7 +72,8 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnContact:
-                alert1.show();
+                startActivity(new Intent(this, PsySchedulesActivity.class).putExtra("USER", passedUser).putExtra("PSY", psyDNI));
+                //alert1.show();
         }
     }
 }

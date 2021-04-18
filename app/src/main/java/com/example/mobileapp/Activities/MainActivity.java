@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     EditText etUser;
     EditText etPassword;
-    TextView aqui, forgotPassword;
+    TextView forgotPassword;
     String user, password;
 
     @Override
@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buttonRegister = findViewById(R.id.btnRegistrar);
         buttonRegister.setOnClickListener(this);
 
-        aqui = findViewById(R.id.tvAqui);
-        aqui.setOnClickListener(this);
 
         forgotPassword = findViewById(R.id.tvForgotpassword);
         forgotPassword.setOnClickListener(this);
@@ -107,10 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.tvForgotpassword:
                 Intent fp = new Intent(getApplicationContext(),ForgotPwActivity.class);
                 startActivity(fp);
-                break;
-            case R.id.tvAqui:
-                Intent cp = new Intent(getApplicationContext(),ContactPsyActivity.class);
-                startActivity(cp);
                 break;
         }
 

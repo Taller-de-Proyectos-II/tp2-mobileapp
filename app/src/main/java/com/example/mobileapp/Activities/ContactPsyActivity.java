@@ -35,7 +35,7 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
     ImageView ivSearch;
     EditText etFilter;
     RecyclerView rvList;
-
+    String passedUser;
     PsychologistsAdapter psychologistsAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,10 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
         getSupportActionBar().setTitle("Contacta a tu psicólogo");
 
         ivToolbar = findViewById(R.id.ivPerfil);
-        ivToolbar.setVisibility(View.INVISIBLE);
+        Intent intent = getIntent();
+        if(intent.getExtras() != null){
+            passedUser = intent.getStringExtra("DNI");
+        }
 
         rvList = findViewById(R.id.rvPsy);
 
@@ -102,7 +105,7 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
                 if(response.isSuccessful()){
                     List<Psychologist> psychologists = response.body().getPsychologistsDTO();
                     psychologistsAdapter.setData(psychologists);
-
+                    Log.e("HERE", psychologists.get(0).getUserLoginDTO().getDNI());
                     rvList.setAdapter(psychologistsAdapter);
 
                     Log.e("HERE", psychologists.get(0).getNames());
@@ -143,7 +146,7 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void ClickedPsy(Psychologist psychologist) {
-        startActivity(new Intent(this, PsyProfileActivity.class).putExtra("data", psychologist));
+        startActivity(new Intent(this, PsyProfileActivity.class).putExtra("data", psychologist).putExtra("USER", passedUser));
     }
 
     @Override

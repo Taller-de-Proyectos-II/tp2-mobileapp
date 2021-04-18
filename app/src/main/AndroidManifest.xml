@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Activities.SymptomDetails"></activity>
+        <activity android:name=".Activities.ScheduleDetailsActivity"></activity>
+        <activity android:name=".Activities.PsySchedulesActivity" />
+        <activity android:name=".Activities.SymptomDetails" />
         <activity android:name=".Activities.PatientHistoryActivity" />
         <activity android:name=".Activities.ManifestationsActivity" />
         <activity android:name=".Activities.GuardianAddActivity" />
