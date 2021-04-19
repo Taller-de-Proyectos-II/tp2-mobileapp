@@ -146,7 +146,8 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void ClickedPsy(Psychologist psychologist) {
-        startActivity(new Intent(this, PsyProfileActivity.class).putExtra("data", psychologist).putExtra("USER", passedUser));
+        startActivity(new Intent(this, PsyProfileActivity.class).putExtra("data", psychologist).putExtra("DNI", passedUser));
+        Log.e("HERE", passedUser);
     }
 
     @Override
@@ -175,7 +176,7 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class).putExtra("DNI", passedUser);
                         startActivity(mp);
                     }
                 }, 1000);

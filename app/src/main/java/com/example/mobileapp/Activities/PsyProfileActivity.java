@@ -97,7 +97,7 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnContact:
-                startActivity(new Intent(this, PsySchedulesActivity.class).putExtra("USER", passedUser).putExtra("PSY", psyDNI));
+                startActivity(new Intent(this, PsySchedulesActivity.class).putExtra("DNI", passedUser).putExtra("PSY", psyDNI));
                 //alert1.show();
         }
     }
@@ -128,7 +128,7 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class).putExtra("DNI", passedUser);
                         startActivity(mp);
                     }
                 }, 1000);

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -100,6 +101,7 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     @Override
                     public void run(){
                         Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class).putExtra("DNI", passedUser);
+                        Log.e("HERE", passedUser);
                         startActivity(mp);
                     }
                 }, 1000);

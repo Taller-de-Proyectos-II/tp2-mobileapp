@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,13 +27,15 @@ import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.Responses.SchedulesResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,7 +75,7 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
         if(intent.getExtras() != null){
             psychologist = (Psychologist) intent.getSerializableExtra("data");
             psyDNI = intent.getStringExtra("PSY");
-            passedUser = intent.getStringExtra("USER");
+            passedUser = intent.getStringExtra("DNI");
 
         }
 
@@ -89,15 +92,20 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
     }
 
     private void fullList() {
-
         Date current = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+        String date = df.format(current);
+
+
         String day = String.valueOf(current.getDay());
-        String month = String.valueOf(current.getMonth());
-        String year = String.valueOf(current.getYear());
+        String month = String.valueOf(current.getMonth() + 1);
+        String year = String.valueOf(current.getYear()+1900);
 
         String fecha = month + "-" + day + "-" + year;
 
-        Call<SchedulesResponse> schedules = RetrofitClient.getApiPsychologist().getSchedules(fecha, psyDNI);
+        String test = String.valueOf(df.getNumberFormat());
+        Log.e("DIA", test);
+        Call<SchedulesResponse> schedules = RetrofitClient.getApiPsychologist().getSchedules(date, psyDNI);
 
         schedules.enqueue(new Callback<SchedulesResponse>() {
             @Override
@@ -162,7 +170,7 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class).putExtra("DNI", passedUser);
                         startActivity(mp);
                     }
                 }, 1000);
@@ -248,11 +256,25 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
                 break;
 
         }
-        Session session = new Session();
-        session.setDate("01-01-2020");
-        session.setHour(schedule.getHour());
-        session.setPatientDni(passedUser);
-        session.setPsychologistDni(psyDNI);
+        Session session2 = new Session();
+        Date current = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+        String date = df.format(current);
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(df.parse(date));
+        } catch (java.text.ParseException e){
+            e.printStackTrace();
+        }
+        c.add(Calendar.DAY_OF_MONTH, (schedule.getDay()-1));
+        date = df.format(c.getTime());
+        Log.e("TEST FECHA", date);
+
+
+        session2.setDate(date);
+        session2.setHour(schedule.getHour());
+        session2.setPsychologistDni(psyDNI);
+        session2.setPatientDni(passedUser);
         builder1.setMessage("Desea agendar una cita para el día: " + dia + " a las " + hora);
         builder1.setCancelable(true);
 
@@ -261,7 +283,7 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        send(session);
+                        send(session2);
                     }
                 }
         );
