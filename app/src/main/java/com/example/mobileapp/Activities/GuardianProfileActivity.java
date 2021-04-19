@@ -81,13 +81,26 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
             @Override
             public void onResponse(Call<GuardianResponse> call, Response<GuardianResponse> response) {
                 if(response.isSuccessful()){
-                    fillInformation(response.body());
-                    String names = fillGuardians.get(0).getNames();
-                    String lastNames = fillGuardians.get(0).getLastNames();
-                    String fullName = names + " " + lastNames;
-                    etGuardianNames.setText(fullName, TextView.BufferType.EDITABLE);
-                    etGuardianBirthday.setText(fillGuardians.get(0).getBirthday(), TextView.BufferType.EDITABLE);
-                    etGuardianDNI.setText(fillGuardians.get(0).getDni(),TextView.BufferType.EDITABLE);
+                    if(response.body().getGuardiansDTO() == null) {
+                        Toast.makeText(getApplicationContext(), "No tiene apoderados registrados, registre uno para mostrarlo.", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable(){
+                            @Override
+                            public void run(){
+                                Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedDNI);
+                                startActivity(mp);
+                            }
+                        }, 1000);
+                    } else
+                    {
+                        fillInformation(response.body());
+                        String names = fillGuardians.get(0).getNames();
+                        String lastNames = fillGuardians.get(0).getLastNames();
+                        String fullName = names + " " + lastNames;
+                        etGuardianNames.setText(fullName, TextView.BufferType.EDITABLE);
+                        etGuardianBirthday.setText(fillGuardians.get(0).getBirthday(), TextView.BufferType.EDITABLE);
+                        etGuardianDNI.setText(fillGuardians.get(0).getDni(), TextView.BufferType.EDITABLE);
+
+                    }
                 }
                 Log.e("AQUIIIIIII", response.body().toString());
             }
