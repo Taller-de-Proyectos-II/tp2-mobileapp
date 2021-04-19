@@ -7,19 +7,22 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobileapp.Model.Symptom;
 import com.example.mobileapp.R;
 
-public class SymptomDetails extends AppCompatActivity implements  View.OnClickListener{
+public class SymptomDetails extends AppCompatActivity implements  View.OnClickListener, PopupMenu.OnMenuItemClickListener{
     ImageView ivPerfil;
     TextView tvName, tvDesc;
     Symptom symptom;
     CardView card;
+    String passedUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +55,15 @@ public class SymptomDetails extends AppCompatActivity implements  View.OnClickLi
             String desc = symptom.getDescription();
             tvDesc.setText(desc);
             tvName.setText(name);
+            passedUser = intent.getStringExtra("DNI");
         }
     }
 
     private void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.menu_main);
+        popup.show();
     }
 
     @Override
@@ -72,5 +80,41 @@ public class SymptomDetails extends AppCompatActivity implements  View.OnClickLi
                 }, 1000);
                 break;
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.itMediciones:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedUser);
+                        startActivity(ma);
+                    }
+                }, 1000);
+                break;
+            case R.id.itMenuPrincipal:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+            case R.id.itContacto:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+
+        }
+        return false;
     }
 }

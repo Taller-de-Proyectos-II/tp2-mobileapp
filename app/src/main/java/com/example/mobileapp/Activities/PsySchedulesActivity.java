@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -124,6 +125,10 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
 
 
     private void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.menu_main);
+        popup.show();
     }
 
     @Override
@@ -133,6 +138,37 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.itMediciones:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedUser);
+                        startActivity(ma);
+                    }
+                }, 1000);
+                break;
+            case R.id.itMenuPrincipal:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+            case R.id.itContacto:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+
+        }
         return false;
     }
 
@@ -252,7 +288,7 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.body().getStatus() == 1){
                     Toast.makeText(getApplicationContext(), "Se agendó la cita satisfactoriamente", Toast.LENGTH_SHORT);
-                    startActivity(new Intent(getApplicationContext(), ContactPsyActivity.class).putExtra("USER", passedUser).putExtra("PSY", psyDNI));
+                    startActivity(new Intent(getApplicationContext(), ContactPsyActivity.class).putExtra("DNI", passedUser).putExtra("PSY", psyDNI));
                 } else if(response.body().getStatus() == 0)
                 {
                     Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT);

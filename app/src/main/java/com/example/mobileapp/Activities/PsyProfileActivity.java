@@ -2,31 +2,49 @@ package com.example.mobileapp.Activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.example.mobileapp.Model.Psychologist;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Responses.PsychologistResponse;
 
-public class PsyProfileActivity extends AppCompatActivity implements View.OnClickListener{
+public class PsyProfileActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener{
 
     TextView nombre;
     Psychologist psychologist;
     Button btnContact;
     AlertDialog alert1;
+    ImageView ivToolbar;
     String passedUser, psyDNI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_psy);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                showPopup(v);
+            }
+        });
+        getSupportActionBar().setTitle("Contacta a tu psicólogo");
+
+        ivToolbar = findViewById(R.id.ivPerfil);
         nombre = findViewById(R.id.tvPsyName);
 
         btnContact = findViewById(R.id.btnContact);
@@ -38,7 +56,7 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
             String name = psychologist.getNames() + " " + psychologist.getLastNames();
             nombre.setText(name);
             psyDNI = psychologist.getUserLoginDTO().getDNI();
-            passedUser = intent.getStringExtra("USER");
+            passedUser = intent.getStringExtra("DNI");
         }
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -68,6 +86,13 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
         alert1 = builder1.create();
     }
 
+    private void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.menu_main);
+        popup.show();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -75,5 +100,41 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
                 startActivity(new Intent(this, PsySchedulesActivity.class).putExtra("USER", passedUser).putExtra("PSY", psyDNI));
                 //alert1.show();
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.itMediciones:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedUser);
+                        startActivity(ma);
+                    }
+                }, 1000);
+                break;
+            case R.id.itMenuPrincipal:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+            case R.id.itContacto:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+
+        }
+        return false;
     }
 }
