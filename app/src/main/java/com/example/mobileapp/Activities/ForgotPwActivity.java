@@ -41,31 +41,36 @@ public class ForgotPwActivity extends AppCompatActivity implements View.OnClickL
     private void sendEmail() {
         String email = etEmail.getText().toString().trim();
 
-        Call<LoginResponse> call = RetrofitClient.getApiLogin().sendEmail(email);
+        if(etEmail.getText().toString().trim().length() >0) {
 
-        call.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+            Call<LoginResponse> call = RetrofitClient.getApiLogin().sendEmail(email);
 
-                if (response.body().getStatus() == 1){
-                    Toast.makeText(getApplicationContext(), "Email enviado",Toast.LENGTH_SHORT).show();
+            call.enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
-                    Intent intent = new Intent(ForgotPwActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                } else {
-                    String message = response.body().getMessage();
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    if (response.body().getStatus() == 1) {
+                        Toast.makeText(getApplicationContext(), "Email enviado", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(ForgotPwActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    } else {
+                        String message = response.body().getMessage();
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
 
-            }
-        });
+                }
+            });
 
-
+        } else
+        {
+            Toast.makeText(getApplicationContext(), "Ingrese un correo electrónico", Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

@@ -12,8 +12,8 @@
         android:id="@+id/itMediciones"
         android:title="Mediciones" />
     <item
-        android:id="@+id/itRegistros"
-        android:title="Registros" />
+        android:id="@+id/itTests"
+        android:title="Tests" />
     <item
         android:id="@+id/itContacto"
         android:title="Contacto" />

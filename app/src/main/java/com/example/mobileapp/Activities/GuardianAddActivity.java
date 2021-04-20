@@ -1,15 +1,20 @@
 package com.example.mobileapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.mobileapp.Model.Guardian;
@@ -23,14 +28,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GuardianAddActivity extends AppCompatActivity implements View.OnClickListener{
+public class GuardianAddActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener{
 
     EditText etGuardianNames, etGuardianLastNames, etGuardianBirthday, etGuardianDNI;
     String passedDNI, passedEmail, passedPhone, passedPassword;
+    ImageView ivPerfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guardian_add);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                showPopup(v);
+            }
+        });
+        getSupportActionBar().setTitle("Menú Principal");
+        ivPerfil = findViewById(R.id.ivPerfil);
+        ivPerfil.setOnClickListener(this);
 
         Button btnAddGuardian = findViewById(R.id.btnAddGuardian);
         btnAddGuardian.setOnClickListener(this);
@@ -49,6 +67,13 @@ public class GuardianAddActivity extends AppCompatActivity implements View.OnCli
             passedPhone = intent.getStringExtra("phone");
             passedPassword = intent.getStringExtra("password");
         }
+    }
+
+    private void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.menu_main);
+        popup.show();
     }
 
     @Override
@@ -96,31 +121,69 @@ public class GuardianAddActivity extends AppCompatActivity implements View.OnCli
         guardian.setEmail(email);
         guardian.setPhone(phone);
 
-        Call<LoginResponse> registerGuardian = RetrofitClient.getApiGuardian().registerGuardian(guardian);
-        registerGuardian.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if(response.body().getStatus() == 1)
-                {
-                    String message = response.body().getMessage();
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        if(etGuardianBirthday.getText().toString().trim().length() > 0 && etGuardianDNI.getText().toString().trim().length() > 0 && etGuardianNames.getText().toString().trim().length() > 0 && etGuardianLastNames.getText().toString().trim().length() > 0) {
+            Call<LoginResponse> registerGuardian = RetrofitClient.getApiGuardian().registerGuardian(guardian);
+            registerGuardian.enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    if (response.body().getStatus() == 1) {
+                        String message = response.body().getMessage();
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(GuardianAddActivity.this, PatientProfileActivity.class).putExtra("DNI", passedDNI).putExtra("password", passedPassword);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                        }
-                    }, 1000);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(GuardianAddActivity.this, PatientProfileActivity.class).putExtra("DNI", passedDNI).putExtra("password", passedPassword);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        }, 1000);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "Completar los datos de apoderado", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.itMediciones:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedDNI);
+                        startActivity(ma);
+                    }
+                }, 1000);
+                break;
+            case R.id.itMenuPrincipal:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedDNI);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+            case R.id.itContacto:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class).putExtra("DNI", passedDNI);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+
+        }
+        return false;
     }
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.ContactPsyActivity"
+
     android:orientation="vertical">
     <include
         android:id="@+id/toolbar"
@@ -39,6 +40,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPsy"
         android:padding="10dp"
+        android:background="@mipmap/bground"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

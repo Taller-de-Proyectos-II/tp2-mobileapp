@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etBirthday, etEmail, etLastNames, etNames, etPhone, etDni, etPassword, etPassword2;
+    EditText etBirthday, etEmail, etLastNames, etNames, etPhone, etDni, etPassword;
 
 
     @Override
@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etPhone = findViewById(R.id.etTelefono);
         etDni = findViewById(R.id.etDNI);
         etPassword = findViewById(R.id.etContraseña);
-        etPassword2 = findViewById(R.id.etContraseña2);
+
 
     }
 
@@ -86,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         phone = etPhone.getText().toString().trim();
         dni = etDni.getText().toString().trim();
         password = etPassword.getText().toString().trim();
-        password2 = etPassword2.getText().toString().trim();
+
 
         userLoginDTO.setDni(dni);
         userLoginDTO.setPassword(password);
@@ -103,40 +103,45 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         patient.setUser(userLoginDTO);
 
-        if(password.equals(password2)){
-            Call<LoginResponse> call = RetrofitClient.getApiLogin().register(patient);
-            call.enqueue(new Callback<LoginResponse>() {
-                @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    if(response.body().getStatus() == 1){
+
+            if(etBirthday.getText().toString().trim().length() > 0 && etEmail.getText().toString().trim().length() > 0 && etLastNames.getText().toString().trim().length() > 0
+            && etNames.getText().toString().trim().length() > 0 && etPhone.getText().toString().trim().length() > 0 && etDni.getText().toString().trim().length() > 0
+                    && etPassword.getText().toString().trim().length() > 0) {
+                Call<LoginResponse> call = RetrofitClient.getApiLogin().register(patient);
+                call.enqueue(new Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (response.body().getStatus() == 1) {
                             String message = response.body().getMessage();
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
-                        }, 1000);
-                    } else{
-                        String message = response.body().getMessage();
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                }
+                            }, 1000);
+                        } else {
+                            String message = response.body().getMessage();
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
-                }
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        String message = t.getMessage();
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Complete todos los campos para registrarse", Toast.LENGTH_SHORT).show();
+            }
 
-                @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    String message = t.getMessage();
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else
-        {
-            Toast.makeText(getApplicationContext(),"Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-        }
 
 
     }

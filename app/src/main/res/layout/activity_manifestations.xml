@@ -18,6 +18,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvManifestationsList"
+            android:background="@mipmap/bground"
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

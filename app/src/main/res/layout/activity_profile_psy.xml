@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:theme="@style/AppTheme.Fullscreen"
     android:layout_height="match_parent"
+    android:background="@mipmap/bground"
     tools:context=".Activities.PsyProfileActivity">
 
     <include
