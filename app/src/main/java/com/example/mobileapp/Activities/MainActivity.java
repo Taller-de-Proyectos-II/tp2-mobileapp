@@ -55,40 +55,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user.setDni(etUser.getText().toString().trim());
         user.setPassword(etPassword.getText().toString().trim());
 
-
-        Call<LoginResponse> call = RetrofitClient.getApiLogin().login(user);
-        call.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if(response.isSuccessful()){
-                    String message = response.body().getMessage();
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                    if(response.body().getStatus() == 1) {
-                        String dniUser = user.getDNI();
-                        String passwordUser = user.getPassword();
+        if(etPassword.getText().toString().trim().length() > 0) {
+            Call<LoginResponse> call = RetrofitClient.getApiLogin().login(user);
+            call.enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    if (response.isSuccessful()) {
+                        String message = response.body().getMessage();
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(MainActivity.this, MenuActivity.class).putExtra("DNI", dniUser).putExtra("password", passwordUser);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
-                        }, 1000);
-                    } else{
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        if (response.body().getStatus() == 1) {
+                            String dniUser = user.getDNI();
+                            String passwordUser = user.getPassword();
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(MainActivity.this, MenuActivity.class).putExtra("DNI", dniUser).putExtra("password", passwordUser);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                }
+                            }, 1000);
+                        } else {
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
                     }
-                } else{
-                    Toast.makeText(getApplicationContext(), "Ha ocurrido un error",Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Log.e("TAG",t.getMessage());
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    Log.e("TAG", t.getMessage());
+                    t.printStackTrace();
+                }
+            });
+        } else
+        {
+            Toast.makeText(getApplicationContext(), "Ingrese sus credenciales", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

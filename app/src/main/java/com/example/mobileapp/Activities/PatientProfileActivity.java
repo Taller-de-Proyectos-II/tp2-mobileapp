@@ -152,34 +152,52 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
     private void checkUpdate() {
         user.setDni(passedUser);
         user.setPassword(passedPassword);
+        String firstName = "";
+        String lastName = "";
 
-        String fullName = etNames.getText().toString();
-        int idx = fullName.lastIndexOf(' ') - 1;
-        if(idx == -1)
-            throw new IllegalArgumentException("Solo hay un nombre: " + fullName);
-        String firstName = fullName.substring(0, idx);
-        String lastName = fullName.substring(idx+1);
+        if(etNames.getText().toString().trim().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Ingrese su nombre completo", Toast.LENGTH_SHORT).show();
+        }else {
+            String fullName = etNames.getText().toString();
+            int idx = fullName.lastIndexOf(' ') - 1;
+            if (idx == -1)
+                throw new IllegalArgumentException("Solo hay un nombre: " + fullName);
+            firstName = fullName.substring(0, idx);
+            lastName = fullName.substring(idx + 1);
+        }
+
+        if(etPhone.getText().toString().trim().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Ingrese su número telefónico", Toast.LENGTH_SHORT).show();
+        }
+
+        if(etEmail.getText().toString().trim().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Ingrese su correo electrónico", Toast.LENGTH_SHORT).show();
+        }
 
         fillPatient.setPhone(etPhone.getText().toString());
         fillPatient.setNames(firstName);
         fillPatient.setLastNames(lastName);
         fillPatient.setEmail(etEmail.getText().toString());
         fillPatient.setUser(user);
-        Call<LoginResponse> updatePatient = RetrofitClient.getApiUser().updatePatient(fillPatient);
-        updatePatient.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if(response.body().getStatus() == 1)
-                {
-                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+        if(etNames.getText().toString().trim().length() > 0 && etPhone.getText().toString().trim().length() > 0 && etEmail.getText().toString().trim().length() > 0) {
+            Call<LoginResponse> updatePatient = RetrofitClient.getApiUser().updatePatient(fillPatient);
+            updatePatient.enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    if (response.body().getStatus() == 1) {
+                        Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        } else
+        {
+
+        }
     }
 
     @Override
