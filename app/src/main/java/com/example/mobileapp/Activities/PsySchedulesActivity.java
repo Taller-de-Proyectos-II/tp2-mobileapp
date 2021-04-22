@@ -102,6 +102,9 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
         date = df.format(current);
         SimpleDateFormat daydf = new SimpleDateFormat("EEEE");
         nombreDia = daydf.format(current);
+        String test10 = String.valueOf(current);
+        Log.e("TEST FECHA", test10);
+        Log.e("TEST FECHA2", nombreDia);
 
         Calendar c = Calendar.getInstance();
         try {
@@ -112,25 +115,46 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
         date = df.format(c.getTime());
         String[] values = date.split("-");
         switch (nombreDia){
-            case "Monday":
+            case "monday":
                 date2 = 1;
                 break;
-            case "Tuesday":
+            case "tuesday":
                 date2 = 2;
                 break;
-            case "Wednesday":
+            case "wednesday":
                 date2 = 3;
                 break;
-            case "Thursday":
+            case "thursday":
                 date2 = 4;
                 break;
-            case "Friday":
+            case "friday":
                 date2 = 5;
                 break;
-            case "Saturday":
+            case "saturday":
                 date2 = 6;
                 break;
-            case "Sunday":
+            case "sunday":
+                date2 = 7;
+                break;
+            case "lunes":
+                date2 = 1;
+                break;
+            case "martes":
+                date2 = 2;
+                break;
+            case "miércoles":
+                date2 = 3;
+                break;
+            case "jueves":
+                date2 = 4;
+                break;
+            case "viernes":
+                date2 = 5;
+                break;
+            case "sábado":
+                date2 = 6;
+                break;
+            case "domingo":
                 date2 = 7;
                 break;
         }
@@ -305,7 +329,7 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
             e.printStackTrace();
         }
         Log.e("TEST FECHA1", date);
-
+        Log.e("TEST Date", String.valueOf(date2));
         c.add(Calendar.DAY_OF_MONTH, (schedule.getDay()-date2));
         date = df.format(c.getTime());
 
@@ -350,7 +374,7 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.body().getStatus() == 1){
-                    Toast.makeText(getApplicationContext(), "Se agendó la cita satisfactoriamente", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "Se agendó la cita satisfactoriamente", Toast.LENGTH_LONG);
                     startActivity(new Intent(getApplicationContext(), ContactPsyActivity.class).putExtra("DNI", passedUser).putExtra("PSY", psyDNI));
                 } else if(response.body().getStatus() == 0)
                 {
