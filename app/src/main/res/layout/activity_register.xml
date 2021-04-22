@@ -13,12 +13,12 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="269dp"
+        android:layout_marginTop="295dp"
         android:layout_marginEnd="31dp"
-        android:layout_marginBottom="400dp"
+        android:layout_marginBottom="374dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -35,15 +35,14 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="191dp"
+        android:layout_marginTop="214dp"
         android:layout_marginEnd="31dp"
-        android:layout_marginBottom="484dp"
+        android:layout_marginBottom="455dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etApellidos"
@@ -58,15 +57,14 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="117dp"
+        android:layout_marginTop="131dp"
         android:layout_marginEnd="31dp"
-        android:layout_marginBottom="558dp"
+        android:layout_marginBottom="538dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etNombres"
@@ -80,12 +78,15 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="350dp"
         android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="66dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="615dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.067">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etDNI"
@@ -97,28 +98,30 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <Button
         android:id="@+id/btnRegistrar"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="644dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="39dp"
         android:backgroundTint="@android:color/darker_gray"
         android:text="Registrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etFechaNacimiento"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="432dp"
+        android:layout_marginTop="463dp"
         android:layout_marginEnd="31dp"
-        android:layout_marginBottom="254dp"
+        android:layout_marginBottom="223dp"
         android:clickable="true"
         android:ems="10"
         android:focusable="false"
@@ -137,9 +140,9 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="351dp"
+        android:layout_marginTop="380dp"
         android:layout_marginEnd="31dp"
-        android:layout_marginBottom="318dp"
+        android:layout_marginBottom="289dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -155,13 +158,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilContraseña"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="491dp"
+        android:layout_marginTop="524dp"
         android:layout_marginEnd="31dp"
-        android:layout_marginBottom="184dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="145dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -179,16 +182,15 @@
         android:id="@+id/cbTerminos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="579dp"
-        android:layout_marginEnd="279dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="597dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginBottom="102dp"
         android:text="Acepta los términos y condiciones"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
