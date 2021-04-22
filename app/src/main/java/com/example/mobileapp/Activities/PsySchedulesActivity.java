@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,12 +29,15 @@ import com.example.mobileapp.Utils.Responses.SchedulesResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
 
+
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.time.LocalDate;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,6 +53,10 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
     String psyDNI, passedUser;
     SchedulesAdapter schedulesAdapter;
     Psychologist psychologist = new Psychologist();
+    String date = "";
+    String nombreDia = "";
+    Schedule schedule = new Schedule();
+    int date2 = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,25 +94,55 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
 
         schedulesAdapter = new SchedulesAdapter(this::ClickedSche);
 
+        GregorianCalendar today = new GregorianCalendar(GregorianCalendar.getInstance().getTimeZone());
+        String test1 = String.valueOf(today.getTimeZone());
 
+        Date current = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+        date = df.format(current);
+        SimpleDateFormat daydf = new SimpleDateFormat("EEEE");
+        nombreDia = daydf.format(current);
+
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(df.parse(date));
+        } catch (java.text.ParseException e){
+            e.printStackTrace();
+        }
+        date = df.format(c.getTime());
+        String[] values = date.split("-");
+        switch (nombreDia){
+            case "Monday":
+                date2 = 1;
+                break;
+            case "Tuesday":
+                date2 = 2;
+                break;
+            case "Wednesday":
+                date2 = 3;
+                break;
+            case "Thursday":
+                date2 = 4;
+                break;
+            case "Friday":
+                date2 = 5;
+                break;
+            case "Saturday":
+                date2 = 6;
+                break;
+            case "Sunday":
+                date2 = 7;
+                break;
+        }
+
+        Log.e("DIA", date);
+        Log.e("DIA2", test1);
 
         fullList();
     }
 
     private void fullList() {
-        Date current = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
-        String date = df.format(current);
 
-
-        String day = String.valueOf(current.getDay());
-        String month = String.valueOf(current.getMonth() + 1);
-        String year = String.valueOf(current.getYear()+1900);
-
-        String fecha = month + "-" + day + "-" + year;
-
-        String test = String.valueOf(df.getNumberFormat());
-        Log.e("DIA", test);
         Call<SchedulesResponse> schedules = RetrofitClient.getApiPsychologist().getSchedules(date, psyDNI);
 
         schedules.enqueue(new Callback<SchedulesResponse>() {
@@ -266,8 +304,11 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
         } catch (java.text.ParseException e){
             e.printStackTrace();
         }
-        c.add(Calendar.DAY_OF_MONTH, (schedule.getDay()-1));
+        Log.e("TEST FECHA1", date);
+
+        c.add(Calendar.DAY_OF_MONTH, (schedule.getDay()-date2));
         date = df.format(c.getTime());
+
         Log.e("TEST FECHA", date);
 
 
