@@ -17,4 +17,7 @@
     <item
         android:id="@+id/itContacto"
         android:title="Contacto" />
+    <item
+        android:id="@+id/itLogout"
+        android:title="Cerrar sesión" />
 </menu>

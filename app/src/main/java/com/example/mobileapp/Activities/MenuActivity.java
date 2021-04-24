@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 
 import com.example.mobileapp.R;
@@ -106,7 +107,17 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     }
                 }, 1000);
                 break;
-
+            case R.id.itLogout:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),MainActivity.class);
+                        mp.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        Toast.makeText(getApplicationContext(), "Sesión cerrada", Toast.LENGTH_SHORT).show();
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
         }
         return false;
     }
