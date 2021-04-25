@@ -7,6 +7,7 @@ import com.example.mobileapp.Controller.IPatientController;
 import com.example.mobileapp.Controller.IPsychologistController;
 import com.example.mobileapp.Controller.ISessionController;
 import com.example.mobileapp.Controller.ISymptomController;
+import com.example.mobileapp.Controller.ITestController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -85,5 +86,10 @@ public class RetrofitClient {
     public static ISessionController getApiSession(){
         ISessionController sessionController = getRetrofit().create(ISessionController.class);
         return sessionController;
+    }
+
+    public static ITestController getApiTest(){
+        ITestController testController = getRetrofit().create(ITestController.class);
+        return testController;
     }
 }
