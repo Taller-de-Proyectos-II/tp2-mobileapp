@@ -19,6 +19,7 @@ import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,6 +74,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    private boolean isValidEmailId(String email){
+
+        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches();
+    }
+
     private void checkRegistro() {
         Patient patient = new Patient();
         String birthday, email, lastNames, names, phone, dni, password, password2;
@@ -106,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             if(etBirthday.getText().toString().trim().length() > 0 && etEmail.getText().toString().trim().length() > 0 && etLastNames.getText().toString().trim().length() > 0
             && etNames.getText().toString().trim().length() > 0 && etPhone.getText().toString().trim().length() > 0 && etDni.getText().toString().trim().length() > 0
-                    && etPassword.getText().toString().trim().length() > 0) {
+                    && etPassword.getText().toString().trim().length() > 0 && isValidEmailId(etEmail.getText().toString().trim())) {
                 Call<LoginResponse> call = RetrofitClient.getApiLogin().register(patient);
                 call.enqueue(new Callback<LoginResponse>() {
                     @Override
@@ -139,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
             else
             {
-                Toast.makeText(getApplicationContext(),"Complete todos los campos para registrarse", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Complete todos los campos correctamente", Toast.LENGTH_SHORT).show();
             }
 
 

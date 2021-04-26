@@ -13,6 +13,8 @@ import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
+import java.util.regex.Pattern;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +35,16 @@ public class ForgotPwActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    private boolean isValidEmailId(String email){
+
+        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches();
+    }
+
     @Override
     public void onClick(View v) {
         sendEmail();
@@ -41,7 +53,7 @@ public class ForgotPwActivity extends AppCompatActivity implements View.OnClickL
     private void sendEmail() {
         String email = etEmail.getText().toString().trim();
 
-        if(etEmail.getText().toString().trim().length() >0) {
+        if(etEmail.getText().toString().trim().length() > 0 && isValidEmailId(etEmail.getText().toString().trim())) {
 
             Call<LoginResponse> call = RetrofitClient.getApiLogin().sendEmail(email);
 

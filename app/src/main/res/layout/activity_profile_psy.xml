@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:theme="@style/AppTheme.Fullscreen"
     android:layout_height="match_parent"
     android:background="@mipmap/bground"
+    android:theme="@style/AppTheme.Fullscreen"
     tools:context=".Activities.PsyProfileActivity">
 
     <include
@@ -50,6 +50,19 @@
         android:layout_marginEnd="152dp"
         android:layout_marginBottom="383dp"
         android:text="Reservar cita"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvExperience"
+        android:layout_width="409dp"
+        android:layout_height="380dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
