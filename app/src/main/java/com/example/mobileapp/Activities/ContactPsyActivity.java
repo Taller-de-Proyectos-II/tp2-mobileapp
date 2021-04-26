@@ -182,6 +182,15 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
                     }
                 }, 1000);
                 break;
+            case R.id.itTests:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),TestListActivity.class).putExtra("DNI", passedUser);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
             case R.id.itLogout:
                 new Handler().postDelayed(new Runnable(){
                     @Override

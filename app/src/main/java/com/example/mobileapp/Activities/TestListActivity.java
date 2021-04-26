@@ -69,7 +69,7 @@ public class TestListActivity extends AppCompatActivity implements PopupMenu.OnM
 
     @Override
     public void ClickedTest(Test test) {
-
+        startActivity(new Intent(this, TestActivity.class).putExtra("data", test).putExtra("DNI", passedUser));
     }
 
     private void fullList(String passedUser) {

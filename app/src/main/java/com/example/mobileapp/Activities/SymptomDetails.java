@@ -104,11 +104,32 @@ public class SymptomDetails extends AppCompatActivity implements  View.OnClickLi
                     }
                 }, 1000);
                 break;
+
+            case R.id.itTests:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),TestListActivity.class).putExtra("DNI", passedUser);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
             case R.id.itContacto:
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
                         Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+            case R.id.itLogout:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),MainActivity.class);
+                        mp.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        Toast.makeText(getApplicationContext(), "Sesión cerrada", Toast.LENGTH_SHORT).show();
                         startActivity(mp);
                     }
                 }, 1000);

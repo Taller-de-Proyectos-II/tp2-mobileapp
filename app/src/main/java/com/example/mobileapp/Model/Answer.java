@@ -1,6 +1,8 @@
 package com.example.mobileapp.Model;
 
-public class Answer {
+import java.io.Serializable;
+
+public class Answer implements Serializable {
 
     int idAnswer, score;
     Question questionDTO;

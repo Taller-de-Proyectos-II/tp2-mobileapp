@@ -1,8 +1,9 @@
 package com.example.mobileapp.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Test {
+public class Test implements Serializable {
     int idTest;
     String startDate, endDate, diagnostic, testType;
     Boolean finished;

@@ -153,6 +153,15 @@ public class ManifestationsActivity extends AppCompatActivity implements View.On
                     }
                 }, 1000);
                 break;
+            case R.id.itTests:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),TestListActivity.class).putExtra("DNI", passedUser);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
             case R.id.itLogout:
                 new Handler().postDelayed(new Runnable(){
                     @Override
@@ -171,6 +180,6 @@ public class ManifestationsActivity extends AppCompatActivity implements View.On
 
     @Override
     public void ClickedSymptom(Symptom symptom) {
-        startActivity(new Intent(this, SymptomDetails.class).putExtra("data", symptom));
+        startActivity(new Intent(this, SymptomDetails.class).putExtra("data", symptom).putExtra("DNI", passedUser));
     }
 }
