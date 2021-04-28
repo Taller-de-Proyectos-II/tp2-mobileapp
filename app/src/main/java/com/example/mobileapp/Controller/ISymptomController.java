@@ -1,5 +1,6 @@
 package com.example.mobileapp.Controller;
 
+import com.example.mobileapp.Utils.Responses.AlertSymptomsResponse;
 import com.example.mobileapp.Utils.Responses.SymptomsResponse;
 
 import retrofit2.Call;
@@ -9,4 +10,7 @@ public interface ISymptomController {
 
     @GET("symptom/listAll/")
     Call<SymptomsResponse> getAll();
+
+    @GET("symptoms/listAll/")
+    Call<AlertSymptomsResponse> getSymptoms();
 }

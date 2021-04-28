@@ -28,9 +28,11 @@ import com.example.mobileapp.Model.SymptomDTO;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Responses.AlertResponse;
 import com.example.mobileapp.Utils.Responses.AlertResponse2;
+import com.example.mobileapp.Utils.Responses.AlertSymptomsResponse;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -52,6 +54,7 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
     ArrayList<AlertDTO> resultados = new ArrayList<>();
 
     ArrayList<AlertAnswerDTO> preguntas = new ArrayList<>();
+    ArrayList<SymptomDTO> preguntas2 = new ArrayList<>();
     int index = 0;
     int alertValue = 0;
     int idSymptomHolder = 0;
@@ -93,7 +96,27 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
             passedUser = intent.getStringExtra("DNI");
         }
         alertCreateDTO.setPatientDni(passedUser);
-        createAlert();
+        //createAlert();
+        getSymptoms();
+    }
+
+    private void getSymptoms() {
+        Call<AlertSymptomsResponse> getSymptoms = RetrofitClient.getApiSymptom().getSymptoms();
+
+        getSymptoms.enqueue(new Callback<AlertSymptomsResponse>() {
+            @Override
+            public void onResponse(Call<AlertSymptomsResponse> call, Response<AlertSymptomsResponse> response) {
+                if(response.body().getStatus() == 1){
+                    preguntas2.addAll(response.body().getSymptomsDTO());
+                    showQuestion2(preguntas2, index);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AlertSymptomsResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void createAlert() {
@@ -105,32 +128,8 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
                 if(response.body().getStatus() == 1){
                     alertId = response.body().getAlertDTO().getId();
                     Log.e("ALERT ID", String.valueOf(alertId));
-                    Call<AlertResponse2> getInfo = RetrofitClient.getApiAlert().getAlerts(passedUser);
-                    getInfo.enqueue(new Callback<AlertResponse2>() {
-                        @Override
-                        public void onResponse(Call<AlertResponse2> call2, Response<AlertResponse2> response2) {
-                            if(response2.body().getStatus() == 1){
-                                if(response2.body().getAlertsDTO().size() > 0){
-                                    for(int i = 0; i < response2.body().getAlertsDTO().size(); i++){
-                                        if (response2.body().getAlertsDTO().get(i).getId() == alertId){
-                                            mockAlert.setId(response2.body().getAlertsDTO().get(i).getId());
-                                            mockAlert.setDate(response2.body().getAlertsDTO().get(i).getDate());
-                                            mockAlert.setImportant(response2.body().getAlertsDTO().get(i).getImportant());
-                                            preguntas.addAll(response2.body().getAlertsDTO().get(i).getAlertAnswersDTO());
-                                            showQuestion(preguntas, index);
+                    alertAnswers.setIdAlert(alertId);
 
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<AlertResponse2> call, Throwable t) {
-
-                        }
-                    });
                 }
             }
 
@@ -151,6 +150,32 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
             alertAnswers.setIdAlert(alertId);
             alertAnswers.setAlertAnswersDTO(resultados);
             sendAnswers();
+        }
+    }
+
+    private void showQuestion2(ArrayList<SymptomDTO> sintomas, int index){
+        Log.e("HERE", String.valueOf(sintomas.size()));
+        if(index < sintomas.size()) {
+            tvDescripcion.setText(sintomas.get(index).getDescription());
+            idSymptomHolder = sintomas.get(index).getIdSymptom();
+            idAnswerHolder = sintomas.get(index).getIdSymptom();
+        } else{
+
+            createAlert();
+            Runnable r = new Runnable() {
+                @Override
+                public void run() {
+                    alertAnswers.setAlertAnswersDTO(resultados);
+                    for(int i = 0; i < sintomas.size(); i++){
+                        alertAnswers.getAlertAnswersDTO().get(i).setId(alertId - (6-i));
+                    }
+                    sendAnswers();
+                }
+            };
+            Handler h = new Handler();
+            h.postDelayed(r, 1000);
+
+
         }
     }
 
@@ -273,7 +298,7 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     resultados.add(mockAlert);
                     index++;
                     rgAnswers.clearCheck();
-                    showQuestion(preguntas, index);
+                    showQuestion2(preguntas2, index);
                 }
                 break;
             case R.id.btnExit:

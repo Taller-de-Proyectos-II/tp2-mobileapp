@@ -391,7 +391,7 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.body().getStatus() == 1){
                     Toast.makeText(getApplicationContext(), "Se agendó la cita satisfactoriamente", Toast.LENGTH_LONG);
-                    startActivity(new Intent(getApplicationContext(), ContactPsyActivity.class).putExtra("DNI", passedUser).putExtra("PSY", psyDNI));
+                    startActivity(new Intent(getApplicationContext(), ConfirmationActivity.class).putExtra("DNI", passedUser).putExtra("PSY", psyDNI));
                 } else if(response.body().getStatus() == 0)
                 {
                     Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT);
