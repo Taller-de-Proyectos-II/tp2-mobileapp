@@ -4,13 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.TipsActivity"
-    android:background="@mipmap/bground">
+    android:background="@mipmap/bground"
+    tools:context=".Activities.TipsActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"></include>
 
+    <TextView
+        android:id="@+id/tvTip1"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="147dp"
+        android:layout_marginEnd="145dp"
+        android:layout_marginBottom="464dp"
+        android:text="Respire despacio y profundamente. Puede ayudar respirar dentro de una bolsa de papel puesta sobre su boca. Inspire por la nariz llenando el abdomen y expire lentamente por la boca."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTip2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="303dp"
+        android:layout_marginEnd="145dp"
+        android:layout_marginBottom="342dp"
+        android:text="Busque un sitio tranquilo, túmbese o póngase cómodo, ponga música relajante y piense en situaciones agradables."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTip3"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="445dp"
+        android:layout_marginEnd="145dp"
+        android:layout_marginBottom="200dp"
+        android:text="Hable con alguna persona de su confianza, que conozca lo que le sucede y que tenga instrucciones de cómo ayudarle."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnAccept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="174dp"
+        android:layout_marginTop="592dp"
+        android:layout_marginEnd="149dp"
+        android:layout_marginBottom="91dp"
+        android:text="Salir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

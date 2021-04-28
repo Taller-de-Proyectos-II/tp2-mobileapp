@@ -8,14 +8,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.mobileapp.R;
 
-public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
+public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener{
 
     String passedUser;
+
+    Button btnAccept;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,9 @@ public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
         getSupportActionBar().setTitle("Mantenga la calma");
+
+        btnAccept = findViewById(R.id.btnAccept);
+        btnAccept.setOnClickListener(this);
 
         Intent intent = getIntent();
         if(intent.getExtras() != null){
@@ -99,5 +105,20 @@ public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnAccept:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+        }
     }
 }

@@ -238,7 +238,13 @@ public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
+                                new Handler().postDelayed(new Runnable(){
+                                    @Override
+                                    public void run(){
+                                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
+                                        startActivity(mp);
+                                    }
+                                }, 1000);
                             }
                         }
                 );
