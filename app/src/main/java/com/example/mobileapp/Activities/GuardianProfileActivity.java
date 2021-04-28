@@ -200,11 +200,11 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         switch (item.getItemId())
         {
 
-            case R.id.itMediciones:
+            case R.id.itAlertas:
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedDNI);
+                        Intent ma = new Intent(getApplicationContext(),AlertListActivity.class).putExtra("DNI", passedDNI);
                         startActivity(ma);
                     }
                 }, 1000);

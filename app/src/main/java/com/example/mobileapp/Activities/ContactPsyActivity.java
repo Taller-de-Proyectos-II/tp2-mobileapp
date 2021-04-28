@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -155,11 +154,11 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.itMediciones:
+            case R.id.itAlertas:
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedUser);
+                        Intent ma = new Intent(getApplicationContext(),AlertListActivity.class).putExtra("DNI", passedUser);
                         startActivity(ma);
                     }
                 }, 1000);

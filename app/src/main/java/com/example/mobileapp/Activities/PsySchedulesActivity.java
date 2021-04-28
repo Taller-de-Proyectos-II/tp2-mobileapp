@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,12 +30,10 @@ import com.example.mobileapp.Utils.RetrofitClient;
 
 
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.time.LocalDate;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -210,11 +207,11 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.itMediciones:
+            case R.id.itAlertas:
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedUser);
+                        Intent ma = new Intent(getApplicationContext(),AlertListActivity.class).putExtra("DNI", passedUser);
                         startActivity(ma);
                     }
                 }, 1000);

@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bground"
-    tools:context=".Activities.TestActivity">
+    tools:context=".Activities.AlertActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"></include>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardQuestion"
+        android:id="@+id/symptomCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
@@ -30,20 +30,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvQuestionName"
+            android:id="@+id/tvHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="4dp"
             android:layout_marginRight="@dimen/cardview_default_radius"
-            android:text="Pregunta"
+            android:text="¿Usted siente:"
             android:textSize="20sp"
             android:textStyle="bold">
 
         </TextView>
 
         <TextView
-            android:id="@+id/tvQuestionDesc"
+            android:id="@+id/tvSymptomDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
@@ -103,25 +103,14 @@
             android:id="@+id/rbAnswer1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Casi nunca" />
+            android:text="Sí" />
 
         <RadioButton
             android:id="@+id/rbAnswer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Algunas veces" />
+            android:text="No" />
 
-        <RadioButton
-            android:id="@+id/rbAnswer3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Muchas veces" />
-
-        <RadioButton
-            android:id="@+id/rbAnswer4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Siempre o casi siempre" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

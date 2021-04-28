@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.mobileapp.Model.Psychologist;
 import com.example.mobileapp.R;
-import com.example.mobileapp.Utils.Responses.PsychologistResponse;
 
 public class PsyProfileActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener{
 
@@ -107,11 +105,11 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.itMediciones:
+            case R.id.itAlertas:
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedUser);
+                        Intent ma = new Intent(getApplicationContext(),AlertListActivity.class).putExtra("DNI", passedUser);
                         startActivity(ma);
                     }
                 }, 1000);

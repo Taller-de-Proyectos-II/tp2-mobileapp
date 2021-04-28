@@ -206,11 +206,11 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         switch (item.getItemId())
         {
 
-            case R.id.itMediciones:
+            case R.id.itAlertas:
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedUser);
+                        Intent ma = new Intent(getApplicationContext(),AlertListActivity.class).putExtra("DNI", passedUser);
                         startActivity(ma);
                     }
                 }, 1000);

@@ -2,34 +2,46 @@ package com.example.mobileapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-
-
 import android.os.Bundle;
-
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-
+import com.example.mobileapp.Model.Alert;
 import com.example.mobileapp.R;
+import com.example.mobileapp.Utils.Adapters.AlertsAdapter;
+import com.example.mobileapp.Utils.Responses.AlertResponse2;
+import com.example.mobileapp.Utils.RetrofitClient;
 
+import java.util.ArrayList;
 
-public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    ImageView ivPerfil;
+public class AlertListActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener{
+
+    Button btnNewAlert;
+    RecyclerView rvAlertsList;
     String passedUser;
-    String passedPassword;
+    AlertsAdapter alertsAdapter = new AlertsAdapter();
+
+    AlertResponse2 alertResponse2 = new AlertResponse2();
+    ArrayList<Alert> appAlerts = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_alert_list);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
@@ -39,35 +51,55 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 showPopup(v);
             }
         });
-        getSupportActionBar().setTitle("Menú Principal");
-        ivPerfil = findViewById(R.id.ivPerfil);
-        ivPerfil.setOnClickListener(this);
+        getSupportActionBar().setTitle("Alertas");
 
+        btnNewAlert = findViewById(R.id.btnNewAlert);
+        btnNewAlert.setOnClickListener(this);
 
+        rvAlertsList = findViewById(R.id.rvAlertsList);
 
         Intent intent = getIntent();
-
         if(intent.getExtras() != null){
             passedUser = intent.getStringExtra("DNI");
-            passedPassword = intent.getStringExtra("password");
         }
+
+        rvAlertsList.setLayoutManager(new LinearLayoutManager(this));
+        rvAlertsList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+
+
+        fullList();
+
     }
 
-    @Override
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.ivPerfil:
-                new Handler().postDelayed(new Runnable(){
-                    @Override
-                    public void run(){
-                        Intent ppa = new Intent(getApplicationContext(),PatientProfileActivity.class).putExtra("DNI", passedUser).putExtra("password", passedPassword);
-                        startActivity(ppa);
-                    }
-                }, 1000);
-            break;
-        }
+    private void fullList() {
+        Call<AlertResponse2> getAlerts = RetrofitClient.getApiAlert().getAlerts(passedUser);
+
+        getAlerts.enqueue(new Callback<AlertResponse2>() {
+            @Override
+            public void onResponse(Call<AlertResponse2> call, Response<AlertResponse2> response) {
+                if(response.body().getStatus() == 1){
+                    fillInformation(response.body());
+                    alertsAdapter.setData(appAlerts);
+                    rvAlertsList.setAdapter(alertsAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AlertResponse2> call, Throwable t) {
+
+            }
+        });
     }
-    public void showPopup(View v){
+
+    private void fillInformation(AlertResponse2 alertResponse) {
+        alertResponse2.setStatus(alertResponse.getStatus());
+        alertResponse2.setMessage(alertResponse.getMessage());
+        appAlerts.addAll(alertResponse.getAlertsDTO());
+    }
+
+
+    private void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         popup.setOnMenuItemClickListener(this);
         popup.inflate(R.menu.menu_main);
@@ -101,7 +133,6 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     @Override
                     public void run(){
                         Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class).putExtra("DNI", passedUser);
-                        Log.e("HERE", passedUser);
                         startActivity(mp);
                     }
                 }, 1000);
@@ -128,5 +159,20 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+     switch (v.getId()){
+         case R.id.btnNewAlert:
+             new Handler().postDelayed(new Runnable(){
+                 @Override
+                 public void run(){
+                     Intent ma = new Intent(getApplicationContext(),AlertActivity.class).putExtra("DNI", passedUser);
+                     startActivity(ma);
+                 }
+             }, 1000);
+             break;
+     }
     }
 }

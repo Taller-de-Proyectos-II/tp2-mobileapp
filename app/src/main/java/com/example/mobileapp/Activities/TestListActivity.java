@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.example.mobileapp.Model.Psychologist;
 import com.example.mobileapp.Model.Test;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Adapters.TestsAdapter;
@@ -111,11 +110,11 @@ public class TestListActivity extends AppCompatActivity implements PopupMenu.OnM
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.itMediciones:
+            case R.id.itAlertas:
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedUser);
+                        Intent ma = new Intent(getApplicationContext(),AlertListActivity.class).putExtra("DNI", passedUser);
                         startActivity(ma);
                     }
                 }, 1000);
@@ -134,6 +133,15 @@ public class TestListActivity extends AppCompatActivity implements PopupMenu.OnM
                     @Override
                     public void run(){
                         Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class).putExtra("DNI", passedUser);
+                        startActivity(mp);
+                    }
+                }, 1000);
+                break;
+            case R.id.itTests:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent mp = new Intent(getApplicationContext(),TestListActivity.class).putExtra("DNI", passedUser);
                         startActivity(mp);
                     }
                 }, 1000);

@@ -2,6 +2,7 @@ package com.example.mobileapp.Activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
@@ -13,17 +14,20 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mobileapp.Model.Answer;
-import com.example.mobileapp.Model.AnswerDTO;
-import com.example.mobileapp.Model.Test;
-import com.example.mobileapp.Model.testUpdateDTO;
+import com.example.mobileapp.Model.Alert;
+import com.example.mobileapp.Model.AlertAnswerDTO;
+import com.example.mobileapp.Model.AlertCreateDTO;
+import com.example.mobileapp.Model.AlertDTO;
+import com.example.mobileapp.Model.AlertUpdateDTO;
+import com.example.mobileapp.Model.SymptomDTO;
 import com.example.mobileapp.R;
+import com.example.mobileapp.Utils.Responses.AlertResponse;
+import com.example.mobileapp.Utils.Responses.AlertResponse2;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
@@ -33,46 +37,51 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener{
+public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener {
 
     String passedUser;
-    Test test;
+    RadioButton rbAnswer1, rbAnswer2;
+    RadioGroup rgAnswers;
     AlertDialog alert1;
     CardView card;
-    TextView tvQuestionName, tvQuestionDesc;
-    ArrayList<Answer> answers = new ArrayList<>();
-    RadioGroup rgAnswers;
-    RadioButton rbAnswer1, rbAnswer2, rbAnswer3, rbAnswer4;
     Button btnExit, btnNext;
-    testUpdateDTO testAnswers = new testUpdateDTO();
-    ArrayList<AnswerDTO> answersDTO = new ArrayList<>();
+    AlertCreateDTO alertCreateDTO = new AlertCreateDTO();
+    TextView tvDescripcion;
+    Alert mockAlert = new Alert();
+    AlertUpdateDTO alertAnswers = new AlertUpdateDTO();
+    ArrayList<AlertDTO> resultados = new ArrayList<>();
+
+    ArrayList<AlertAnswerDTO> preguntas = new ArrayList<>();
     int index = 0;
+    int alertValue = 0;
+    int idSymptomHolder = 0;
+    int idAnswerHolder = 0;
+    int alertId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_alert);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
                 showPopup(v);
             }
         });
+        getSupportActionBar().setTitle("Alerta");
 
+        tvDescripcion = findViewById(R.id.tvSymptomDesc);
 
-        card = findViewById(R.id.cardQuestion);
-        tvQuestionDesc = findViewById(R.id.tvQuestionDesc);
-        tvQuestionName = findViewById(R.id.tvQuestionName);
-
+        card = findViewById(R.id.symptomCard);
         rgAnswers = findViewById(R.id.rgAnswers);
-
         rbAnswer1 = findViewById(R.id.rbAnswer1);
         rbAnswer2 = findViewById(R.id.rbAnswer2);
-        rbAnswer3 = findViewById(R.id.rbAnswer3);
-        rbAnswer4 = findViewById(R.id.rbAnswer4);
+
+
 
         btnExit = findViewById(R.id.btnExit);
         btnExit.setOnClickListener(this);
@@ -81,77 +90,97 @@ public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         Intent intent = getIntent();
         if(intent.getExtras() != null){
-            test = (Test) intent.getSerializableExtra("data");
             passedUser = intent.getStringExtra("DNI");
         }
-
-        getSupportActionBar().setTitle("Test de " + test.getTestType());
-
-        for(int i = 0; i < test.getAnswersDTO().size(); i++){
-            answers.add(test.getAnswersDTO().get(i));
-        }
-
-        if(test.getTestType().equals("Manifestaciones")){
-            rbAnswer3.setVisibility(View.INVISIBLE);
-            rbAnswer4.setVisibility(View.INVISIBLE);
-            rbAnswer2.setText("Sí");
-            rbAnswer1.setText("No");
-        }
-
-
-        showQuestion();
-
+        alertCreateDTO.setPatientDni(passedUser);
+        createAlert();
     }
 
-    private void showQuestion() {
-        if(index < answers.size()) {
-            if(test.getTestType().equals("Manifestaciones")) {
-                if(index < 4) {
-                    String mock = test.getAnswersDTO().get(index).getQuestionDTO().getDescription();
-                    tvQuestionDesc.setText(mock);
+    private void createAlert() {
+        Call<AlertResponse> create = RetrofitClient.getApiAlert().createAlert(alertCreateDTO);
+
+        create.enqueue(new Callback<AlertResponse>() {
+            @Override
+            public void onResponse(Call<AlertResponse> call, Response<AlertResponse> response) {
+                if(response.body().getStatus() == 1){
+                    alertId = response.body().getAlertDTO().getId();
+                    Log.e("ALERT ID", String.valueOf(alertId));
+                    Call<AlertResponse2> getInfo = RetrofitClient.getApiAlert().getAlerts(passedUser);
+                    getInfo.enqueue(new Callback<AlertResponse2>() {
+                        @Override
+                        public void onResponse(Call<AlertResponse2> call2, Response<AlertResponse2> response2) {
+                            if(response2.body().getStatus() == 1){
+                                if(response2.body().getAlertsDTO().size() > 0){
+                                    for(int i = 0; i < response2.body().getAlertsDTO().size(); i++){
+                                        if (response2.body().getAlertsDTO().get(i).getId() == alertId){
+                                            mockAlert.setId(response2.body().getAlertsDTO().get(i).getId());
+                                            mockAlert.setDate(response2.body().getAlertsDTO().get(i).getDate());
+                                            mockAlert.setImportant(response2.body().getAlertsDTO().get(i).getImportant());
+                                            preguntas.addAll(response2.body().getAlertsDTO().get(i).getAlertAnswersDTO());
+                                            showQuestion(preguntas, index);
+
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AlertResponse2> call, Throwable t) {
+
+                        }
+                    });
                 }
-                if(index == 4){
-                    testAnswers.setIdTest(test.getIdTest());
-                    testAnswers.setAnswersDTO(answersDTO);
-                    btnNext.setVisibility(View.INVISIBLE);
-                    sendAnswers();
-                }
-            } else {
-                String mock = test.getAnswersDTO().get(index).getQuestionDTO().getDescription();
-                tvQuestionDesc.setText(mock);
             }
+
+            @Override
+            public void onFailure(Call<AlertResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void showQuestion(ArrayList<AlertAnswerDTO> questions, int index) {
+        Log.e("HERE", String.valueOf(preguntas.size()));
+        if(index < questions.size()) {
+            tvDescripcion.setText(questions.get(index).getSymptomDTO().getDescription());
+            idSymptomHolder = questions.get(index).getSymptomDTO().getIdSymptom();
+            idAnswerHolder = questions.get(index).getId();
         } else{
-            testAnswers.setIdTest(test.getIdTest());
-            testAnswers.setAnswersDTO(answersDTO);
-            btnNext.setVisibility(View.INVISIBLE);
+            alertAnswers.setIdAlert(alertId);
+            alertAnswers.setAlertAnswersDTO(resultados);
             sendAnswers();
         }
     }
 
     private void sendAnswers() {
-        Call<LoginResponse> sendAnswers = RetrofitClient.getApiTest().sendAnswers(testAnswers);
+        Call<LoginResponse> sendAnswers = RetrofitClient.getApiAlert().sendAnswers(alertAnswers);
 
         sendAnswers.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.body().getStatus() == 1){
-                    Toast.makeText(getApplicationContext(), "El test fue enviado satisfactoriamente!", Toast.LENGTH_SHORT).show();
+                    if(alertValue >= 4){
+                    Toast.makeText(getApplicationContext(), "La alerta fue enviada satisfactoriamente!", Toast.LENGTH_LONG).show();
                     new Handler().postDelayed(new Runnable(){
                         @Override
                         public void run(){
-                            Intent mp = new Intent(getApplicationContext(),TestListActivity.class).putExtra("DNI", passedUser);
+                            Intent mp = new Intent(getApplicationContext(),TipsActivity.class).putExtra("DNI", passedUser);
                             startActivity(mp);
                         }
                     }, 1000);
-                } else{
-                    Toast.makeText(getApplicationContext(), "Ha ocurrido un error! Por favor, realice el test nuevamente.", Toast.LENGTH_LONG).show();
-                    new Handler().postDelayed(new Runnable(){
-                        @Override
-                        public void run(){
-                            Intent mp = new Intent(getApplicationContext(),TestListActivity.class).putExtra("DNI", passedUser);
-                            startActivity(mp);
-                        }
-                    }, 1000);
+                    } else{
+                        Toast.makeText(getApplicationContext(), "La alerta fue enviada satisfactoriamente!", Toast.LENGTH_LONG).show();
+                        new Handler().postDelayed(new Runnable(){
+                            @Override
+                            public void run(){
+                                Intent mp = new Intent(getApplicationContext(),AlertListActivity.class).putExtra("DNI", passedUser);
+                                startActivity(mp);
+                            }
+                        }, 1000);
+                    }
+
                 }
             }
 
@@ -161,7 +190,6 @@ public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
     }
-
 
     private void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
@@ -228,6 +256,26 @@ public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.btnNext:
+                int score = 0;
+                if(rgAnswers.getCheckedRadioButtonId() == -1){
+                    Toast.makeText(getApplicationContext(), "Seleccione una respuesta por favor", Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDTO mockAlert = new AlertDTO();
+                    if(rbAnswer1.isChecked()){
+                        score = 1;
+                        alertValue++;
+                    } else if (rbAnswer2.isChecked()) {
+                        score = 0;
+                    }
+                    mockAlert.setScore(score);
+                    mockAlert.setId(idAnswerHolder);
+                    resultados.add(mockAlert);
+                    index++;
+                    rgAnswers.clearCheck();
+                    showQuestion(preguntas, index);
+                }
+                break;
             case R.id.btnExit:
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setMessage("¿Está seguro de que desea salir? Perderá su progreso");
@@ -256,39 +304,6 @@ public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 alert1 = builder1.create();
                 alert1.show();
                 break;
-            case R.id.btnNext:
-                int score = 0;
-                int idAnswer= 0;
-                if(rgAnswers.getCheckedRadioButtonId() == -1){
-                    Toast.makeText(getApplicationContext(), "Seleccione una respuesta por favor", Toast.LENGTH_SHORT).show();
-                } else{
-                    AnswerDTO mockAns = new AnswerDTO();
-
-                    if(rbAnswer1.isChecked()) {
-                        score = 1;
-                        if(test.getTestType().equals("Manifestaciones")){
-                            score = 0;
-                        }
-                    } else if(rbAnswer2.isChecked()) {
-                        score = 2;
-                        if(test.getTestType().equals("Manifestaciones")){
-                            score = 1;
-                        }
-                    } else if(rbAnswer3.isChecked()) {
-                        score = 3;
-                    } else if(rbAnswer4.isChecked()) {
-                        score = 4;
-                    }
-                    mockAns.setScore(score);
-                    mockAns.setIdAnswer(test.getAnswersDTO().get(index).getIdAnswer());
-                    answersDTO.add(mockAns);
-                    index++;
-                    Log.e("HERE", String.valueOf(index));
-                    rgAnswers.clearCheck();
-                    showQuestion();
-                }
-                break;
-
         }
     }
 }

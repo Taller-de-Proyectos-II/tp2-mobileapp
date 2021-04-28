@@ -126,7 +126,7 @@ public class ManifestationsActivity extends AppCompatActivity implements View.On
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.itMediciones:
+            case R.id.itAlertas:
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){

@@ -1,5 +1,6 @@
 package com.example.mobileapp.Utils;
 
+import com.example.mobileapp.Controller.IAlertController;
 import com.example.mobileapp.Controller.IGuardianController;
 import com.example.mobileapp.Controller.ILoginController;
 import com.example.mobileapp.Controller.IManifestationController;
@@ -91,5 +92,10 @@ public class RetrofitClient {
     public static ITestController getApiTest(){
         ITestController testController = getRetrofit().create(ITestController.class);
         return testController;
+    }
+
+    public static IAlertController getApiAlert(){
+        IAlertController alertController = getRetrofit().create(IAlertController.class);
+        return alertController;
     }
 }
