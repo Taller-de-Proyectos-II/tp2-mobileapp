@@ -64,6 +64,7 @@
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="9"
             android:hint="Número de contacto" />
     </com.google.android.material.textfield.TextInputLayout>
 

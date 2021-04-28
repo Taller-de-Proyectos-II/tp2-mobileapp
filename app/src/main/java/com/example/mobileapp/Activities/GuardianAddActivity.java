@@ -22,6 +22,7 @@ import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -94,6 +95,7 @@ public class GuardianAddActivity extends AppCompatActivity implements View.OnCli
                         etGuardianBirthday.setText(date);
                     }
                 }, day, month, year);
+                dpd.getDatePicker().setMaxDate(new Date().getTime());
                 dpd.show();
                 break;
         }

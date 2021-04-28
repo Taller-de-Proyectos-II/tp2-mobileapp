@@ -19,6 +19,7 @@ import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
@@ -69,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         etBirthday.setText(date);
                     }
                 }, day, month, year);
+                dpd.getDatePicker().setMaxDate(new Date().getTime());
                 dpd.show();
                 break;
         }
