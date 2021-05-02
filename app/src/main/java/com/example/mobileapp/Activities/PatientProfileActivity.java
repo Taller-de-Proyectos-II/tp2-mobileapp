@@ -124,7 +124,7 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent gpa = new Intent(getApplicationContext(), GuardianProfileActivity.class).putExtra("DNI", passedUser).
+                        Intent gpa = new Intent(getApplicationContext(), GuardianListActivty.class).putExtra("DNI", passedUser).
                                                                                                         putExtra("email", fillPatient.getEmail()).
                                                                                                         putExtra("phone", fillPatient.getPhone());
                         startActivity(gpa);

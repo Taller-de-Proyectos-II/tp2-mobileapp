@@ -1,6 +1,8 @@
 package com.example.mobileapp.Model;
 
-public class Guardian {
+import java.io.Serializable;
+
+public class Guardian implements Serializable {
     String birthday, dni, email, lastNames, names, patientDni, phone;
 
     public String getBirthday() {

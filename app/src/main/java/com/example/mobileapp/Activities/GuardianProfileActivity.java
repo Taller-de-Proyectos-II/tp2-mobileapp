@@ -34,11 +34,12 @@ import retrofit2.Response;
 
 public class GuardianProfileActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener{
 
-    String passedDNI, passedPhone, passedEmail;
+    String passedUser, passedPhone, passedEmail;
     GuardianResponse guardianResponse2 = new GuardianResponse();
     ArrayList<Guardian> fillGuardians = new ArrayList<>();
     Guardian utilGuardian = new Guardian();
     EditText etGuardianNames, etGuardianBirthday, etGuardianDNI;
+    Guardian guardMock;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,12 +73,17 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         Intent intent = getIntent();
 
         if(intent.getExtras() != null){
-            passedDNI = intent.getStringExtra("DNI");
+            guardMock = (Guardian) intent.getSerializableExtra("data");
+            String name = guardMock.getNames() + " " + guardMock.getLastNames();
+            etGuardianNames.setText(name);
+            etGuardianBirthday.setText(guardMock.getBirthday());
+            etGuardianDNI.setText(guardMock.getDni());
+            passedUser = intent.getStringExtra("DNI");
             passedEmail = intent.getStringExtra("email");
             passedPhone = intent.getStringExtra("phone");
         }
 
-        Call<GuardianResponse> guardianResponse = RetrofitClient.getApiGuardian().getGuardian(passedDNI);
+        /*Call<GuardianResponse> guardianResponse = RetrofitClient.getApiGuardian().getGuardian(passedUser);
 
         guardianResponse.enqueue(new Callback<GuardianResponse>() {
             @Override
@@ -88,7 +94,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
                         new Handler().postDelayed(new Runnable(){
                             @Override
                             public void run(){
-                                Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedDNI);
+                                Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
                                 startActivity(mp);
                             }
                         }, 1000);
@@ -111,7 +117,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
             public void onFailure(Call<GuardianResponse> call, Throwable t) {
                 Log.e("AQUIIIIIII", t.getMessage());
             }
-        });
+        });*/
     }
 
     private void fillInformation(GuardianResponse guardianResponse) {
@@ -124,7 +130,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         utilGuardian.setEmail(guardianResponse.getGuardiansDTO().get(0).getEmail());
         utilGuardian.setBirthday(guardianResponse.getGuardiansDTO().get(0).getBirthday());
         utilGuardian.setDni(guardianResponse.getGuardiansDTO().get(0).getDni());
-        utilGuardian.setPatientDni(passedDNI);
+        utilGuardian.setPatientDni(passedUser);
         utilGuardian.setEmail(passedEmail);
         utilGuardian.setPhone(passedPhone);
         guardianResponse2.getGuardiansDTO().add(utilGuardian);
@@ -162,7 +168,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
     }
 
     private void checkUpdate() {
-        utilGuardian.setPatientDni(passedDNI);
+        utilGuardian.setPatientDni(passedUser);
         utilGuardian.setPhone(passedPhone);
         utilGuardian.setEmail(passedEmail);
 
@@ -185,8 +191,18 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
                 if(response.body().getStatus() == 1)
                 {
                     Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable(){
+                        @Override
+                        public void run(){
+                            Intent gpa = new Intent(getApplicationContext(), GuardianListActivty.class).putExtra("DNI", passedUser).
+                                    putExtra("email", passedEmail).
+                                    putExtra("phone", passedPhone);
+                            startActivity(gpa);
+                        }
+                    }, 1000);
                 }
                 Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -207,7 +223,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent ma = new Intent(getApplicationContext(),AlertListActivity.class).putExtra("DNI", passedDNI);
+                        Intent ma = new Intent(getApplicationContext(),ManifestationsActivity.class).putExtra("DNI", passedUser);
                         startActivity(ma);
                     }
                 }, 1000);
@@ -216,7 +232,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedDNI);
+                        Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
                         startActivity(mp);
                     }
                 }, 1000);
@@ -225,7 +241,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class);
+                        Intent mp = new Intent(getApplicationContext(),ContactPsyActivity.class).putExtra("DNI", passedUser);
                         startActivity(mp);
                     }
                 }, 1000);
@@ -234,7 +250,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
-                        Intent mp = new Intent(getApplicationContext(),TestListActivity.class).putExtra("DNI", passedDNI);
+                        Intent mp = new Intent(getApplicationContext(),TestListActivity.class).putExtra("DNI", passedUser);
                         startActivity(mp);
                     }
                 }, 1000);
