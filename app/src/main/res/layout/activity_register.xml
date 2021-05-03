@@ -10,7 +10,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilCorreo"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="295dp"
@@ -24,16 +24,16 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etCorreo"
-            android:inputType="textEmailAddress"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Correo" />
+            android:hint="Correo"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilApellidos"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="214dp"
@@ -47,7 +47,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etApellidos"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Apellidos" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -55,7 +55,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilGuardianNames"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="131dp"
@@ -69,7 +69,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etNombres"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombres" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -77,12 +77,13 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDNI"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="66dp"
         android:layout_marginEnd="31dp"
         android:layout_marginBottom="615dp"
+        android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -102,7 +103,7 @@
 
     <Button
         android:id="@+id/btnRegistrar"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="644dp"
@@ -117,7 +118,7 @@
 
     <EditText
         android:id="@+id/etFechaNacimiento"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="463dp"
@@ -138,7 +139,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilTelefono"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="380dp"
@@ -154,15 +155,15 @@
             android:id="@+id/etTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Teléfono"
             android:inputType="number"
-            android:maxLength="9"
-            android:hint="Teléfono" />
+            android:maxLength="9" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilContraseña"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="524dp"
@@ -176,10 +177,10 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etContraseña"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Contraseña" />
+            android:hint="@string/Contraseña"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
@@ -190,10 +191,25 @@
         android:layout_marginTop="597dp"
         android:layout_marginEnd="130dp"
         android:layout_marginBottom="102dp"
-        android:text="Acepta los términos y condiciones"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvConditions"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="597dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="98dp"
+        android:paddingLeft="20sp"
+        android:text="He leído y acepto los Términos y Condiciones y las políticas de uso de datos personales"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
