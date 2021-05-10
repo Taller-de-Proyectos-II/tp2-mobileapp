@@ -24,7 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static String API_BASE_URL = "https://app-tp2-api.herokuapp.com/";
+    private static String API_BASE_URL = "http://ec2-54-144-123-136.compute-1.amazonaws.com/";
     private static Retrofit retrofit;
 
 

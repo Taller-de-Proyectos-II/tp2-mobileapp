@@ -11,6 +11,7 @@
         android:label=""
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".Activities.GuardianListActivty"></activity>
         <activity android:name=".Activities.ConfirmationActivity" />
@@ -42,6 +43,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
     </application>
 
 </manifest>

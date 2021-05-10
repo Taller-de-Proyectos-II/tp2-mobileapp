@@ -191,7 +191,7 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     new Handler().postDelayed(new Runnable(){
                         @Override
                         public void run(){
-                            Intent mp = new Intent(getApplicationContext(),TipsActivity.class).putExtra("DNI", passedUser);
+                            Intent mp = new Intent(getApplicationContext(),TipsActivity.class).putExtra("DNI", passedUser).putExtra("Codigo", "alerta");
                             startActivity(mp);
                         }
                     }, 1000);

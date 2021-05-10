@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobileapp.R;
@@ -17,7 +19,7 @@ import com.example.mobileapp.R;
 public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener{
 
     String passedUser;
-
+    ImageView ivPerfil;
     Button btnAccept;
 
     @Override
@@ -39,10 +41,15 @@ public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         btnAccept = findViewById(R.id.btnAccept);
         btnAccept.setOnClickListener(this);
 
+
+
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             passedUser = intent.getStringExtra("DNI");
         }
+
+
+
     }
 
     private void showPopup(View v) {

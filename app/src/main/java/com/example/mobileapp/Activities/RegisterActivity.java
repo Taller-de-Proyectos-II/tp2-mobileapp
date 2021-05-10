@@ -189,35 +189,39 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             if(etBirthday.getText().toString().trim().length() > 0 && etEmail.getText().toString().trim().length() > 0 && etLastNames.getText().toString().trim().length() > 0
             && etNames.getText().toString().trim().length() > 0 && etPhone.getText().toString().trim().length() > 0 && etDni.getText().toString().trim().length() > 0
                     && etPassword.getText().toString().trim().length() > 0 && isValidEmailId(etEmail.getText().toString().trim())) {
-                Call<LoginResponse> call = RetrofitClient.getApiLogin().register(patient);
-                call.enqueue(new Callback<LoginResponse>() {
-                    @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (response.body().getStatus() == 1) {
-                            String message = response.body().getMessage();
-                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                if(cbPrivacy.isChecked()) {
+                    Call<LoginResponse> call = RetrofitClient.getApiLogin().register(patient);
+                    call.enqueue(new Callback<LoginResponse>() {
+                        @Override
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            if (response.body().getStatus() == 1) {
+                                String message = response.body().getMessage();
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                }
-                            }, 1000);
-                        } else {
-                            String message = response.body().getMessage();
-                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    }
+                                }, 1000);
+                            } else {
+                                String message = response.body().getMessage();
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+
                         }
 
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        String message = t.getMessage();
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                            String message = t.getMessage();
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else{
+                    Toast.makeText(getApplicationContext(),"Debe aceptar las políticas de privacidad", Toast.LENGTH_SHORT).show();
+                }
             }
             else
             {

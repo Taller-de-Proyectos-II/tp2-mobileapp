@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import retrofit2.Response;
 public class TestListActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener, TestsAdapter.ClickedItem{
 
     TestResponse testResponse = new TestResponse();
+    ImageView ivPerfil;
     String passedUser;
     RecyclerView rvTestList;
     TestsAdapter testsAdapter;

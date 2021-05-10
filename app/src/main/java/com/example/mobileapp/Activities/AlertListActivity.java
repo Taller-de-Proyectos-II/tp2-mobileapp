@@ -82,6 +82,8 @@ public class AlertListActivity extends AppCompatActivity implements PopupMenu.On
                     fillInformation(response.body());
                     alertsAdapter.setData(appAlerts);
                     rvAlertsList.setAdapter(alertsAdapter);
+                } else{
+                    Toast.makeText(getApplicationContext(), "Usted no tiene alertas registradas", Toast.LENGTH_LONG).show();
                 }
             }
 

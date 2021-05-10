@@ -2,6 +2,8 @@ package com.example.mobileapp.Controller;
 
 import com.example.mobileapp.Utils.Responses.PsychologistResponse;
 import com.example.mobileapp.Utils.Responses.SchedulesResponse;
+import com.example.mobileapp.Utils.Responses.StudiesResponse;
+import com.example.mobileapp.Utils.Responses.WorkExperienceResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,4 +18,10 @@ public interface IPsychologistController {
 
     @GET("schedule/listSchedulesByPsychologistDniPatientView/")
     Call<SchedulesResponse> getSchedules(@Query("date") String date, @Query("psychologistDni") String dni);
+
+    @GET("psychologist/workExperiences/")
+    Call<WorkExperienceResponse> getExperience(@Query("dni") String dni);
+
+    @GET("psychologist/studies/")
+    Call<StudiesResponse> getStudies(@Query("dni") String dni);
 }

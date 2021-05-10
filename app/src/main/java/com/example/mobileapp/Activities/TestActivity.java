@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -38,6 +39,7 @@ public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     String passedUser;
     Test test;
     AlertDialog alert1;
+    ImageView ivPerfil;
     CardView card;
     TextView tvQuestionName, tvQuestionDesc;
     ArrayList<Answer> answers = new ArrayList<>();
@@ -139,7 +141,7 @@ public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     new Handler().postDelayed(new Runnable(){
                         @Override
                         public void run(){
-                            Intent mp = new Intent(getApplicationContext(),TestListActivity.class).putExtra("DNI", passedUser);
+                            Intent mp = new Intent(getApplicationContext(),ConfirmationActivity.class).putExtra("DNI", passedUser).putExtra("Codigo", "test");
                             startActivity(mp);
                         }
                     }, 1000);
@@ -248,7 +250,6 @@ public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                             }
                         }
                 );
-
 
                 builder1.setNegativeButton(
                         "CANCELAR",

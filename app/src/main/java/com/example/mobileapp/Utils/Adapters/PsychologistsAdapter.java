@@ -64,7 +64,7 @@ public class PsychologistsAdapter extends RecyclerView.Adapter<PsychologistsAdap
 
     @Override
     public int getItemCount() {
-        if(psychologists.size() > 0)
+        if(psychologists.size() > 0 && psychologists != null)
             return psychologists.size();
         return 0;
     }

@@ -122,24 +122,42 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void filteredList(String filter) {
-        Call<PsychologistResponse> psyList = RetrofitClient.getApiPsychologist().gettFilteredPsychologists(" ", etFilter.getText().toString());
+        Call<PsychologistResponse> psyList = RetrofitClient.getApiPsychologist().gettFilteredPsychologists("", etFilter.getText().toString());
 
         psyList.enqueue(new Callback<PsychologistResponse>() {
             @Override
             public void onResponse(Call<PsychologistResponse> call, Response<PsychologistResponse> response) {
-                if(response.isSuccessful()){
-                    List<Psychologist> psychologists = response.body().getPsychologistsDTO();
-                    psychologistsAdapter.setData(psychologists);
+                if(response.body().getMessage().equals("No se encontraron psicólogos")) {
+                    Call<PsychologistResponse> psyList2 = RetrofitClient.getApiPsychologist().gettFilteredPsychologists(etFilter.getText().toString(), "");
 
-                    rvList.setAdapter(psychologistsAdapter);
+                    psyList2.enqueue(new Callback<PsychologistResponse>() {
+                        @Override
+                        public void onResponse(Call<PsychologistResponse> call, Response<PsychologistResponse> response) {
+                            if(response.body().getMessage().equals("No se encontraron psicólogos")){
+                                Toast.makeText(getApplicationContext(), "No se encontraron coincidencias :(", Toast.LENGTH_SHORT).show();
+                            } else{
+                                List<Psychologist> psychologists = response.body().getPsychologistsDTO();
+                                psychologistsAdapter.setData(psychologists);
+                                rvList.setAdapter(psychologistsAdapter);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<PsychologistResponse> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 }
-
-            }
-
+                     else {
+                        List<Psychologist> psychologists = response.body().getPsychologistsDTO();
+                        psychologistsAdapter.setData(psychologists);
+                        rvList.setAdapter(psychologistsAdapter);
+                    }
+                }
             @Override
             public void onFailure(Call<PsychologistResponse> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobileapp.R;
@@ -17,8 +18,9 @@ import com.example.mobileapp.R;
 public class ConfirmationActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener{
 
     String passedUser;
-
+    String val;
     Button btnAccept;
+    TextView tvTexto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +36,25 @@ public class ConfirmationActivity extends AppCompatActivity implements PopupMenu
                 showPopup(v);
             }
         });
-        getSupportActionBar().setTitle("¡Cita confirmada!");
+
 
         btnAccept = findViewById(R.id.btnAccept);
         btnAccept.setOnClickListener(this);
 
+        tvTexto = findViewById(R.id.tvTexto);
 
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             passedUser = intent.getStringExtra("DNI");
+            val = intent.getStringExtra("Codigo");
+        }
+
+        if(val.equals("horario")){
+            tvTexto.setText("Tu cita se ha reservado con éxito, nuestro psicólogo te enviará el link de para realizar la sesión de terapia.");
+            getSupportActionBar().setTitle("¡Cita confirmada!");
+        } else if(val.equals("test")){
+            tvTexto.setText("El test ha sido resuelto satisfactoriamente.");
+            getSupportActionBar().setTitle("Test Resuelto satisfactoriamente!");
         }
 
     }
