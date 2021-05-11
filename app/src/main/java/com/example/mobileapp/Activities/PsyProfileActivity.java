@@ -19,6 +19,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.mobileapp.Model.Psychologist;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Adapters.ExperienceAdapter;
@@ -26,6 +27,7 @@ import com.example.mobileapp.Utils.Adapters.StudiesAdapter;
 import com.example.mobileapp.Utils.Responses.StudiesResponse;
 import com.example.mobileapp.Utils.Responses.WorkExperienceResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +39,7 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
     Psychologist psychologist;
     Button btnContact;
     AlertDialog alert1;
-    ImageView ivToolbar;
+    ImageView ivToolbar, ivPhoto;
     String passedUser, psyDNI;
     RecyclerView rvExperience, rvNotExperience;
     ExperienceAdapter experienceAdapter = new ExperienceAdapter();
@@ -63,8 +65,10 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
         rvExperience = findViewById(R.id.rvExperience);
         rvNotExperience = findViewById(R.id.rvNotExperience);
 
-        ivToolbar = findViewById(R.id.ivPerfil);
+
         nombre = findViewById(R.id.tvPsyName);
+
+        ivPhoto = findViewById(R.id.ivPhoto);
 
         btnContact = findViewById(R.id.btnContact);
         btnContact.setOnClickListener(this);
@@ -124,6 +128,22 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
             }
         }, 1500);
 
+
+
+
+
+        String url = "http://ec2-54-144-123-136.compute-1.amazonaws.com/psychologist/image/?dni=" + psyDNI;
+
+        Glide.with(this)
+                .load(url)
+                .centerCrop()
+                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                .into(ivPhoto);
+        //Picasso.with(this).load(url).into(ivPhoto);
+
+    }
+
+    private void setPhoto() {
     }
 
     private void fullListExperience() {

@@ -72,7 +72,7 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
 
 
 
-        ivToolbar = findViewById(R.id.ivPerfil);
+
 
         rvSchedules = findViewById(R.id.rvPsySchedules);
 

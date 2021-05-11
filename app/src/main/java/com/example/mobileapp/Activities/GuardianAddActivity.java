@@ -47,8 +47,7 @@ public class GuardianAddActivity extends AppCompatActivity implements View.OnCli
             }
         });
         getSupportActionBar().setTitle("Añadir apoderado");
-        ivPerfil = findViewById(R.id.ivPerfil);
-        ivPerfil.setOnClickListener(this);
+
 
         Button btnAddGuardian = findViewById(R.id.btnAddGuardian);
         btnAddGuardian.setOnClickListener(this);

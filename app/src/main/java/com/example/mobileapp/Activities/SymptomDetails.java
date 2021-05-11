@@ -38,8 +38,7 @@ public class SymptomDetails extends AppCompatActivity implements  View.OnClickLi
             }
         });
         getSupportActionBar().setTitle("Enviar reporte");
-        ivPerfil = findViewById(R.id.ivPerfil);
-        ivPerfil.setOnClickListener(this);
+
 
         tvDesc = findViewById(R.id.tvSymptomDescription);
         tvName = findViewById(R.id.tvSymptomName);

@@ -54,8 +54,7 @@ public class ManifestationsActivity extends AppCompatActivity implements View.On
             }
         });
         getSupportActionBar().setTitle("Síntomas");
-        ivPerfil = findViewById(R.id.ivPerfil);
-        ivPerfil.setOnClickListener(this);
+
 
         recyclerView = findViewById(R.id.rvManifestationsList);
 

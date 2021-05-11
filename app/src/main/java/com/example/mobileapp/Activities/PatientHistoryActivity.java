@@ -32,8 +32,7 @@ public class PatientHistoryActivity extends AppCompatActivity implements View.On
             }
         });
         getSupportActionBar().setTitle("Síntomas");
-        ivPerfil = findViewById(R.id.ivPerfil);
-        ivPerfil.setOnClickListener(this);
+
 
         Intent intent = getIntent();
 

@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     ImageView ivPerfil;
     String passedUser;
     String passedPassword;
+    Button btnContact, btnAlerts, btnPruebas, btnPerfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +42,18 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
         getSupportActionBar().setTitle("Menú Principal");
-        ivPerfil = findViewById(R.id.ivPerfil);
-        ivPerfil.setOnClickListener(this);
 
+        btnAlerts = findViewById(R.id.btnAlertas);
+        btnAlerts.setOnClickListener(this);
 
+        btnContact = findViewById(R.id.btnContacto);
+        btnContact.setOnClickListener(this);
+
+        btnPerfil = findViewById(R.id.btnPerfil);
+        btnPerfil.setOnClickListener(this);
+
+        btnPruebas = findViewById(R.id.btnPruebas);
+        btnPruebas.setOnClickListener(this);
 
 
         Intent intent = getIntent();
@@ -57,7 +67,35 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public void onClick(View v){
         switch (v.getId()){
-            case R.id.ivPerfil:
+
+            case R.id.btnAlertas:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent ppa = new Intent(getApplicationContext(),AlertListActivity.class).putExtra("DNI", passedUser).putExtra("password", passedPassword);
+                        startActivity(ppa);
+                    }
+                }, 1000);
+                break;
+            case R.id.btnPruebas:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent ppa = new Intent(getApplicationContext(),TestListActivity.class).putExtra("DNI", passedUser).putExtra("password", passedPassword);
+                        startActivity(ppa);
+                    }
+                }, 1000);
+                break;
+            case R.id.btnContacto:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent ppa = new Intent(getApplicationContext(),ContactPsyActivity.class).putExtra("DNI", passedUser).putExtra("password", passedPassword);
+                        startActivity(ppa);
+                    }
+                }, 1000);
+                break;
+            case R.id.btnPerfil:
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run(){
@@ -65,7 +103,7 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                         startActivity(ppa);
                     }
                 }, 1000);
-            break;
+                break;
         }
     }
     public void showPopup(View v){

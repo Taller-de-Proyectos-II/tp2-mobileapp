@@ -50,7 +50,7 @@ public class TestListActivity extends AppCompatActivity implements PopupMenu.OnM
                 showPopup(v);
             }
         });
-        getSupportActionBar().setTitle("Tests disponibles");
+        getSupportActionBar().setTitle("Pruebas disponibles");
 
         Intent intent = getIntent();
         if(intent.getExtras() != null){
@@ -84,7 +84,7 @@ public class TestListActivity extends AppCompatActivity implements PopupMenu.OnM
                     testsAdapter.setData(appTests);
                     rvTestList.setAdapter(testsAdapter);
                 } else {
-                    Toast.makeText(getApplicationContext(), "No tiene tests disponibles", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "No tiene pruebas disponibles", Toast.LENGTH_LONG).show();
                 }
             }
 

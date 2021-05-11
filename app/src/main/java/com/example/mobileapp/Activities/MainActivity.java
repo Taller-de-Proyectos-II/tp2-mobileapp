@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText etUser;
     EditText etPassword;
     TextView forgotPassword;
-    String user, password;
+    String nombre;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (response.body().getStatus() == 1) {
                             String dniUser = user.getDNI();
                             String passwordUser = user.getPassword();
+
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             new Handler().postDelayed(new Runnable() {
                                 @Override

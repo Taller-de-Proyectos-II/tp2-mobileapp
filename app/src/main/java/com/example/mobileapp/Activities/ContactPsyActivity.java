@@ -53,7 +53,7 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
         });
         getSupportActionBar().setTitle("Contacta a tu psicólogo");
 
-        ivToolbar = findViewById(R.id.ivPerfil);
+
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             passedUser = intent.getStringExtra("DNI");
