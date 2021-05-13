@@ -3,23 +3,35 @@ package com.example.mobileapp.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.mobileapp.Model.Patient;
 import com.example.mobileapp.Model.User;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.Responses.UserResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +41,7 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
 
     String passedUser, passedPassword;
     EditText etNames, etPhone, etEmail;
+    ImageView ivPhoto;
     UserResponse fillUser = new UserResponse();
     Patient fillPatient = new Patient();
     User user = new User();
@@ -41,9 +54,9 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 showPopup(v);
             }
         });
@@ -52,6 +65,10 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         fillUser.setMessage("");
         fillUser.setStatus(0);
         fillUser.setPatient(fillPatient);
+
+        ivPhoto = findViewById(R.id.ivPatientPhoto);
+
+
 
         etNames = findViewById(R.id.etGuardianNames);
         etPhone = findViewById(R.id.etPhone);
@@ -63,7 +80,11 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         btnUpdatePatient.setOnClickListener(this);
         Button btnRegisterGuardian = findViewById(R.id.btnRegisterGuardian);
         btnRegisterGuardian.setOnClickListener(this);
+        Button btnAddPhoto = findViewById(R.id.btnAddPhoto);
+        btnAddPhoto.setOnClickListener(this);
 
+
+        int RESULT_GALLERY = 0;
 
         Intent intent = getIntent();
 
@@ -95,6 +116,8 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
 
             }
         });
+
+        updatePhoto();
 
     }
 
@@ -143,11 +166,98 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
                     }
                 }, 1000);
                 break;
+            case R.id.btnAddPhoto:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        galleryIntent.setType("image/*");
+                        startActivityForResult(galleryIntent, RESULT_FIRST_USER);
+
+                    }
+                }, 1000);
+                break;
             case R.id.btnUpdatePatient:
                 checkUpdate();
                 break;
         }
     }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 4096;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
+    /*@Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK)
+            switch (requestCode){
+                case RESULT_FIRST_USER:
+                    Uri selectedImage = data.getData();
+                    try {
+                        InputStream iStream = getContentResolver().openInputStream(selectedImage);
+                        File photoFile = new File(selectedImage.getPath());
+
+                        byte[] fotoBytes = getBytes(iStream);
+                        Call<LoginResponse> sendPhoto = RetrofitClient.getApiUser().updatePhoto(passedUser, fotoBytes);
+
+                        sendPhoto.enqueue(new Callback<LoginResponse>() {
+                            @Override
+                            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                                if(response.body().getStatus() == 1){
+                                    Toast.makeText(getApplicationContext(), "Foto actualizada correctamente", Toast.LENGTH_LONG).show();
+                                    updatePhoto();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+                            }
+                        });
+                    } catch (IOException e) {
+                        Log.i("TAG", "Some exception " + e);
+                    }
+                    break;
+            }
+    }*/
+
+
+
+    private void updatePhoto() {
+        String url = "http://ec2-54-144-123-136.compute-1.amazonaws.com/patient/image/?dni=" + passedUser;
+
+        Glide.with(this)
+                .load(url)
+                .centerCrop()
+                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                .into(ivPhoto);
+    }
+
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
+
+            Uri imageUri = data.getData();
+            try {
+                Bitmap bitmap =
+                        MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
 
     private void checkUpdate() {
         user.setDni(passedUser);

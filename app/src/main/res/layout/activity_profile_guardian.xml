@@ -11,7 +11,7 @@
         layout="@layout/toolbar"></include>
 
     <ImageView
-        android:id="@+id/ivPhoto"
+        android:id="@+id/ivPatientPhoto"
         android:layout_width="146dp"
         android:layout_height="141dp"
         android:layout_marginTop="82dp"

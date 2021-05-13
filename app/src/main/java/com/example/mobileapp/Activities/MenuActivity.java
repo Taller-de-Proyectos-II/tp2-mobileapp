@@ -16,10 +16,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.mobileapp.R;
+import com.example.mobileapp.Utils.Responses.UserResponse;
+import com.example.mobileapp.Utils.RetrofitClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener {
@@ -28,6 +35,7 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     String passedUser;
     String passedPassword;
     Button btnContact, btnAlerts, btnPruebas, btnPerfil;
+    TextView tvWelcome;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +63,7 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         btnPruebas = findViewById(R.id.btnPruebas);
         btnPruebas.setOnClickListener(this);
 
+        tvWelcome = findViewById(R.id.tvWelcome);
 
         Intent intent = getIntent();
 
@@ -62,6 +71,22 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             passedUser = intent.getStringExtra("DNI");
             passedPassword = intent.getStringExtra("password");
         }
+
+        Call<UserResponse> userResponse = RetrofitClient.getApiUser().getUser(passedUser);
+
+        userResponse.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if(response.body().getStatus() == 1){
+                    tvWelcome.setText("Bienvenid@, " + response.body().getPatient().getNames());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

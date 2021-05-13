@@ -14,20 +14,22 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardQuestion"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:clickable="true"
+        android:layout_marginStart="148dp"
 
+        android:layout_marginTop="136dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginBottom="577dp"
+        android:clickable="true"
         android:elevation="4dp"
         android:focusable="true"
         android:foregroundGravity="center"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.113">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tvQuestionName"
@@ -37,7 +39,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginRight="@dimen/cardview_default_radius"
             android:text="Pregunta"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textStyle="bold">
 
         </TextView>
@@ -49,7 +51,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginTop="50dp"
             android:text="Descripcion"
-            android:textSize="16sp">
+            android:textSize="28sp">
 
         </TextView>
 
@@ -64,6 +66,7 @@
         android:layout_marginEnd="56dp"
         android:layout_marginBottom="167dp"
         android:text="Siguiente"
+        android:foregroundGravity="right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +80,7 @@
         android:layout_marginTop="594dp"
         android:layout_marginEnd="164dp"
         android:layout_marginBottom="89dp"
+        android:foregroundGravity="center"
         android:text="Salir"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,14 +93,12 @@
         android:id="@+id/rgAnswers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="57dp"
-        android:layout_marginTop="291dp"
-        android:layout_marginEnd="174dp"
-        android:layout_marginBottom="312dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="300dp">
 
         <RadioButton
             android:id="@+id/rbAnswer1"

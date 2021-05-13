@@ -12,11 +12,12 @@
         layout="@layout/toolbar"></include>
 
     <ImageView
-        android:id="@+id/ivPhoto"
+        android:id="@+id/ivPatientPhoto"
         android:layout_width="146dp"
         android:layout_height="141dp"
         android:layout_marginTop="82dp"
         android:layout_marginBottom="508dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -64,8 +65,8 @@
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="9"
-            android:hint="Número de contacto" />
+            android:hint="Número de contacto"
+            android:maxLength="9" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -93,11 +94,12 @@
         android:id="@+id/btnGuardian"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="644dp"
-        android:layout_marginEnd="152dp"
-        android:layout_marginBottom="39dp"
-        android:text="Apoderado"
+        android:layout_marginStart="237dp"
+        android:layout_marginTop="625dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="134dp"
+        android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+        android:text="Apoderados"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,14 +109,14 @@
         android:id="@+id/btnUpdatePatient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="490dp"
-        android:layout_marginEnd="151dp"
-        android:layout_marginBottom="193dp"
+        android:layout_marginStart="147dp"
+        android:layout_marginTop="529dp"
+        android:layout_marginEnd="147dp"
+        android:layout_marginBottom="230dp"
+        android:drawableLeft="@drawable/ic_edit_black_24dp"
         android:text="Modificar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -122,11 +124,27 @@
         android:id="@+id/btnRegisterGuardian"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="587dp"
-        android:layout_marginEnd="172dp"
-        android:layout_marginBottom="96dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="625dp"
+        android:layout_marginEnd="168dp"
+        android:layout_marginBottom="134dp"
+        android:drawableLeft="@drawable/ic_add_black_24dp"
         android:text="Registrar Apoderado"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnAddPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="276dp"
+        android:layout_marginBottom="687dp"
+        android:text="Añadir foto"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

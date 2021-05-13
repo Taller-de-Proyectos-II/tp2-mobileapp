@@ -1,12 +1,17 @@
 package com.example.mobileapp.Controller;
 
+import android.graphics.Bitmap;
+
 import com.example.mobileapp.Model.Patient;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.Responses.UserResponse;
 
+import java.io.File;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
@@ -17,4 +22,7 @@ public interface IPatientController {
 
     @PUT("patient/")
     Call<LoginResponse> updatePatient(@Body Patient patient);
+
+    @POST("patient/image/")
+    Call<LoginResponse> updatePhoto(@Query("dni") String dni, @Body byte[] file);
 }

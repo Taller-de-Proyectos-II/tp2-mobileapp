@@ -156,7 +156,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
         AlertDialog dialog2 = new AlertDialog.Builder(this)
-                .setTitle("Consentimiendo")
+                .setTitle("Consentimiento")
                 .setMessage(consentText)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -175,7 +175,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         dialog2.dismiss();
 
         String text = "He leído y acepto las políticas de uso de datos personales";
-        String text2 = "He leído y acepto el consentimiento";
+        String text2 = "He leído y acepto el consentimiento informado";
 
         SpannableString ss = new SpannableString(text);
 
@@ -195,7 +195,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 dialog2.show();
             }
         };
-        ss2.setSpan(clickableSpan2, 21, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss2.setSpan(clickableSpan2, 21, 45, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tvConditions.setText(ss);
         tvConditions.setMovementMethod(LinkMovementMethod.getInstance());
