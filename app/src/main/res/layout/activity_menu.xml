@@ -13,25 +13,6 @@
 
 
     <TextView
-        android:id="@+id/tvDescripcion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="523dp"
-        android:layout_marginBottom="89dp"
-        android:foregroundGravity="center"
-        android:gravity="center"
-
-        android:text='PhychoMonitoringApp es una solución móvil que tiene como principal función tener un monitoreo
-continuo entre el paciente y el psicólogo, la cual busca optimizar el tiempo de
-atención a esta población vulnerable con problemas de salud mental.'
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
         android:id="@+id/tvNumeroAtencion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,11 +33,11 @@ atención a esta población vulnerable con problemas de salud mental.'
         android:id="@+id/imageView"
         android:layout_width="138dp"
         android:layout_height="87dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="82dp"
-        android:layout_marginEnd="112dp"
-        android:layout_marginBottom="657dp"
 
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="137dp"
+        android:layout_marginBottom="559dp"
         android:foregroundGravity="center"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -79,39 +60,8 @@ atención a esta población vulnerable con problemas de salud mental.'
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnPerfil"
-        android:layout_width="178dp"
-        android:layout_height="126dp"
-        android:layout_marginStart="199dp"
-        android:layout_marginTop="373dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="308dp"
-        android:background="@android:drawable/dialog_holo_light_frame"
-        android:drawableTop="@drawable/ic_account_circle_black_60dp"
-        android:text="Mi Perfil"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnPruebas"
-        android:layout_width="178dp"
-        android:layout_height="126dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="373dp"
-        android:layout_marginEnd="199dp"
-        android:layout_marginBottom="308dp"
-        android:background="@android:drawable/dialog_holo_light_frame"
-        android:drawableTop="@drawable/ic_offline_pin_black_60dp"
-        android:text="Pruebas"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnContacto"
@@ -127,24 +77,80 @@ atención a esta población vulnerable con problemas de salud mental.'
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="179dp"
-        android:layout_marginEnd="156dp"
-        android:layout_marginBottom="609dp"
+        android:layout_marginStart="139dp"
+        android:layout_marginTop="189dp"
+        android:layout_marginEnd="139dp"
+        android:layout_marginBottom="591dp"
         android:foregroundGravity="center"
         android:gravity="center"
-        android:textSize="20sp"
         android:text="Bienvenid@, "
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnPerfil"
+        android:layout_width="178dp"
+        android:layout_height="126dp"
+        android:layout_marginStart="199dp"
+        android:layout_marginTop="373dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="308dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:drawableTop="@drawable/ic_account_circle_black_60dp"
+        android:text="Mi Perfil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnPruebas"
+        android:layout_width="178dp"
+        android:layout_height="126dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="373dp"
+        android:layout_marginEnd="199dp"
+        android:layout_marginBottom="308dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:drawableTop="@drawable/ic_offline_pin_black_60dp"
+        android:text="Pruebas"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="523dp"
+        android:layout_marginBottom="89dp"
+        android:foregroundGravity="center"
+        android:gravity="center"
+
+        android:text='PhychoMonitoringApp es una solución móvil que tiene como principal función tener un monitoreo
+continuo entre el paciente y el psicólogo, la cual busca optimizar el tiempo de
+atención a esta población vulnerable con problemas de salud mental.'
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

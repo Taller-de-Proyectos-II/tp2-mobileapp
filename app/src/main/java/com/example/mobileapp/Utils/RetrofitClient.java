@@ -24,7 +24,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static String API_BASE_URL = "http://ec2-54-144-123-136.compute-1.amazonaws.com/";
+    //private static String API_BASE_URL = "http://ec2-54-144-123-136.compute-1.amazonaws.com/";
+    private static String API_BASE_URL = "http://phychomonitoringappapi-env.eba-ewmhpcqz.us-east-1.elasticbeanstalk.com";
     private static Retrofit retrofit;
 
 
@@ -40,6 +41,8 @@ public class RetrofitClient {
                 .build();
         return retrofit;
     }
+
+
 
     private static Retrofit getRetrofitJSON(){
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();

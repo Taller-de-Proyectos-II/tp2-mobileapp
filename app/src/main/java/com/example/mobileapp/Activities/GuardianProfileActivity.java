@@ -1,9 +1,11 @@
 package com.example.mobileapp.Activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +40,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
     GuardianResponse guardianResponse2 = new GuardianResponse();
     ArrayList<Guardian> fillGuardians = new ArrayList<>();
     Guardian utilGuardian = new Guardian();
+    AlertDialog alert1;
     EditText etGuardianNames, etGuardianBirthday, etGuardianDNI;
     Guardian guardMock;
     @Override
@@ -67,6 +70,9 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
 
         Button btnUpdateGuardian = findViewById(R.id.btnAddGuardian);
         btnUpdateGuardian.setOnClickListener(this);
+        Button btnDeleteGuardian = findViewById(R.id.btnDeleteGuardian);
+        btnDeleteGuardian.setOnClickListener(this);
+
 
 
 
@@ -164,7 +170,62 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
                 }, day, month, year);
                 dpd.getDatePicker().setMaxDate(new Date().getTime());
                 dpd.show();
+            case R.id.btnDeleteGuardian:
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setMessage("¿Desea eliminar a " + guardMock.getNames() + " " + guardMock.getLastNames() + " como su apoderado?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "CONFIRMAR",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteGuardian();
+                            }
+                        }
+                );
+
+
+                builder1.setNegativeButton(
+                        "CANCELAR",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }
+                );
+                alert1 = builder1.create();
+                alert1.show();
+                break;
         }
+    }
+
+    private void deleteGuardian() {
+        Call<LoginResponse> deleteGuardian = RetrofitClient.getApiGuardian().deleteGuardian(guardMock.getDni(), passedUser);
+
+        deleteGuardian.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(response.body().getStatus() == 1){
+                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable(){
+                        @Override
+                        public void run(){
+                            Intent gpa = new Intent(getApplicationContext(), PatientProfileActivity.class).putExtra("DNI", passedUser);
+                            startActivity(gpa);
+                        }
+                    }, 1000);
+                } else{
+                    Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void checkUpdate() {

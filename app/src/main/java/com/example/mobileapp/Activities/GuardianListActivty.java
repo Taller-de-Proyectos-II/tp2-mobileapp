@@ -80,6 +80,8 @@ public class GuardianListActivty extends AppCompatActivity implements PopupMenu.
                     List<Guardian> guardians = response.body().getGuardiansDTO();
                     guardiansAdapter.setData(guardians);
                     rvGuardians.setAdapter(guardiansAdapter);
+                } else{
+                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 

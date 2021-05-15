@@ -48,6 +48,7 @@
         android:layout_marginTop="564dp"
         android:layout_marginEnd="168dp"
         android:layout_marginBottom="119dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
         android:text="Aceptar"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"

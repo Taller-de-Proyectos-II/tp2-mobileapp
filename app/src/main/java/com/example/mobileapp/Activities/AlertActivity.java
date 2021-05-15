@@ -192,6 +192,7 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
                         @Override
                         public void run(){
                             Intent mp = new Intent(getApplicationContext(),TipsActivity.class).putExtra("DNI", passedUser).putExtra("Codigo", "alerta");
+                            mp.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(mp);
                         }
                     }, 1000);
@@ -201,6 +202,7 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
                             @Override
                             public void run(){
                                 Intent mp = new Intent(getApplicationContext(),AlertListActivity.class).putExtra("DNI", passedUser);
+                                mp.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(mp);
                             }
                         }, 1000);

@@ -132,7 +132,8 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
 
 
 
-        String url = "http://ec2-54-144-123-136.compute-1.amazonaws.com/psychologist/image/?dni=" + psyDNI;
+
+        String url = getString(R.string.baseURL) + "/psychologist/image/?dni=" + psyDNI;
 
         Glide.with(this)
                 .load(url)
