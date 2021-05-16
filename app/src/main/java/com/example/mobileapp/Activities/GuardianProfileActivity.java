@@ -3,33 +3,50 @@ package com.example.mobileapp.Activities;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobileapp.Model.Guardian;
 import com.example.mobileapp.R;
+import com.example.mobileapp.Utils.FileUtils;
 import com.example.mobileapp.Utils.Responses.GuardianResponse;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +60,14 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
     AlertDialog alert1;
     EditText etGuardianNames, etGuardianBirthday, etGuardianDNI;
     Guardian guardMock;
+    ImageView ivGuardianPhoto;
+    public static final int PICK_IMAGE = 0;
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +76,9 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 showPopup(v);
             }
         });
@@ -67,11 +92,14 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         etGuardianBirthday = findViewById(R.id.etGuardianBirthday);
         etGuardianBirthday.setOnClickListener(this);
         etGuardianDNI = findViewById(R.id.etDNIGuardian);
+        ivGuardianPhoto= findViewById(R.id.ivGuardianPhoto);
 
         Button btnUpdateGuardian = findViewById(R.id.btnAddGuardian);
         btnUpdateGuardian.setOnClickListener(this);
         Button btnDeleteGuardian = findViewById(R.id.btnDeleteGuardian);
         btnDeleteGuardian.setOnClickListener(this);
+        Button btnAddPhoto = findViewById(R.id.btnGuardianAddPhoto);
+        btnAddPhoto.setOnClickListener(this);
 
 
 
@@ -124,6 +152,22 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
                 Log.e("AQUIIIIIII", t.getMessage());
             }
         });*/
+
+        updatePhoto();
+
+        verifyStoragePermissions(this);
+    }
+
+    private void updatePhoto() {
+        String urlPhoto = getString(R.string.baseURLMock) + "/guardian/image/?dni=" + guardMock.getDni();
+
+        /*Glide.with(this)
+                .load(urlPhoto)
+                .centerCrop()
+                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                .into(ivPatientPhoto);*/
+
+        Picasso.with(this).load(urlPhoto).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ivGuardianPhoto);
     }
 
     private void fillInformation(GuardianResponse guardianResponse) {
@@ -141,6 +185,21 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         utilGuardian.setPhone(passedPhone);
         guardianResponse2.getGuardiansDTO().add(utilGuardian);
     }
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
     private void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         popup.setOnMenuItemClickListener(this);
@@ -198,8 +257,81 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
                 alert1 = builder1.create();
                 alert1.show();
                 break;
+            case R.id.btnGuardianAddPhoto:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        galleryIntent.setType("image/*");
+                        startActivityForResult(galleryIntent, PICK_IMAGE);
+
+                    }
+                }, 1000);
+                break;
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE && resultCode == RESULT_OK){
+            if(data == null){
+                Log.e("TAG", "DATA ES NULL ");
+                return;
+            }
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                Uri selectedImage = data.getData();
+                uploadPhoto(selectedImage);
+            } catch (FileNotFoundException e) {
+                Log.e("TAG", "Some exception " + e);
+            }
+        }
+    }
+
+
+    private void uploadPhoto(Uri selectedImage) {
+        File file1 = FileUtils.getFile(this, selectedImage);
+        Log.e("PATH", file1.getAbsolutePath());
+
+
+        RequestBody filePart = RequestBody.create(file1, MediaType.parse(getContentResolver().getType(selectedImage)));
+
+        Log.e("PATH", filePart.toString());
+
+        MultipartBody.Part filePhoto = MultipartBody.Part.createFormData("photo", file1.getName(), filePart);
+        MultipartBody file = new MultipartBody.Builder().addFormDataPart("file-type", "profile").addFormDataPart("photo", file1.getName(), filePart).build();
+
+        String url = getString(R.string.baseURLMock) + "guardian/image/?dni=" + guardMock.getDni();
+        Call<LoginResponse> sendPhoto = RetrofitClient.getApiGuardian().updatePhoto(url, file);
+
+        sendPhoto.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(response.isSuccessful()) {
+                    if (response.body().getStatus() == 1) {
+                        new Handler().postDelayed(new Runnable(){
+                            @Override
+                            public void run(){
+                                updatePhoto();
+                            }
+                        }, 2000);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+                Log.e("TAG", t.getMessage().toString());
+            }
+        });
+    }
+
 
     private void deleteGuardian() {
         Call<LoginResponse> deleteGuardian = RetrofitClient.getApiGuardian().deleteGuardian(guardMock.getDni(), passedUser);

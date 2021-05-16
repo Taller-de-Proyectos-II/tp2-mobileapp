@@ -9,5 +9,6 @@
     <string name="Login">LOG IN</string>
     <string name="Registrar">REGISTRARSE</string>
     <string name="baseURL">http://phychomonitoringappapi-env.eba-ewmhpcqz.us-east-1.elasticbeanstalk.com/</string>
+    <string name="baseURLMock">https://app-tp2-api.herokuapp.com/</string>
     <string name="Web">http://tp2-webclient.s3-website-us-east-1.amazonaws.com/#/</string>
 </resources>

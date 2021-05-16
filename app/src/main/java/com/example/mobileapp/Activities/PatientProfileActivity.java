@@ -35,6 +35,9 @@ import com.example.mobileapp.Utils.ImageFilePath;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.Responses.UserResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -43,6 +46,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -55,7 +59,7 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
 
     String passedUser, passedPassword;
     EditText etNames, etPhone, etEmail;
-    ImageView ivPhoto;
+    ImageView ivPatientPhoto;
     UserResponse fillUser = new UserResponse();
     Patient fillPatient = new Patient();
 
@@ -88,7 +92,7 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         fillUser.setStatus(0);
         fillUser.setPatient(fillPatient);
 
-        ivPhoto = findViewById(R.id.ivPatientPhoto);
+        ivPatientPhoto = findViewById(R.id.ivPatientPhoto);
 
 
 
@@ -219,72 +223,6 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         }
     }
 
-    public byte[] getBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        int bufferSize = 4096;
-        byte[] buffer = new byte[bufferSize];
-
-        int len = 0;
-        while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
-        }
-        return byteBuffer.toByteArray();
-    }
-
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && data != null)
-            switch (requestCode){
-                case PICK_IMAGE:
-                    Uri selectedImage = data.getData();
-                    Log.e("TAG 1", "Gets URI ");
-                    try {
-                        InputStream iStream = getContentResolver().openInputStream(selectedImage);
-                        String path = getPath(this, selectedImage);
-                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                        String imageFileName = "JPEG_" + timeStamp + "_";
-                        String realPath = ImageFilePath.getPath(this, data.getData());
-                        File file = new File(realPath);
-                        file.mkdirs();
-
-
-                        //selectedImage.mkdirs();
-                        File photo = File.createTempFile("Profile pic", ".jpg", file);
-
-                        if(file.exists()){
-                            Log.e("TAG", "EXISTE ");
-                        } else {
-                            Log.e("TAG", "NO EXISTE ");
-                        }
-                        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", "Profile pic", RequestBody.create(MediaType.parse("image/*"), photo));
-
-                        byte[] fotoBytes = getBytes(iStream);
-                        Log.e("TAG 1", "Sets FilePart ");
-                        Call<LoginResponse> sendPhoto = RetrofitClient.getApiUser().updatePhoto(passedUser, filePart);
-
-                        sendPhoto.enqueue(new Callback<LoginResponse>() {
-                            @Override
-                            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                                if(response.body().getStatus() == 1){
-                                    Toast.makeText(getApplicationContext(), "Foto actualizada correctamente", Toast.LENGTH_LONG).show();
-                                    updatePhoto();
-                                    Log.e("TAG 1", "Gets Photo ");
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                                Log.e("TAG 1", t.getMessage());
-                            }
-                        });
-                    } catch (IOException e) {
-                        Log.e("TAG", "Some exception " + e);
-                    }
-                    break;
-            }
-    }*/
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -304,25 +242,31 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
     }
 
     private void uploadPhoto(Uri selectedImage) {
-        File file = FileUtils.getFile(this, selectedImage);
-        Log.e("PATH", file.getAbsolutePath());
+        File file1 = FileUtils.getFile(this, selectedImage);
+        Log.e("PATH", file1.getAbsolutePath());
 
 
-        RequestBody filePart = RequestBody.create(file, MediaType.parse(getContentResolver().getType(selectedImage)));
+        RequestBody filePart = RequestBody.create(file1, MediaType.parse(getContentResolver().getType(selectedImage)));
 
         Log.e("PATH", filePart.toString());
 
-        MultipartBody.Part filePhoto = MultipartBody.Part.createFormData("photo", file.getName(), filePart);
+        MultipartBody.Part filePhoto = MultipartBody.Part.createFormData("photo", file1.getName(), filePart);
+        MultipartBody file = new MultipartBody.Builder().addFormDataPart("file-type", "profile").addFormDataPart("photo", file1.getName(), filePart).build();
 
-
-        Call<LoginResponse> sendPhoto = RetrofitClient.getApiUser().updatePhoto(passedUser, filePhoto);
+        String url = getString(R.string.baseURLMock) + "patient/image/?dni=" + passedUser;
+        Call<LoginResponse> sendPhoto = RetrofitClient.getApiUser().updatePhoto(url, file);
 
         sendPhoto.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.isSuccessful()) {
                     if (response.body().getStatus() == 1) {
-                        updatePhoto();
+                        new Handler().postDelayed(new Runnable(){
+                            @Override
+                            public void run(){
+                                updatePhoto();
+                            }
+                        }, 2000);
                     } else {
                         Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
                     }
@@ -339,43 +283,19 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         });
     }
 
-    public String getPath(Uri uri) {
-
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-
-        return cursor.getString(column_index);
-    }
 
     private void updatePhoto() {
-        //String url = "http://ec2-54-144-123-136.compute-1.amazonaws.com/patient/image/?dni=" + passedUser;
-        String url = getString(R.string.baseURL) + "/patient/image/?dni=" + passedUser;
+        String urlPhoto = getString(R.string.baseURLMock) + "/patient/image/?dni=" + passedUser;
 
-        Glide.with(this)
-                .load(url)
+        /*Glide.with(this)
+                .load(urlPhoto)
                 .centerCrop()
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
-                .into(ivPhoto);
+                .into(ivPatientPhoto);*/
+
+        Picasso.with(this).load(urlPhoto).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ivPatientPhoto);
     }
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
-
-            Uri imageUri = data.getData();
-            try {
-                Bitmap bitmap =
-                        MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                imageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
 
     private void checkUpdate() {
         user.setDni(passedUser);

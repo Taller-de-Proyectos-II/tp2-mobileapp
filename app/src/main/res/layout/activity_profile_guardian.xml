@@ -12,7 +12,7 @@
         layout="@layout/toolbar"></include>
 
     <ImageView
-        android:id="@+id/ivPatientPhoto"
+        android:id="@+id/ivGuardianPhoto"
         android:layout_width="146dp"
         android:layout_height="141dp"
         android:layout_marginTop="82dp"
@@ -118,6 +118,23 @@
         android:backgroundTint="@android:color/holo_red_dark"
         android:textColor="@android:color/white"
         android:text="Eliminar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnGuardianAddPhoto"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="295dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:layout_marginBottom="625dp"
+        android:drawableLeft="@drawable/ic_add_a_photo_black_24dp"
+        android:text=" Añadir foto"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
