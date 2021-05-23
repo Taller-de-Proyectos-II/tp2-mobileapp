@@ -12,27 +12,10 @@
         layout="@layout/toolbar"></include>
 
 
-    <TextView
-        android:id="@+id/tvNumeroAtencion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="618dp"
-        android:layout_marginEnd="67dp"
-        android:layout_marginBottom="94dp"
-        android:foregroundGravity="center"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="138dp"
-        android:layout_height="87dp"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
 
         android:layout_marginStart="136dp"
         android:layout_marginTop="85dp"
@@ -50,44 +33,102 @@
         android:id="@+id/btnAlertas"
         android:layout_width="178dp"
         android:layout_height="126dp"
-        android:layout_marginStart="199dp"
-        android:layout_marginTop="237dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="444dp"
+        android:layout_marginStart="203dp"
+        android:layout_marginTop="288dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="317dp"
         android:background="@android:drawable/dialog_holo_light_frame"
         android:drawableTop="@drawable/ic_add_alert_black_60dp"
         android:text="Alertas"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnContacto"
         android:layout_width="178dp"
         android:layout_height="126dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="237dp"
-        android:layout_marginEnd="199dp"
-        android:layout_marginBottom="444dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="288dp"
+        android:layout_marginEnd="213dp"
+        android:layout_marginBottom="317dp"
         android:background="@android:drawable/dialog_holo_light_frame"
         android:drawableTop="@drawable/ic_sms_black_60dp"
         android:text="Contacto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnPerfil"
+        android:layout_width="178dp"
+        android:layout_height="126dp"
+        android:layout_marginStart="203dp"
+        android:layout_marginTop="424dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="181dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:drawableTop="@drawable/ic_account_circle_black_60dp"
+        android:text="Mi Perfil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnPruebas"
+        android:layout_width="178dp"
+        android:layout_height="126dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="424dp"
+        android:layout_marginEnd="213dp"
+        android:layout_marginBottom="181dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:drawableTop="@drawable/ic_offline_pin_black_60dp"
+        android:text="Pruebas"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="597dp"
+        android:layout_marginBottom="37dp"
+
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:text='PhychoMonitoringApp es una solución móvil que tiene como principal función tener un monitoreo
+continuo entre el paciente y el psicólogo, la cual busca optimizar el tiempo de
+atención a esta población vulnerable con problemas de salud mental.'
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNumeroAtencion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="203dp"
+        tools:layout_editor_absoluteY="400dp" />
 
     <TextView
         android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="139dp"
-        android:layout_marginTop="189dp"
-        android:layout_marginEnd="139dp"
-        android:layout_marginBottom="591dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="214dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginBottom="490dp"
         android:foregroundGravity="center"
         android:gravity="center"
         android:text="Bienvenid@, "
@@ -95,62 +136,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/btnPerfil"
-        android:layout_width="178dp"
-        android:layout_height="126dp"
-        android:layout_marginStart="199dp"
-        android:layout_marginTop="373dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="308dp"
-        android:background="@android:drawable/dialog_holo_light_frame"
-        android:drawableTop="@drawable/ic_account_circle_black_60dp"
-        android:text="Mi Perfil"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/btnPruebas"
-        android:layout_width="178dp"
-        android:layout_height="126dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="373dp"
-        android:layout_marginEnd="199dp"
-        android:layout_marginBottom="308dp"
-        android:background="@android:drawable/dialog_holo_light_frame"
-        android:drawableTop="@drawable/ic_offline_pin_black_60dp"
-        android:text="Pruebas"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tvDescripcion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="523dp"
-        android:layout_marginBottom="89dp"
-        android:foregroundGravity="center"
-        android:gravity="center"
-
-        android:text='PhychoMonitoringApp es una solución móvil que tiene como principal función tener un monitoreo
-continuo entre el paciente y el psicólogo, la cual busca optimizar el tiempo de
-atención a esta población vulnerable con problemas de salud mental.'
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

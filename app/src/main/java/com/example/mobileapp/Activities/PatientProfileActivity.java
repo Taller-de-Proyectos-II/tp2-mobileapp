@@ -27,8 +27,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.mobileapp.Model.Patient;
 import com.example.mobileapp.Model.User;
+import com.example.mobileapp.Model.changePasswordDTO;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.FileUtils;
 import com.example.mobileapp.Utils.ImageFilePath;
@@ -58,10 +61,11 @@ import retrofit2.Response;
 public class PatientProfileActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener {
 
     String passedUser, passedPassword;
-    EditText etNames, etPhone, etEmail;
+    EditText etNames, etLastNames, etPhone, etEmail;
     ImageView ivPatientPhoto;
     UserResponse fillUser = new UserResponse();
     Patient fillPatient = new Patient();
+
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -98,6 +102,7 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
 
 
         etNames = findViewById(R.id.etGuardianNames);
+        etLastNames = findViewById(R.id.etGuardianLastNames);
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
 
@@ -109,6 +114,9 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         btnRegisterGuardian.setOnClickListener(this);
         Button btnAddPhoto = findViewById(R.id.btnAddPhoto);
         btnAddPhoto.setOnClickListener(this);
+        Button btnChangePassword = findViewById(R.id.btnChangePassword);
+        btnChangePassword.setOnClickListener(this);
+
 
         Intent intent = getIntent();
 
@@ -124,12 +132,10 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if(response.body().getStatus() == 1){
                     fillInformation(response.body());
-                    String textNames = fillPatient.getNames();
-                    String textLastNames = fillPatient.getLastNames();
-                    String textNamesFull = textNames + " " + textLastNames;
                     String textPhone = fillPatient.getPhone();
                     String textEmail = fillPatient.getEmail();
-                    etNames.setText(textNamesFull, TextView.BufferType.EDITABLE);
+                    etNames.setText(fillPatient.getNames(), TextView.BufferType.EDITABLE);
+                    etLastNames.setText(fillPatient.getLastNames(), TextView.BufferType.EDITABLE);
                     etPhone.setText(textPhone, TextView.BufferType.EDITABLE);
                     etEmail.setText(textEmail, TextView.BufferType.EDITABLE);
                 }
@@ -220,8 +226,18 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
             case R.id.btnUpdatePatient:
                 checkUpdate();
                 break;
+            case R.id.btnChangePassword:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent ma = new Intent(getApplicationContext(),ChangePwActivity.class).putExtra("DNI", passedUser).putExtra("password", passedPassword);
+                        startActivity(ma);
+                    }
+                }, 1000);
+                break;
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -287,13 +303,16 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
     private void updatePhoto() {
         String urlPhoto = getString(R.string.baseURLMock) + "/patient/image/?dni=" + passedUser;
 
-        /*Glide.with(this)
+        Glide.with(this)
                 .load(urlPhoto)
+                .apply(new RequestOptions().override(600,600))
                 .centerCrop()
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
-                .into(ivPatientPhoto);*/
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(ivPatientPhoto);
 
-        Picasso.with(this).load(urlPhoto).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ivPatientPhoto);
+        //Picasso.with(this).load(urlPhoto).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ivPatientPhoto);
     }
 
 
@@ -303,15 +322,11 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         String firstName = "";
         String lastName = "";
 
-        if(etNames.getText().toString().trim().length() == 0) {
+        if(etNames.getText().toString().trim().length() == 0 || etLastNames.getText().toString().trim().length() == 0) {
             Toast.makeText(getApplicationContext(), "Ingrese su nombre completo", Toast.LENGTH_SHORT).show();
         }else {
-            String fullName = etNames.getText().toString();
-            int idx = fullName.lastIndexOf(' ') - 1;
-            if (idx == -1)
-                throw new IllegalArgumentException("Solo hay un nombre: " + fullName);
-            firstName = fullName.substring(0, idx);
-            lastName = fullName.substring(idx + 1);
+            firstName = etNames.getText().toString().trim();
+            lastName = etLastNames.getText().toString().trim();
         }
 
         if(etPhone.getText().toString().trim().length() == 0) {

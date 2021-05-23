@@ -3,6 +3,7 @@ package com.example.mobileapp.Controller;
 import android.graphics.Bitmap;
 
 import com.example.mobileapp.Model.Patient;
+import com.example.mobileapp.Model.changePasswordDTO;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.Responses.UserResponse;
 
@@ -35,4 +36,7 @@ public interface IPatientController {
     @Multipart
     @POST()
     Call<LoginResponse> updatePhoto(@Url String url, @Part("file") MultipartBody file);
+
+    @PUT("patient/updatePassword/")
+    Call<LoginResponse> updatePassword(@Body changePasswordDTO changePasswordDTO);
 }

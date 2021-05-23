@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.mobileapp.Model.Psychologist;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Adapters.ExperienceAdapter;
@@ -35,7 +37,7 @@ import retrofit2.Response;
 
 public class PsyProfileActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener{
 
-    TextView nombre;
+    TextView nombre, apellido;
     Psychologist psychologist;
     Button btnContact;
     AlertDialog alert1;
@@ -67,6 +69,7 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
 
 
         nombre = findViewById(R.id.tvPsyName);
+        apellido = findViewById(R.id.tvPsyLastName);
 
         ivPhoto = findViewById(R.id.ivPhoto);
 
@@ -76,8 +79,10 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             psychologist = (Psychologist) intent.getSerializableExtra("data");
-            String name = psychologist.getNames() + " " + psychologist.getLastNames();
+            String name = psychologist.getNames();
+            String lastName = psychologist.getLastNames();
             nombre.setText(name);
+            apellido.setText(lastName);
             psyDNI = psychologist.getUserLoginDTO().getDNI();
             passedUser = intent.getStringExtra("DNI");
         }
@@ -133,12 +138,15 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
 
 
 
-        String url = getString(R.string.baseURL) + "/psychologist/image/?dni=" + psyDNI;
+        String urlPhoto =  getString(R.string.baseURLMock) + "/psychologist/image/?dni=" + psyDNI;
 
         Glide.with(this)
-                .load(url)
+                .load(urlPhoto)
+                .apply(new RequestOptions().override(600,600))
                 .centerCrop()
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(ivPhoto);
         //Picasso.with(this).load(url).into(ivPhoto);
 

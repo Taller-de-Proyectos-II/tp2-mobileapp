@@ -42,20 +42,21 @@
             android:id="@+id/etGuardianNames"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombres y Apellidos" />
+            android:hint="Nombres" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilGuardianBirthday"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="325dp"
-        android:layout_marginEnd="31dp"
-        android:layout_marginBottom="344dp"
 
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="397dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginBottom="272dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,12 +77,13 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="420dp"
-        android:layout_marginEnd="31dp"
-        android:layout_marginBottom="249dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="483dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginBottom="186dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -92,36 +94,40 @@
             android:hint="DNI" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Button
+        android:id="@+id/btnDeleteGuardian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="269dp"
+        android:layout_marginTop="621dp"
+        android:layout_marginEnd="53dp"
+        android:layout_marginBottom="62dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:text="Eliminar"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnAddGuardian"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="549dp"
-        android:layout_marginEnd="258dp"
-        android:layout_marginBottom="134dp"
+
+        android:layout_marginTop="621dp"
+        android:layout_marginEnd="253dp"
+        android:layout_marginBottom="62dp"
         android:text="Modificar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnDeleteGuardian"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="267dp"
-        android:layout_marginTop="549dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginBottom="134dp"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:textColor="@android:color/white"
-        android:text="Eliminar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnGuardianAddPhoto"
@@ -130,8 +136,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="295dp"
-        android:background="@android:drawable/dialog_holo_light_frame"
         android:layout_marginBottom="625dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
         android:drawableLeft="@drawable/ic_add_a_photo_black_24dp"
         android:text=" Añadir foto"
         android:textSize="12sp"
@@ -139,4 +145,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="315dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="354dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etGuardianLastNames"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Apellidos" />
+    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

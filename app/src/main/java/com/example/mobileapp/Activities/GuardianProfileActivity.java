@@ -26,6 +26,9 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.mobileapp.Model.Guardian;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.FileUtils;
@@ -58,7 +61,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
     ArrayList<Guardian> fillGuardians = new ArrayList<>();
     Guardian utilGuardian = new Guardian();
     AlertDialog alert1;
-    EditText etGuardianNames, etGuardianBirthday, etGuardianDNI;
+    EditText etGuardianNames, etGuardianLastNames, etGuardianBirthday, etGuardianDNI;
     Guardian guardMock;
     ImageView ivGuardianPhoto;
     public static final int PICK_IMAGE = 0;
@@ -89,6 +92,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         guardianResponse2.setGuardiansDTO(fillGuardians);
 
         etGuardianNames = findViewById(R.id.etGuardianNames);
+        etGuardianLastNames = findViewById(R.id.etGuardianLastNames);
         etGuardianBirthday = findViewById(R.id.etGuardianBirthday);
         etGuardianBirthday.setOnClickListener(this);
         etGuardianDNI = findViewById(R.id.etDNIGuardian);
@@ -108,8 +112,8 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
 
         if(intent.getExtras() != null){
             guardMock = (Guardian) intent.getSerializableExtra("data");
-            String name = guardMock.getNames() + " " + guardMock.getLastNames();
-            etGuardianNames.setText(name);
+            etGuardianNames.setText(guardMock.getNames());
+            etGuardianLastNames.setText(guardMock.getLastNames());
             etGuardianBirthday.setText(guardMock.getBirthday());
             etGuardianDNI.setText(guardMock.getDni());
             passedUser = intent.getStringExtra("DNI");
@@ -159,15 +163,18 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
     }
 
     private void updatePhoto() {
-        String urlPhoto = getString(R.string.baseURLMock) + "/guardian/image/?dni=" + guardMock.getDni();
+        String urlPhoto = getString(R.string.baseURLMock) + "guardian/image/?dni=" + guardMock.getDni() + "&patientDni=" + passedUser;
 
-        /*Glide.with(this)
+        Glide.with(this)
                 .load(urlPhoto)
+                .apply(new RequestOptions().override(600,600))
                 .centerCrop()
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
-                .into(ivPatientPhoto);*/
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(ivGuardianPhoto);
 
-        Picasso.with(this).load(urlPhoto).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ivGuardianPhoto);
+        //Picasso.with(this).load(urlPhoto).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ivGuardianPhoto);
     }
 
     private void fillInformation(GuardianResponse guardianResponse) {
@@ -302,7 +309,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         MultipartBody.Part filePhoto = MultipartBody.Part.createFormData("photo", file1.getName(), filePart);
         MultipartBody file = new MultipartBody.Builder().addFormDataPart("file-type", "profile").addFormDataPart("photo", file1.getName(), filePart).build();
 
-        String url = getString(R.string.baseURLMock) + "guardian/image/?dni=" + guardMock.getDni();
+        String url = getString(R.string.baseURLMock) + "guardian/image/?dni=" + guardMock.getDni() + "&patientDni=" + passedUser;
         Call<LoginResponse> sendPhoto = RetrofitClient.getApiGuardian().updatePhoto(url, file);
 
         sendPhoto.enqueue(new Callback<LoginResponse>() {
@@ -365,12 +372,9 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         utilGuardian.setPhone(passedPhone);
         utilGuardian.setEmail(passedEmail);
 
-        String fullName = etGuardianNames.getText().toString();
-        int idx = fullName.lastIndexOf(' ');
-        if(idx == -1)
-            throw new IllegalArgumentException("Solo hay un nombre: " + fullName);
-        String firstName = fullName.substring(0, idx);
-        String lastName = fullName.substring(idx + 1);
+
+        String firstName = etGuardianNames.getText().toString().trim();
+        String lastName = etGuardianLastNames.getText().toString().trim();
 
         utilGuardian.setNames(firstName);
         utilGuardian.setLastNames(lastName);

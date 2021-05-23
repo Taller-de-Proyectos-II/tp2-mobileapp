@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:fontFamily">@font/ROCK</item>
+        <item name="android:fontFamily">@font/rockwell</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
@@ -12,11 +12,13 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:fontFamily">@font/rockwell</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowIcon</item>
     </style>
 
     <style name="AppTheme.Fullscreen" parent="@style/ThemeOverlay.AppCompat.Light">
         <item name="android:windowNoTitle"> true</item>
+        <item name="android:fontFamily">@font/rockwell</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowFullscreen"> true</item>
         <item name="android:windowContentOverlay">@null</item>
