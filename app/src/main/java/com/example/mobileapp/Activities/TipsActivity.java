@@ -19,7 +19,7 @@ import com.example.mobileapp.R;
 public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener{
 
     String passedUser;
-    ImageView ivPerfil;
+
     Button btnAccept;
 
     @Override

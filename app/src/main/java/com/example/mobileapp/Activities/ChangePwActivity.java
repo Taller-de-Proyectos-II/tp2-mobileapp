@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ public class ChangePwActivity extends AppCompatActivity implements PopupMenu.OnM
     String passedUser;
     changePasswordDTO changePasswordDTO = new changePasswordDTO();
     EditText textOldPassword, textNewPassword, textConfirmNewPassword;
+    Button btnConfirmChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,9 @@ public class ChangePwActivity extends AppCompatActivity implements PopupMenu.OnM
         textOldPassword = findViewById(R.id.etPassword);
         textNewPassword = findViewById(R.id.etNewPassword);
         textConfirmNewPassword = findViewById(R.id.etConfirmNewPassword);
+
+        btnConfirmChange = findViewById(R.id.btnConfirmChange);
+        btnConfirmChange.setOnClickListener(this);
 
 
         Intent intent = getIntent();
