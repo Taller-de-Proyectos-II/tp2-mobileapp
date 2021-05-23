@@ -1,5 +1,7 @@
 package com.example.mobileapp.Model;
 
+import com.example.mobileapp.Model.DTO.AlertAnswerDTO;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 

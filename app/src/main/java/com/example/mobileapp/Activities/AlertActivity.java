@@ -20,19 +20,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobileapp.Model.Alert;
-import com.example.mobileapp.Model.AlertAnswerDTO;
-import com.example.mobileapp.Model.AlertCreateDTO;
-import com.example.mobileapp.Model.AlertDTO;
-import com.example.mobileapp.Model.AlertUpdateDTO;
-import com.example.mobileapp.Model.SymptomDTO;
+import com.example.mobileapp.Model.DTO.AlertAnswerDTO;
+import com.example.mobileapp.Model.DTO.AlertCreateDTO;
+import com.example.mobileapp.Model.DTO.AlertDTO;
+import com.example.mobileapp.Model.DTO.AlertUpdateDTO;
+import com.example.mobileapp.Model.DTO.SymptomDTO;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Responses.AlertResponse;
-import com.example.mobileapp.Utils.Responses.AlertResponse2;
 import com.example.mobileapp.Utils.Responses.AlertSymptomsResponse;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -173,7 +171,7 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
                 }
             };
             Handler h = new Handler();
-            h.postDelayed(r, 1000);
+            h.postDelayed(r, 3000);
 
 
         }

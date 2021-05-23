@@ -21,9 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobileapp.Model.Answer;
-import com.example.mobileapp.Model.AnswerDTO;
+import com.example.mobileapp.Model.DTO.AnswerDTO;
 import com.example.mobileapp.Model.Test;
-import com.example.mobileapp.Model.testUpdateDTO;
+import com.example.mobileapp.Model.DTO.testUpdateDTO;
 import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.RetrofitClient;

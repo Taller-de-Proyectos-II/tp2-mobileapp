@@ -1,6 +1,6 @@
 package com.example.mobileapp.Utils.Responses;
 
-import com.example.mobileapp.Model.StudiesDTO;
+import com.example.mobileapp.Model.DTO.StudiesDTO;
 
 import java.util.ArrayList;
 

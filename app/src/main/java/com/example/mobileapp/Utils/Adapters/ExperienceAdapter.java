@@ -9,10 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mobileapp.Model.WorkExperienceDTO;
+import com.example.mobileapp.Model.DTO.WorkExperienceDTO;
 import com.example.mobileapp.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

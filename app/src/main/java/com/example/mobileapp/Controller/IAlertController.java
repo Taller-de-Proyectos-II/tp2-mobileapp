@@ -1,7 +1,7 @@
 package com.example.mobileapp.Controller;
 
-import com.example.mobileapp.Model.AlertCreateDTO;
-import com.example.mobileapp.Model.AlertUpdateDTO;
+import com.example.mobileapp.Model.DTO.AlertCreateDTO;
+import com.example.mobileapp.Model.DTO.AlertUpdateDTO;
 import com.example.mobileapp.Utils.Responses.AlertResponse;
 import com.example.mobileapp.Utils.Responses.AlertResponse2;
 import com.example.mobileapp.Utils.Responses.LoginResponse;

@@ -9,8 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mobileapp.Model.StudiesDTO;
-import com.example.mobileapp.Model.WorkExperienceDTO;
+import com.example.mobileapp.Model.DTO.StudiesDTO;
 import com.example.mobileapp.R;
 
 import java.util.ArrayList;

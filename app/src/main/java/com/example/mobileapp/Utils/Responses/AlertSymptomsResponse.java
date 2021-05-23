@@ -1,6 +1,6 @@
 package com.example.mobileapp.Utils.Responses;
 
-import com.example.mobileapp.Model.SymptomDTO;
+import com.example.mobileapp.Model.DTO.SymptomDTO;
 
 import java.util.ArrayList;
 

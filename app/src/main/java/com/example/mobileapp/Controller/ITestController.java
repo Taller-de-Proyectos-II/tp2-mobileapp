@@ -1,6 +1,6 @@
 package com.example.mobileapp.Controller;
 
-import com.example.mobileapp.Model.testUpdateDTO;
+import com.example.mobileapp.Model.DTO.testUpdateDTO;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.Responses.TestResponse;
 

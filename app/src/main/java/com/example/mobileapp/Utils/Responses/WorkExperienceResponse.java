@@ -1,6 +1,6 @@
 package com.example.mobileapp.Utils.Responses;
 
-import com.example.mobileapp.Model.WorkExperienceDTO;
+import com.example.mobileapp.Model.DTO.WorkExperienceDTO;
 
 import java.util.ArrayList;
 

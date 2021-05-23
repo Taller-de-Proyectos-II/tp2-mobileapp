@@ -1,4 +1,4 @@
-package com.example.mobileapp.Model;
+package com.example.mobileapp.Model.DTO;
 
 public class changePasswordDTO {
 

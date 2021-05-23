@@ -35,7 +35,7 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     String passedUser;
     String passedPassword;
     Button btnContact, btnAlerts, btnPruebas, btnPerfil;
-    TextView tvWelcome;
+    TextView tvWelcome, tvAbout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +64,9 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         btnPruebas.setOnClickListener(this);
 
         tvWelcome = findViewById(R.id.tvWelcome);
+
+        tvAbout = findViewById(R.id.tvAbout);
+        tvAbout.setOnClickListener(this);
 
         Intent intent = getIntent();
 
@@ -125,6 +128,15 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     @Override
                     public void run(){
                         Intent ppa = new Intent(getApplicationContext(),PatientProfileActivity.class).putExtra("DNI", passedUser).putExtra("password", passedPassword);
+                        startActivity(ppa);
+                    }
+                }, 1000);
+                break;
+            case R.id.tvAbout:
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run(){
+                        Intent ppa = new Intent(getApplicationContext(),AboutActivity.class).putExtra("DNI", passedUser).putExtra("password", passedPassword);
                         startActivity(ppa);
                     }
                 }, 1000);
