@@ -49,6 +49,8 @@
         android:layout_marginEnd="168dp"
         android:layout_marginBottom="119dp"
         android:background="@android:drawable/dialog_holo_light_frame"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
         android:text="Aceptar"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"

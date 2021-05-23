@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Nueva Alerta"
-            android:background="@android:drawable/dialog_holo_light_frame"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/colorPrimary"
             android:drawableLeft="@drawable/ic_add_alert_black_24dp"
             style="@style/Theme.AppCompat">
 

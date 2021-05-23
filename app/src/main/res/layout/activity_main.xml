@@ -67,9 +67,11 @@
 
     <Button
         android:id="@+id/btnLogin"
+        android:textStyle="bold"
         android:layout_width="350dp"
         android:layout_height="58dp"
-        android:backgroundTint="@android:color/darker_gray"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
         android:onClick="onClick"
         android:text="@string/Login"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,6 +86,9 @@
         android:layout_width="350dp"
         android:layout_height="58dp"
         android:text="@string/Registrar"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"

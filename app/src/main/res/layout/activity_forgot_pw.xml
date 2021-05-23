@@ -11,7 +11,8 @@
         android:id="@+id/btnSend"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
         android:text="Enviar Nueva Contraseña"
         android:background="@android:drawable/dialog_holo_light_frame"
         app:layout_constraintBottom_toBottomOf="parent"
