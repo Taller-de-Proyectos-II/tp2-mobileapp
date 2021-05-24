@@ -11,59 +11,30 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"></include>
 
-    <TextView
-        android:id="@+id/tvTip1"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginTop="147dp"
-        android:layout_marginEnd="145dp"
-        android:layout_marginBottom="464dp"
-        android:text="Respire despacio y profundamente. Puede ayudar respirar dentro de una bolsa de papel puesta sobre su boca. Inspire por la nariz llenando el abdomen y expire lentamente por la boca."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvTip2"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginTop="303dp"
-        android:layout_marginEnd="145dp"
-        android:layout_marginBottom="342dp"
-        android:text="Busque un sitio tranquilo, túmbese o póngase cómodo, ponga música relajante y piense en situaciones agradables."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvTip3"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginTop="445dp"
-        android:layout_marginEnd="145dp"
-        android:layout_marginBottom="200dp"
-        android:text="Hable con alguna persona de su confianza, que conozca lo que le sucede y que tenga instrucciones de cómo ayudarle."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/btnAccept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="174dp"
-        android:layout_marginTop="592dp"
-        android:layout_marginEnd="149dp"
-        android:layout_marginBottom="91dp"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="578dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="105dp"
         android:backgroundTint="@color/colorAccent"
-        android:textColor="@color/colorPrimary"
         android:text="Salir"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTips"
+        android:layout_width="343dp"
+        android:layout_height="435dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="186dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

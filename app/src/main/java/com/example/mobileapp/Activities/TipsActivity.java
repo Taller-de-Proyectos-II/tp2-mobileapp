@@ -2,6 +2,9 @@ package com.example.mobileapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +17,26 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mobileapp.Model.DTO.recomendationDTO;
 import com.example.mobileapp.R;
+import com.example.mobileapp.Utils.Adapters.RecomendationsAdapter;
+import com.example.mobileapp.Utils.Responses.RecomendationsResponse;
+import com.example.mobileapp.Utils.Responses.SymptomsResponse;
+import com.example.mobileapp.Utils.RetrofitClient;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, View.OnClickListener{
 
     String passedUser;
-
+    RecyclerView rvTips;
+    RecomendationsAdapter recomendationsAdapter;
+    RecomendationsResponse appResponse = new RecomendationsResponse();
+    ArrayList<recomendationDTO> appRecomendations = new ArrayList<>();
     Button btnAccept;
 
     @Override
@@ -41,6 +58,13 @@ public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         btnAccept = findViewById(R.id.btnAccept);
         btnAccept.setOnClickListener(this);
 
+        rvTips = findViewById(R.id.rvTips);
+
+        rvTips.setLayoutManager(new LinearLayoutManager(this));
+        rvTips.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+
+
+        recomendationsAdapter = new RecomendationsAdapter();
 
 
         Intent intent = getIntent();
@@ -48,8 +72,38 @@ public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             passedUser = intent.getStringExtra("DNI");
         }
 
+        fullList();
 
+    }
 
+    private void fullList() {
+        Call<RecomendationsResponse> getRecs = RetrofitClient.getApiRecomendation().getRecomendations();
+
+        getRecs.enqueue(new Callback<RecomendationsResponse>() {
+            @Override
+            public void onResponse(Call<RecomendationsResponse> call, Response<RecomendationsResponse> response) {
+                if(response.body().getStatus() == 1){
+                    fillInformation(response.body());
+                    recomendationsAdapter.setData(appRecomendations);
+                    rvTips.setAdapter(recomendationsAdapter);
+                } else{
+                    Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RecomendationsResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void fillInformation(RecomendationsResponse recomendationsResponse)
+    {
+        appResponse.setStatus(recomendationsResponse.getStatus());
+        appResponse.setMessage(recomendationsResponse.getMessage());
+        appRecomendations.addAll(recomendationsResponse.getRecomendationsDTO());
     }
 
     private void showPopup(View v) {

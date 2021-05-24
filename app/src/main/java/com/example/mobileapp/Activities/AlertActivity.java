@@ -171,7 +171,7 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
                 }
             };
             Handler h = new Handler();
-            h.postDelayed(r, 3000);
+            h.postDelayed(r, 3500);
 
 
         }

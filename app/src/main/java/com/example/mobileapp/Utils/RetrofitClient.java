@@ -6,6 +6,7 @@ import com.example.mobileapp.Controller.ILoginController;
 import com.example.mobileapp.Controller.IManifestationController;
 import com.example.mobileapp.Controller.IPatientController;
 import com.example.mobileapp.Controller.IPsychologistController;
+import com.example.mobileapp.Controller.IRecomendationController;
 import com.example.mobileapp.Controller.ISessionController;
 import com.example.mobileapp.Controller.ISymptomController;
 import com.example.mobileapp.Controller.ITestController;
@@ -101,5 +102,11 @@ public class RetrofitClient {
     public static IAlertController getApiAlert(){
         IAlertController alertController = getRetrofit().create(IAlertController.class);
         return alertController;
+    }
+
+    public static IRecomendationController getApiRecomendation(){
+        IRecomendationController recomendationController = getRetrofit().create(IRecomendationController.class);
+        return recomendationController;
+
     }
 }
