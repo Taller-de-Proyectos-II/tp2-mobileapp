@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -63,6 +65,9 @@ public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 showPopup(v);
             }
         });
+
+
+
 
 
         card = findViewById(R.id.cardQuestion);
@@ -131,7 +136,9 @@ public class TestActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
 
     private void sendAnswers() {
-        Call<LoginResponse> sendAnswers = RetrofitClient.getApiTest().sendAnswers(testAnswers);
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<LoginResponse> sendAnswers = RetrofitClient.getApiTest().sendAnswers(testAnswers, token);
 
         sendAnswers.enqueue(new Callback<LoginResponse>() {
             @Override

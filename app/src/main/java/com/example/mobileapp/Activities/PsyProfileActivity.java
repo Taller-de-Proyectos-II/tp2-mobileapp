@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -63,6 +65,9 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
             }
         });
         getSupportActionBar().setTitle("Contacta a tu psicólogo");
+
+
+
 
         rvExperience = findViewById(R.id.rvExperience);
         rvNotExperience = findViewById(R.id.rvNotExperience);
@@ -156,7 +161,9 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void fullListExperience() {
-        Call<WorkExperienceResponse> getExperiences = RetrofitClient.getApiPsychologist().getExperience(psyDNI);
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<WorkExperienceResponse> getExperiences = RetrofitClient.getApiPsychologist().getExperience(psyDNI, token);
 
         getExperiences.enqueue(new Callback<WorkExperienceResponse>() {
             @Override
@@ -175,7 +182,9 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void fullListStudies() {
-        Call<StudiesResponse> getStudies = RetrofitClient.getApiPsychologist().getStudies(psyDNI);
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<StudiesResponse> getStudies = RetrofitClient.getApiPsychologist().getStudies(psyDNI, token);
 
         getStudies.enqueue(new Callback<StudiesResponse>() {
             @Override

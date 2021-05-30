@@ -6,7 +6,9 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +26,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.mobileapp.Model.Patient;
 import com.example.mobileapp.Model.User;
@@ -32,14 +36,26 @@ import com.example.mobileapp.Utils.FileUtils;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.Responses.UserResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
+import okhttp3.Authenticator;
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+
+import okhttp3.Route;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,6 +67,8 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
     ImageView ivPatientPhoto;
     UserResponse fillUser = new UserResponse();
     Patient fillPatient = new Patient();
+
+
 
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -84,7 +102,8 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
 
         ivPatientPhoto = findViewById(R.id.ivPatientPhoto);
 
-
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
 
 
         etNames = findViewById(R.id.etGuardianNames);
@@ -111,7 +130,7 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
             passedPassword = intent.getStringExtra("password");
         }
 
-        Call<UserResponse> userResponse = RetrofitClient.getApiUser().getUser(passedUser);
+        Call<UserResponse> userResponse = RetrofitClient.getApiUser().getUser(passedUser, token);
 
         userResponse.enqueue(new Callback<UserResponse>() {
             @Override
@@ -244,6 +263,8 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
     }
 
     private void uploadPhoto(Uri selectedImage) {
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
         File file1 = FileUtils.getFile(this, selectedImage);
         Log.e("PATH", file1.getAbsolutePath());
 
@@ -256,7 +277,7 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         MultipartBody file = new MultipartBody.Builder().addFormDataPart("file-type", "profile").addFormDataPart("photo", file1.getName(), filePart).build();
 
         String url = getString(R.string.baseURLMock) + "patient/image/?dni=" + passedUser;
-        Call<LoginResponse> sendPhoto = RetrofitClient.getApiUser().updatePhoto(url, file);
+        Call<LoginResponse> sendPhoto = RetrofitClient.getApiUser().updatePhoto(url, file, token);
 
         sendPhoto.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -287,10 +308,44 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
 
 
     private void updatePhoto() {
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+
+        /*OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
+                        Request newRequest = chain.request().newBuilder()
+                                .addHeader("Authorization", token)
+                                .build();
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
+
+        final OkHttpClient client2 = new OkHttpClient.Builder()
+                .authenticator(new Authenticator() {
+                    @Override
+                    public Request authenticate(Route route, okhttp3.Response response) throws IOException {
+                        return response.request().newBuilder()
+                                .header("Authorization", "Bearer " + token)
+                                .build();
+                    }
+                })
+                .build();
+        */
         String urlPhoto = getString(R.string.baseURLMock) + "/patient/image/?dni=" + passedUser;
 
+
+        GlideUrl glideUrl = new GlideUrl(urlPhoto,
+                new LazyHeaders.Builder()
+                    .addHeader("Authorization",token)
+                    .build());
+        Log.e("TOKEN", token);
+        Log.e("URL", glideUrl.toString());
+
         Glide.with(this)
-                .load(urlPhoto)
+                .load(glideUrl)
                 .apply(new RequestOptions().override(600,600))
                 .centerCrop()
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
@@ -298,11 +353,19 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
                 .skipMemoryCache(true)
                 .into(ivPatientPhoto);
 
-        //Picasso.with(this).load(urlPhoto).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ivPatientPhoto);
+
+        /*Picasso picasso = new Picasso.Builder(this)
+                .downloader(new OkHttp3Downloader(client2))
+                .build();
+        Picasso.setSingletonInstance(picasso);
+        picasso.load(urlPhoto).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(ivPatientPhoto);
+         */
     }
 
 
     private void checkUpdate() {
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
         user.setDni(passedUser);
         user.setPassword(passedPassword);
         String firstName = "";
@@ -329,7 +392,7 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
         fillPatient.setEmail(etEmail.getText().toString());
         fillPatient.setUser(user);
         if(etNames.getText().toString().trim().length() > 0 && etPhone.getText().toString().trim().length() > 0 && etEmail.getText().toString().trim().length() > 0) {
-            Call<LoginResponse> updatePatient = RetrofitClient.getApiUser().updatePatient(fillPatient);
+            Call<LoginResponse> updatePatient = RetrofitClient.getApiUser().updatePatient(fillPatient, token);
             updatePatient.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {

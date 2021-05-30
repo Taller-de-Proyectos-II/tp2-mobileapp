@@ -9,6 +9,7 @@ import com.example.mobileapp.Utils.Responses.LoginResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -16,11 +17,11 @@ import retrofit2.http.Query;
 public interface IAlertController {
 
     @GET("alerts/listByPatientDni/")
-    Call<AlertResponse2> getAlerts(@Query("patientDni") String dni);
+    Call<AlertResponse2> getAlerts(@Query("patientDni") String dni, @Header("Authorization") String AuthToken);
 
     @POST("alerts/")
-    Call<AlertResponse> createAlert(@Body AlertCreateDTO alertCreateDTO);
+    Call<AlertResponse> createAlert(@Body AlertCreateDTO alertCreateDTO, @Header("Authorization") String AuthToken);
 
     @PUT("alerts/")
-    Call<LoginResponse> sendAnswers(@Body AlertUpdateDTO alertUpdateDTO);
+    Call<LoginResponse> sendAnswers(@Body AlertUpdateDTO alertUpdateDTO, @Header("Authorization") String AuthToken);
 }

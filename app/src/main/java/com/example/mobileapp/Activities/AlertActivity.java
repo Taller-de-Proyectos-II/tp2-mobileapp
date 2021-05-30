@@ -6,8 +6,10 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -75,12 +77,15 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
         });
         getSupportActionBar().setTitle("Alerta");
 
+
+
         tvDescripcion = findViewById(R.id.tvSymptomDesc);
 
         card = findViewById(R.id.symptomCard);
         rgAnswers = findViewById(R.id.rgAnswers);
         rbAnswer1 = findViewById(R.id.rbAnswer1);
         rbAnswer2 = findViewById(R.id.rbAnswer2);
+
 
 
 
@@ -99,7 +104,9 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
     }
 
     private void getSymptoms() {
-        Call<AlertSymptomsResponse> getSymptoms = RetrofitClient.getApiSymptom().getSymptoms();
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<AlertSymptomsResponse> getSymptoms = RetrofitClient.getApiSymptom().getSymptoms(token);
 
         getSymptoms.enqueue(new Callback<AlertSymptomsResponse>() {
             @Override
@@ -118,7 +125,9 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
     }
 
     private void createAlert() {
-        Call<AlertResponse> create = RetrofitClient.getApiAlert().createAlert(alertCreateDTO);
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<AlertResponse> create = RetrofitClient.getApiAlert().createAlert(alertCreateDTO, token);
 
         create.enqueue(new Callback<AlertResponse>() {
             @Override
@@ -178,7 +187,9 @@ public class AlertActivity extends AppCompatActivity implements PopupMenu.OnMenu
     }
 
     private void sendAnswers() {
-        Call<LoginResponse> sendAnswers = RetrofitClient.getApiAlert().sendAnswers(alertAnswers);
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<LoginResponse> sendAnswers = RetrofitClient.getApiAlert().sendAnswers(alertAnswers, token);
 
         sendAnswers.enqueue(new Callback<LoginResponse>() {
             @Override

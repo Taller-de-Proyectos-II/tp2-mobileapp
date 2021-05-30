@@ -2,7 +2,9 @@ package com.example.mobileapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,9 @@ public class ForgotPwActivity extends AppCompatActivity implements View.OnClickL
 
         Button btnSend = findViewById(R.id.btnSend);
         btnSend.setOnClickListener(this);
+
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
 
         etEmail = findViewById(R.id.etEmail);
 

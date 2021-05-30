@@ -8,8 +8,10 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -87,6 +89,9 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         });
         getSupportActionBar().setTitle("Apoderado");
 
+
+
+
         guardianResponse2.setMessage("");
         guardianResponse2.setStatus(0);
         guardianResponse2.setGuardiansDTO(fillGuardians);
@@ -120,42 +125,6 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
             passedEmail = intent.getStringExtra("email");
             passedPhone = intent.getStringExtra("phone");
         }
-
-        /*Call<GuardianResponse> guardianResponse = RetrofitClient.getApiGuardian().getGuardian(passedUser);
-
-        guardianResponse.enqueue(new Callback<GuardianResponse>() {
-            @Override
-            public void onResponse(Call<GuardianResponse> call, Response<GuardianResponse> response) {
-                if(response.isSuccessful()){
-                    if(response.body().getGuardiansDTO() == null) {
-                        Toast.makeText(getApplicationContext(), "No tiene apoderados registrados, registre uno para mostrarlo.", Toast.LENGTH_SHORT).show();
-                        new Handler().postDelayed(new Runnable(){
-                            @Override
-                            public void run(){
-                                Intent mp = new Intent(getApplicationContext(),MenuActivity.class).putExtra("DNI", passedUser);
-                                startActivity(mp);
-                            }
-                        }, 1000);
-                    } else
-                    {
-                        fillInformation(response.body());
-                        String names = fillGuardians.get(0).getNames();
-                        String lastNames = fillGuardians.get(0).getLastNames();
-                        String fullName = names + " " + lastNames;
-                        etGuardianNames.setText(fullName, TextView.BufferType.EDITABLE);
-                        etGuardianBirthday.setText(fillGuardians.get(0).getBirthday(), TextView.BufferType.EDITABLE);
-                        etGuardianDNI.setText(fillGuardians.get(0).getDni(), TextView.BufferType.EDITABLE);
-
-                    }
-                }
-                Log.e("AQUIIIIIII", response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<GuardianResponse> call, Throwable t) {
-                Log.e("AQUIIIIIII", t.getMessage());
-            }
-        });*/
 
         updatePhoto();
 
@@ -298,6 +267,9 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
 
 
     private void uploadPhoto(Uri selectedImage) {
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+
         File file1 = FileUtils.getFile(this, selectedImage);
         Log.e("PATH", file1.getAbsolutePath());
 
@@ -310,7 +282,7 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         MultipartBody file = new MultipartBody.Builder().addFormDataPart("file-type", "profile").addFormDataPart("photo", file1.getName(), filePart).build();
 
         String url = getString(R.string.baseURLMock) + "guardian/image/?dni=" + guardMock.getDni() + "&patientDni=" + passedUser;
-        Call<LoginResponse> sendPhoto = RetrofitClient.getApiGuardian().updatePhoto(url, file);
+        Call<LoginResponse> sendPhoto = RetrofitClient.getApiGuardian().updatePhoto(url, file, token);
 
         sendPhoto.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -341,7 +313,9 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
 
 
     private void deleteGuardian() {
-        Call<LoginResponse> deleteGuardian = RetrofitClient.getApiGuardian().deleteGuardian(guardMock.getDni(), passedUser);
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<LoginResponse> deleteGuardian = RetrofitClient.getApiGuardian().deleteGuardian(guardMock.getDni(), passedUser, token);
 
         deleteGuardian.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -368,6 +342,8 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
     }
 
     private void checkUpdate() {
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
         utilGuardian.setPatientDni(passedUser);
         utilGuardian.setPhone(passedPhone);
         utilGuardian.setEmail(passedEmail);
@@ -381,7 +357,8 @@ public class GuardianProfileActivity extends AppCompatActivity implements View.O
         utilGuardian.setBirthday(etGuardianBirthday.getText().toString());
         utilGuardian.setDni(etGuardianDNI.getText().toString());
 
-        Call<LoginResponse> updateGuardian = RetrofitClient.getApiGuardian().updateGuardian(utilGuardian);
+
+        Call<LoginResponse> updateGuardian = RetrofitClient.getApiGuardian().updateGuardian(utilGuardian, token);
         updateGuardian.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {

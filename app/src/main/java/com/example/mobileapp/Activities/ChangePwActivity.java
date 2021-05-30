@@ -3,7 +3,9 @@ package com.example.mobileapp.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -45,6 +47,9 @@ public class ChangePwActivity extends AppCompatActivity implements PopupMenu.OnM
         });
         getSupportActionBar().setTitle("Cambiar su contraseña");
 
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+
         textOldPassword = findViewById(R.id.etPassword);
         textNewPassword = findViewById(R.id.etNewPassword);
         textConfirmNewPassword = findViewById(R.id.etConfirmNewPassword);
@@ -78,13 +83,15 @@ public class ChangePwActivity extends AppCompatActivity implements PopupMenu.OnM
     }
 
     private void changePassword() {
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
         changePasswordDTO.setDni(passedUser);
         changePasswordDTO.setNewPassword(textNewPassword.getText().toString());
         changePasswordDTO.setPassword(textOldPassword.getText().toString());
 
         if(textNewPassword.getText().toString().equals(textConfirmNewPassword.getText().toString())){
             String newPassword = textNewPassword.getText().toString().trim();
-            Call<LoginResponse> changePw = RetrofitClient.getApiUser().updatePassword(changePasswordDTO);
+            Call<LoginResponse> changePw = RetrofitClient.getApiUser().updatePassword(changePasswordDTO, token);
 
             changePw.enqueue(new Callback<LoginResponse>() {
                 @Override

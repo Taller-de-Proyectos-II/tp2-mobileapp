@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -54,6 +56,9 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
         getSupportActionBar().setTitle("Contacta a tu psicólogo");
 
 
+
+
+
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             passedUser = intent.getStringExtra("DNI");
@@ -97,7 +102,9 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void fullList() {
-        Call<PsychologistResponse> psyList = RetrofitClient.getApiPsychologist().getAllPsychologists();
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<PsychologistResponse> psyList = RetrofitClient.getApiPsychologist().getAllPsychologists(token);
 
         psyList.enqueue(new Callback<PsychologistResponse>() {
             @Override
@@ -122,13 +129,15 @@ public class ContactPsyActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void filteredList(String filter) {
-        Call<PsychologistResponse> psyList = RetrofitClient.getApiPsychologist().gettFilteredPsychologists("", etFilter.getText().toString());
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<PsychologistResponse> psyList = RetrofitClient.getApiPsychologist().gettFilteredPsychologists("", etFilter.getText().toString(), token);
 
         psyList.enqueue(new Callback<PsychologistResponse>() {
             @Override
             public void onResponse(Call<PsychologistResponse> call, Response<PsychologistResponse> response) {
                 if(response.body().getMessage().equals("No se encontraron psicólogos")) {
-                    Call<PsychologistResponse> psyList2 = RetrofitClient.getApiPsychologist().gettFilteredPsychologists(etFilter.getText().toString(), "");
+                    Call<PsychologistResponse> psyList2 = RetrofitClient.getApiPsychologist().gettFilteredPsychologists(etFilter.getText().toString(), "", token);
 
                     psyList2.enqueue(new Callback<PsychologistResponse>() {
                         @Override

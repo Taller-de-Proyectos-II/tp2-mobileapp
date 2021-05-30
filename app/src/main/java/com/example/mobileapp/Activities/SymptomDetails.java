@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -38,6 +40,9 @@ public class SymptomDetails extends AppCompatActivity implements  View.OnClickLi
             }
         });
         getSupportActionBar().setTitle("Enviar reporte");
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+
 
 
         tvDesc = findViewById(R.id.tvSymptomDescription);

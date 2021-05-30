@@ -9,6 +9,7 @@ import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -19,15 +20,16 @@ import retrofit2.http.Url;
 public interface IPatientController {
 
     @GET("patient/listByDni/")
-    Call<UserResponse> getUser(@Query("dni") String dni);
+    Call<UserResponse> getUser(@Query("dni") String dni, @Header("Authorization") String AuthToken);
 
     @PUT("patient/")
-    Call<LoginResponse> updatePatient(@Body Patient patient);
+    Call<LoginResponse> updatePatient(@Body Patient patient,  @Header("Authorization") String AuthToken);
 
     @Multipart
     @POST()
-    Call<LoginResponse> updatePhoto(@Url String url, @Part("file") MultipartBody file);
+    Call<LoginResponse> updatePhoto(@Url String url, @Part("file") MultipartBody file,  @Header("Authorization") String AuthToken);
 
     @PUT("patient/updatePassword/")
-    Call<LoginResponse> updatePassword(@Body changePasswordDTO changePasswordDTO);
+    Call<LoginResponse> updatePassword(@Body changePasswordDTO changePasswordDTO,  @Header("Authorization") String AuthToken);
+
 }

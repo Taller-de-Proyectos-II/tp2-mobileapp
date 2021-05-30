@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -55,6 +57,10 @@ public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         });
         getSupportActionBar().setTitle("Mantenga la calma");
 
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+
+
         btnAccept = findViewById(R.id.btnAccept);
         btnAccept.setOnClickListener(this);
 
@@ -77,7 +83,9 @@ public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
 
     private void fullList() {
-        Call<RecomendationsResponse> getRecs = RetrofitClient.getApiRecomendation().getRecomendations();
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<RecomendationsResponse> getRecs = RetrofitClient.getApiRecomendation().getRecomendations(token);
 
         getRecs.enqueue(new Callback<RecomendationsResponse>() {
             @Override

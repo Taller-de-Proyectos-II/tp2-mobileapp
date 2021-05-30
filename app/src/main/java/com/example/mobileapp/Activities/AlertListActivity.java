@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -53,6 +55,7 @@ public class AlertListActivity extends AppCompatActivity implements PopupMenu.On
         });
         getSupportActionBar().setTitle("Alertas");
 
+
         btnNewAlert = findViewById(R.id.btnNewAlert);
         btnNewAlert.setOnClickListener(this);
 
@@ -73,7 +76,9 @@ public class AlertListActivity extends AppCompatActivity implements PopupMenu.On
     }
 
     private void fullList() {
-        Call<AlertResponse2> getAlerts = RetrofitClient.getApiAlert().getAlerts(passedUser);
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<AlertResponse2> getAlerts = RetrofitClient.getApiAlert().getAlerts(passedUser, token);
 
         getAlerts.enqueue(new Callback<AlertResponse2>() {
             @Override

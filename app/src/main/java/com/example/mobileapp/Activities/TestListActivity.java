@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -52,6 +54,9 @@ public class TestListActivity extends AppCompatActivity implements PopupMenu.OnM
         });
         getSupportActionBar().setTitle("Pruebas disponibles");
 
+
+
+
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             passedUser = intent.getStringExtra("DNI");
@@ -74,7 +79,9 @@ public class TestListActivity extends AppCompatActivity implements PopupMenu.OnM
     }
 
     private void fullList(String passedUser) {
-        Call<TestResponse> getTests = RetrofitClient.getApiTest().getTests(passedUser);
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<TestResponse> getTests = RetrofitClient.getApiTest().getTests(passedUser, token);
 
         getTests.enqueue(new Callback<TestResponse>() {
             @Override

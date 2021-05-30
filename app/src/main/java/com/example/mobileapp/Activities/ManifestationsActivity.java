@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -55,6 +57,9 @@ public class ManifestationsActivity extends AppCompatActivity implements View.On
         });
         getSupportActionBar().setTitle("Síntomas");
 
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+
 
         recyclerView = findViewById(R.id.rvManifestationsList);
 
@@ -81,7 +86,9 @@ public class ManifestationsActivity extends AppCompatActivity implements View.On
     }
 
     private void fullList() {
-        Call<SymptomsResponse> getSymptoms = RetrofitClient.getApiSymptom().getAll();
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<SymptomsResponse> getSymptoms = RetrofitClient.getApiSymptom().getAll(token);
 
         getSymptoms.enqueue(new Callback<SymptomsResponse>() {
             @Override

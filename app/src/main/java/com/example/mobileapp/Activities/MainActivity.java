@@ -1,6 +1,8 @@
 package com.example.mobileapp.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import retrofit2.Call;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String nombre;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user.setDni(etUser.getText().toString().trim());
         user.setPassword(etPassword.getText().toString().trim());
 
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+
         if(etPassword.getText().toString().trim().length() > 0) {
             Call<LoginResponse> call = RetrofitClient.getApiLogin().login(user);
             call.enqueue(new Callback<LoginResponse>() {
@@ -67,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (response.body().getStatus() == 1) {
                             String dniUser = user.getDNI();
                             String passwordUser = user.getPassword();
+                            preferences.edit().putString("Token", response.body().getToken()).apply();
 
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             new Handler().postDelayed(new Runnable() {

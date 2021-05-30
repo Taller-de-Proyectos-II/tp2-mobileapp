@@ -3,7 +3,9 @@ package com.example.mobileapp.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -32,6 +34,10 @@ public class PatientHistoryActivity extends AppCompatActivity implements View.On
             }
         });
         getSupportActionBar().setTitle("Síntomas");
+
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+
 
 
         Intent intent = getIntent();

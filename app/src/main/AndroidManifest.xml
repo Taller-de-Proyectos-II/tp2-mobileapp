@@ -25,7 +25,6 @@
         <activity android:name=".Activities.AlertListActivity" />
         <activity android:name=".Activities.TestActivity" />
         <activity android:name=".Activities.TestListActivity" />
-        <activity android:name=".Activities.ScheduleDetailsActivity" />
         <activity android:name=".Activities.PsySchedulesActivity" />
         <activity android:name=".Activities.SymptomDetails" />
         <activity android:name=".Activities.PatientHistoryActivity" />

@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -50,6 +52,7 @@ public class GuardianListActivty extends AppCompatActivity implements PopupMenu.
         });
         getSupportActionBar().setTitle("Apoderados");
 
+
         Intent intent = getIntent();
 
         if(intent.getExtras() != null){
@@ -71,7 +74,9 @@ public class GuardianListActivty extends AppCompatActivity implements PopupMenu.
     }
 
     private void fullList() {
-        Call<GuardianResponse> guardList = RetrofitClient.getApiGuardian().getGuardian(passedUser);
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<GuardianResponse> guardList = RetrofitClient.getApiGuardian().getGuardian(passedUser, token);
 
         guardList.enqueue(new Callback<GuardianResponse>() {
             @Override

@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -69,9 +71,6 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
             }
         });
         getSupportActionBar().setTitle("Horarios disponibles");
-
-
-
 
 
         rvSchedules = findViewById(R.id.rvPsySchedules);
@@ -163,8 +162,10 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
     }
 
     private void fullList() {
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
 
-        Call<SchedulesResponse> schedules = RetrofitClient.getApiPsychologist().getSchedules(date, psyDNI);
+        Call<SchedulesResponse> schedules = RetrofitClient.getApiPsychologist().getSchedules(date, psyDNI, token);
 
         schedules.enqueue(new Callback<SchedulesResponse>() {
             @Override
@@ -384,7 +385,9 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
     }
 
     private void send(Session session) {
-        Call<LoginResponse> setSession = RetrofitClient.getApiSession().setSession(session);
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+        Call<LoginResponse> setSession = RetrofitClient.getApiSession().setSession(session, token);
 
         setSession.enqueue(new Callback<LoginResponse>() {
             @Override

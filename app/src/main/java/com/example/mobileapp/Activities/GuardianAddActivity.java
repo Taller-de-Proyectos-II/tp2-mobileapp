@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -47,6 +49,10 @@ public class GuardianAddActivity extends AppCompatActivity implements View.OnCli
             }
         });
         getSupportActionBar().setTitle("Añadir apoderado");
+
+
+
+
 
 
         Button btnAddGuardian = findViewById(R.id.btnAddGuardian);
@@ -101,6 +107,8 @@ public class GuardianAddActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void checkRegister() {
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
         Guardian guardian = new Guardian();
 
         String birthday, dni, email, lastNames, names, patientDni, phone;
@@ -122,7 +130,7 @@ public class GuardianAddActivity extends AppCompatActivity implements View.OnCli
         guardian.setPhone(phone);
 
         if(etGuardianBirthday.getText().toString().trim().length() > 0 && etGuardianDNI.getText().toString().trim().length() > 0 && etGuardianNames.getText().toString().trim().length() > 0 && etGuardianLastNames.getText().toString().trim().length() > 0) {
-            Call<LoginResponse> registerGuardian = RetrofitClient.getApiGuardian().registerGuardian(guardian);
+            Call<LoginResponse> registerGuardian = RetrofitClient.getApiGuardian().registerGuardian(guardian, token);
             registerGuardian.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {

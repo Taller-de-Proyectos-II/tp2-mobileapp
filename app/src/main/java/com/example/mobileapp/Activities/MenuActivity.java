@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
+import android.content.Context;
 import android.content.Intent;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -36,6 +38,8 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     String passedPassword;
     Button btnContact, btnAlerts, btnPruebas, btnPerfil;
     TextView tvWelcome, tvAbout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +78,11 @@ public class MenuActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             passedUser = intent.getStringExtra("DNI");
             passedPassword = intent.getStringExtra("password");
         }
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
 
-        Call<UserResponse> userResponse = RetrofitClient.getApiUser().getUser(passedUser);
+        String token = preferences.getString("Token", null);
+
+        Call<UserResponse> userResponse = RetrofitClient.getApiUser().getUser(passedUser, token);
 
         userResponse.enqueue(new Callback<UserResponse>() {
             @Override
