@@ -143,7 +143,7 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
 
 
 
-        String urlPhoto =  getString(R.string.baseURLMock) + "/psychologist/image/?dni=" + psyDNI;
+        String urlPhoto =  getString(R.string.baseURLMock) + "psychologist/image/?dni=" + psyDNI;
 
         Glide.with(this)
                 .load(urlPhoto)

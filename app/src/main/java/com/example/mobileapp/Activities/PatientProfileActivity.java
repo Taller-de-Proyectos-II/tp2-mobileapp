@@ -334,18 +334,10 @@ public class PatientProfileActivity extends AppCompatActivity implements PopupMe
                 })
                 .build();
         */
-        String urlPhoto = getString(R.string.baseURLMock) + "/patient/image/?dni=" + passedUser;
-
-
-        GlideUrl glideUrl = new GlideUrl(urlPhoto,
-                new LazyHeaders.Builder()
-                    .addHeader("Authorization",token)
-                    .build());
-        Log.e("TOKEN", token);
-        Log.e("URL", glideUrl.toString());
+        String urlPhoto = getString(R.string.baseURLMock) + "patient/image/?dni=" + passedUser;
 
         Glide.with(this)
-                .load(glideUrl)
+                .load(urlPhoto)
                 .apply(new RequestOptions().override(600,600))
                 .centerCrop()
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
