@@ -27,11 +27,13 @@ import com.example.mobileapp.R;
 import com.example.mobileapp.Utils.Adapters.SchedulesAdapter;
 import com.example.mobileapp.Utils.Responses.LoginResponse;
 import com.example.mobileapp.Utils.Responses.SchedulesResponse;
+import com.example.mobileapp.Utils.Responses.WeekDaysResponse;
 import com.example.mobileapp.Utils.RetrofitClient;
 
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,14 +49,13 @@ import retrofit2.Response;
 public class PsySchedulesActivity extends AppCompatActivity implements  View.OnClickListener, SchedulesAdapter.ClickedItem, PopupMenu.OnMenuItemClickListener {
 
     RecyclerView rvSchedules;
-    ImageView ivToolbar;
     AlertDialog alert1;
     String psyDNI, passedUser;
     SchedulesAdapter schedulesAdapter;
     Psychologist psychologist = new Psychologist();
     String date = "";
     String nombreDia = "";
-    Schedule schedule = new Schedule();
+    ArrayList<String> fechas = new ArrayList<>();
     int date2 = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,6 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
         schedulesAdapter = new SchedulesAdapter(this::ClickedSche);
 
         GregorianCalendar today = new GregorianCalendar(GregorianCalendar.getInstance().getTimeZone());
-        String test1 = String.valueOf(today.getTimeZone());
 
         Date current = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
@@ -109,7 +109,6 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
             e.printStackTrace();
         }
         date = df.format(c.getTime());
-        String[] values = date.split("-");
         switch (nombreDia){
             case "monday":
                 date2 = 1;
@@ -154,11 +153,32 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
                 date2 = 7;
                 break;
         }
-
-        Log.e("DIA", date);
-        Log.e("DIA2", test1);
-
         fullList();
+        getDays();
+    }
+
+    private void getDays() {
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
+
+        Call<WeekDaysResponse> days = RetrofitClient.getApiPsychologist().getDays(date, token);
+
+        days.enqueue(new Callback<WeekDaysResponse>() {
+            @Override
+            public void onResponse(Call<WeekDaysResponse> call, Response<WeekDaysResponse> response) {
+                if(response.body().getStatus() == 1)
+                {
+                    fechas.addAll(response.body().getDays());
+                } else{
+                    Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WeekDaysResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void fullList() {
@@ -264,27 +284,35 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         String dia = "";
         String hora = "";
+        String fecha = "";
         switch (schedule.getDay()){
             case 1:
                 dia = "Lunes";
+                fecha = fechas.get(0);
                 break;
             case 2:
                 dia = "Martes";
+                fecha = fechas.get(1);
                 break;
             case 3:
                 dia = "Miércoles";
+                fecha = fechas.get(2);
                 break;
             case 4:
                 dia = "Jueves";
+                fecha = fechas.get(3);
                 break;
             case 5:
                 dia = "Viernes";
+                fecha = fechas.get(4);
                 break;
             case 6:
                 dia = "Sábado";
+                fecha = fechas.get(5);
                 break;
             case 7:
                 dia = "Domingo";
+                fecha = fechas.get(6);
                 break;
         }
         switch (schedule.getHour()){
@@ -347,7 +375,7 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
         }
         Log.e("TEST FECHA1", date);
         Log.e("TEST Date", String.valueOf(date2));
-        c.add(Calendar.DAY_OF_MONTH, (schedule.getDay()-date2));
+        c.add(Calendar.DAY_OF_MONTH, ((schedule.getDay()-date2)));
         date = df.format(c.getTime());
 
         Log.e("TEST FECHA", date);
@@ -357,7 +385,7 @@ public class PsySchedulesActivity extends AppCompatActivity implements  View.OnC
         session2.setHour(schedule.getHour());
         session2.setPsychologistDni(psyDNI);
         session2.setPatientDni(passedUser);
-        builder1.setMessage("Desea agendar una cita para el día: " + dia + " a las " + hora);
+        builder1.setMessage("Desea agendar una cita para el día: " + dia + " " + fecha + " a las " + hora);
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(

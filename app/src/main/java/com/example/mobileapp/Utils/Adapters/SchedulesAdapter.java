@@ -46,7 +46,6 @@ public class SchedulesAdapter extends RecyclerView.Adapter<SchedulesAdapter.View
 
         String dia = "";
         String hora = "";
-        int id = schedule.getIdSchedule();
 
 
         switch (schedule.getDay()){
@@ -143,13 +142,14 @@ public class SchedulesAdapter extends RecyclerView.Adapter<SchedulesAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvDay, tvHour;
+        TextView tvDay, tvHour, tvDate;
         CardView cvSchedule;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDay = itemView.findViewById(R.id.tvDaySchedule);
             tvHour = itemView.findViewById(R.id.tvHourSchedule);
             cvSchedule = itemView.findViewById(R.id.cvSchedule);
+            tvDate = itemView.findViewById(R.id.tvDateSchedule);
         }
     }
 

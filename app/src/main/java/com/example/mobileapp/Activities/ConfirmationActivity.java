@@ -56,7 +56,7 @@ public class ConfirmationActivity extends AppCompatActivity implements PopupMenu
         }
 
         if(val.equals("horario")){
-            tvTexto.setText("Tu cita se ha reservado con éxito, nuestro psicólogo te enviará el link de para realizar la sesión de terapia.");
+            tvTexto.setText("Tu cita se ha reservado con éxito, nuestro psicólogo te enviará el link de la videollamada para realizar la sesión de terapia.");
             getSupportActionBar().setTitle("¡Cita confirmada!");
         } else if(val.equals("test")){
             tvTexto.setText("El test ha sido resuelto satisfactoriamente.");

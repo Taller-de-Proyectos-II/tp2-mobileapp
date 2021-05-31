@@ -3,6 +3,7 @@ package com.example.mobileapp.Controller;
 import com.example.mobileapp.Utils.Responses.PsychologistResponse;
 import com.example.mobileapp.Utils.Responses.SchedulesResponse;
 import com.example.mobileapp.Utils.Responses.StudiesResponse;
+import com.example.mobileapp.Utils.Responses.WeekDaysResponse;
 import com.example.mobileapp.Utils.Responses.WorkExperienceResponse;
 
 import retrofit2.Call;
@@ -19,6 +20,9 @@ public interface IPsychologistController {
 
     @GET("schedule/listSchedulesByPsychologistDniPatientView/")
     Call<SchedulesResponse> getSchedules(@Query("date") String date, @Query("psychologistDni") String dni, @Header("Authorization") String AuthToken);
+
+    @GET("dates/listWeekDays/")
+    Call<WeekDaysResponse> getDays(@Query("date") String date, @Header("Authorization") String AuthToken);
 
     @GET("psychologist/workExperiences/")
     Call<WorkExperienceResponse> getExperience(@Query("dni") String dni, @Header("Authorization") String AuthToken);
