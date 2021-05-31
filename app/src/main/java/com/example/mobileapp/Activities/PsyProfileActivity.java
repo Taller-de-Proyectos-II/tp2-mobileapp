@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.mobileapp.Model.Psychologist;
 import com.example.mobileapp.R;
@@ -140,13 +142,20 @@ public class PsyProfileActivity extends AppCompatActivity implements View.OnClic
 
 
 
-
+        SharedPreferences preferences = getSharedPreferences("App", Context.MODE_PRIVATE);
+        String token = preferences.getString("Token", null);
 
 
         String urlPhoto =  getString(R.string.baseURLMock) + "psychologist/image/?dni=" + psyDNI;
 
+        GlideUrl glideUrl = new GlideUrl(urlPhoto,
+                new LazyHeaders.Builder()
+                        .addHeader("Authorization", "Bearer " + token)
+                        .build());
+
+
         Glide.with(this)
-                .load(urlPhoto)
+                .load(glideUrl)
                 .apply(new RequestOptions().override(600,600))
                 .centerCrop()
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
