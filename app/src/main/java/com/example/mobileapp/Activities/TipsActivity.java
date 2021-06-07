@@ -6,11 +6,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -70,7 +73,7 @@ public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         rvTips.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
 
-        recomendationsAdapter = new RecomendationsAdapter();
+        recomendationsAdapter = new RecomendationsAdapter(this::ClickedRecomendation);
 
 
         Intent intent = getIntent();
@@ -105,6 +108,62 @@ public class TipsActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
 
+    }
+
+    public void ClickedRecomendation(recomendationDTO recomendationDTO, int recNumber) {
+        switch (recNumber){
+            case 1:
+                Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + "SZe_LVS4KyU"));
+                Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.youtube.com/watch?v=" + "SZe_LVS4KyU"));
+                try {
+                    startActivity(appIntent);
+                } catch (ActivityNotFoundException ex) {
+                    startActivity(webIntent);
+                }
+                break;
+            case 2:
+                Intent appIntent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + "1zjry52X9yU"));
+                Intent webIntent1 = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.youtube.com/watch?v=" + "1zjry52X9yU"));
+                try {
+                    startActivity(appIntent1);
+                } catch (ActivityNotFoundException ex) {
+                    startActivity(webIntent1);
+                }
+                break;
+            case 3:
+                Intent appIntent2 = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + "VZrUfADraX8"));
+                Intent webIntent2 = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.youtube.com/watch?v=" + "VZrUfADraX8"));
+                try {
+                    startActivity(appIntent2);
+                } catch (ActivityNotFoundException ex) {
+                    startActivity(webIntent2);
+                }
+                break;
+            case 4:
+                Intent appIntent3 = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + "UqU19dR0bFE"));
+                Intent webIntent3 = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.youtube.com/watch?v=" + "UqU19dR0bFE"));
+                try {
+                    startActivity(appIntent3);
+                } catch (ActivityNotFoundException ex) {
+                    startActivity(webIntent3);
+                }
+                break;
+            case 5:
+                Intent appIntent4 = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + "v9ExP2O09dk"));
+                Intent webIntent4 = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.youtube.com/watch?v=" + "v9ExP2O09dk"));
+                try {
+                    startActivity(appIntent4);
+                } catch (ActivityNotFoundException ex) {
+                    startActivity(webIntent4);
+                }
+                break;
+
+        }
     }
 
     public void fillInformation(RecomendationsResponse recomendationsResponse)

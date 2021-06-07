@@ -31,5 +31,4 @@ public interface IPatientController {
 
     @PUT("patient/updatePassword/")
     Call<LoginResponse> updatePassword(@Body changePasswordDTO changePasswordDTO,  @Header("Authorization") String AuthToken);
-
 }

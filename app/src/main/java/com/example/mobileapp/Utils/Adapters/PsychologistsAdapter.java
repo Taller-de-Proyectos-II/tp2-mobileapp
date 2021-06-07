@@ -24,7 +24,8 @@ public class PsychologistsAdapter extends RecyclerView.Adapter<PsychologistsAdap
     private Context context;
     private ClickedItem clickedItem;
 
-    public PsychologistsAdapter(ClickedItem clickedItem) {
+    public PsychologistsAdapter(ClickedItem clickedItem)
+    {
         this.clickedItem = clickedItem;
     }
 

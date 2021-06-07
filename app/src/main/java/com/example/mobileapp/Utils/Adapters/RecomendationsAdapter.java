@@ -21,6 +21,10 @@ public class RecomendationsAdapter extends RecyclerView.Adapter<RecomendationsAd
     private Context context;
     private ClickedItem clickedItem;
 
+    public RecomendationsAdapter(ClickedItem clickedItem) {
+        this.clickedItem = clickedItem;
+    }
+
     public void setData(ArrayList<recomendationDTO> recomendations){
         this.recomendations = recomendations;
         notifyDataSetChanged();
@@ -37,18 +41,25 @@ public class RecomendationsAdapter extends RecyclerView.Adapter<RecomendationsAd
     @Override
     public void onBindViewHolder(@NonNull RecomendationsAdapter.RecomendationsAdapterVH holder, int position) {
         recomendationDTO recomendationDTO = recomendations.get(position);
-
+        int recNumber = position + 1;
         String nombre = "Recomendación " + (position + 1);
         String desc = recomendationDTO.getDescription();
 
         holder.recDesc.setText(desc);
         holder.recName.setText(nombre);
 
+        holder.imageVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickedItem.ClickedRecomendation(recomendationDTO, recNumber);
+            }
+        });
+
 
     }
 
     public interface ClickedItem{
-        public void ClickedRecomendation(recomendationDTO recomendationDTO);
+        public void ClickedRecomendation(recomendationDTO recomendationDTO, int recNumber);
     }
 
     @Override
@@ -59,11 +70,13 @@ public class RecomendationsAdapter extends RecyclerView.Adapter<RecomendationsAd
     public class RecomendationsAdapterVH extends RecyclerView.ViewHolder {
         TextView recName;
         TextView recDesc;
+        ImageView imageVideo;
 
         public RecomendationsAdapterVH(@NonNull View itemView) {
             super(itemView);
             recName = itemView.findViewById(R.id.tvRecomendationName);
             recDesc = itemView.findViewById(R.id.tvRecomendationDescription);
+            imageVideo = itemView.findViewById(R.id.ivRecVideo);
 
         }
     }

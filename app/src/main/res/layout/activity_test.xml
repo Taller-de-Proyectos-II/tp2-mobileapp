@@ -68,8 +68,8 @@
         android:layout_marginBottom="167dp"
 
         android:text="Siguiente"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         android:foregroundGravity="right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,8 +87,8 @@
         android:foregroundGravity="center"
 
         android:text="Salir"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
